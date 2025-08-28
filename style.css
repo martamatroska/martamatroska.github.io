@@ -1,0 +1,243 @@
+.text, .text2, .title {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 0 9px 0;
+  font-size: 11pt;
+  font-family: "Times New Roman", Times, serif;
+  letter-spacing: -0.3px;
+}
+
+.text { color: black; }
+.text2 { color: white; }
+.title { max-width: 700px; color: black; }
+
+.container {
+  padding: 2px;
+}
+
+.img-container > img:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);          /* enlarges the image to double size on hover */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;           /* centers the image inside the container */
+  transform-origin: bottom center; /* the zoom pivot  */
+}
+
+img.himages {
+  vertical-align: top;          /* aligns the image to the top of adjacent text */
+}
+
+.imagesection {
+  width: 100%;                  /* takes the full available width */
+  max-width: 1200px;            /* does not exceed 1200px */
+  margin: 0 0 2px 0;            /* small bottom spacing */
+}
+
+.konami-wrapper {
+    position: absolute;
+    bottom: 20%;
+    right: 20%;
+}
+
+.konami-wrapper a {
+    color: white;
+    text-decoration: none;
+}
+
+.konami-wrapper a:hover {
+    color: black;
+}
+
+#showBg {
+  color: #00e31a;
+  position: fixed;
+  font-size: 20pt;
+  bottom: 10px;
+  left: 10px;
+}
+
+#star-wrapper {
+  position: fixed;
+  bottom: 10px; 
+  left: 50%;     
+  text-align: left;
+}
+
+#Video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
+
+video::-webkit-media-controls {
+  display: none;
+}
+
+#ryatvideo {
+  width: 100%;
+  max-width: 562px;
+}
+
+#fwvideo {
+  width: 100%;
+}
+
+#clock {
+  position: fixed;
+  bottom: 8px;
+  right: 16px;
+  color: black;
+  font-size: 11pt;
+  font-family: "Times New Roman", Times, serif;
+  letter-spacing: -0.3px;
+}
+
+.mode {
+  position: fixed;
+  bottom: 8px;
+  right: 69px;
+  color: black;
+  font-size: 11pt;
+  font-family: "Times New Roman", Times, serif;
+  padding: 0;
+  margin: 0;
+  letter-spacing: -0.3px;
+  cursor: pointer;
+}
+
+.mode:hover {
+  color: white;
+}
+
+body {
+  background-color: #fcfcfc;
+}
+
+a {
+  color: black;
+  letter-spacing: -0.3px;
+}
+
+a:visited {
+  color: black;
+  letter-spacing: -0.3px;
+}
+
+a:hover {
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.styleone {
+  font-size: 11pt;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+.styleone:link,
+.styleone:visited {
+  color: black;
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+
+.styleone:hover {
+  color: white;
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+
+.styletwo:link,
+.styletwo:visited {
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.styletwo:hover {
+  color: black;
+  letter-spacing: -0.3px;
+}
+
+.stylethree:link,
+.stylethree:visited {
+  color: white;
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+
+.stylethree:hover {
+  color: black;
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+
+::selection {
+  background: #00e31a;
+  color: white;
+  text-shadow: 1px 1px 1px white, 1px -1px 1px white, -1px 1px 1px white, -1px -1px 1px white;
+}
+
+video::-webkit-media-controls-panel {
+  background-image: none !important;
+  filter: brightness(0.4);
+}
+
+body.bg-active {
+  background-image: url('assets/IDphoto.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .text, .text2, .title, .imagesection {
+    font-size: 10pt;
+    max-width: 95%;
+  }
+
+#ryatvideo, #fwvideo {
+    width: 100%;
+  }
+
+#clock, .mode {
+    font-size: 10pt;
+    bottom: 5px;
+    right: 10px;
+  }
+}
+
+#downloadBtn {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11pt;
+  letter-spacing: -0.3px;
+  background: none;
+  border: none;
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+#tabloid {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+#info {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: pre-wrap;
+      padding: 1em;
+      max-width: 400px;
+      text-align: left;
+}
