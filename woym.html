@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>↑ ↑ ↓ ↓ ← → ← →</title> 
+  <!-- FAVICON --> 
+  <link rel="icon" href="assets/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    #canvasContainer { display: none; margin-top: 1rem; }
+    canvas { border: 1px solid #000; background: #fff; }
+    button { margin-top: 0.5rem; }
+    #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
+    #gallery img { max-width:150px; border:1px solid #ccc; }
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-F9YHR26YNQ');
+  </script>
+</head>
+<body>
+  <div id="content">
+    <div class="container">
+      <div class="text">
+        <a class="styleone">*</a>
+        <br>
+        what's on your mind? (double click to start again)
+      </div>
+    </div>
+  </div>
+
+  <div id="canvasContainer">
+    <canvas id="drawCanvas" width="500" height="500"></canvas>
+    <button id="downloadBtn">download!</button>
+    <div id="gallery"></div>
+  </div>
+
+  <script>
+    // --- KONAMI CODE ---
+    const secretKeys = [38,38,40,40,37,39,37,39];
+    const secretGestures = ["up","up","down","down","left","right","left","right"];
+    let inputKeys = [];
+    let inputGestures = [];
+
+    // Versión teclado (PC)
+    window.addEventListener('keydown', e => {
+      inputKeys.push(e.keyCode);
+      if (inputKeys.length > secretKeys.length) inputKeys.shift();
+      if (inputKeys.toString() === secretKeys.toString()) {
+        document.getElementById('canvasContainer').style.display = 'block';
+        inputKeys = [];
+      }
+    });
+
+    // Versión móvil (swipes)
+    let touchStartX = 0, touchStartY = 0;
+    let touchEndX = 0, touchEndY = 0;
+
+    function handleGesture() {
+      const dx = touchEndX - touchStartX;
+      const dy = touchEndY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 30) return "right";
+        if (dx < -30) return "left";
+      } else {
+        if (dy > 30) return "down";
+        if (dy < -30) return "up";
+      }
+    }
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, false);
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      const gesture = handleGesture();
+      if (!gesture) return;
+      inputGestures.push(gesture);
+      if (inputGestures.length > secretGestures.length) inputGestures.shift();
+      if (inputGestures.toString() === secretGestures.toString()) {
+        document.getElementById('canvasContainer').style.display = 'block';
+        inputGestures = [];
+      }
+    }, false);
+
+    // Expanding download text
+    const btn = document.getElementById('downloadBtn'); 
+    const originalText = btn.textContent; 
+    btn.addEventListener('click', function handleClick() { 
+      if (btn.textContent === originalText) {
+        btn.textContent = 'download! (and please send it to me, because I want to be a proud collector)';
+      } else {
+        btn.textContent = originalText;
+      }
+    });
+
+    // Drawing on canvas
+    const canvas = document.getElementById('drawCanvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => drawing = false);
+    canvas.addEventListener('mouseout', () => drawing = false);
+    canvas.addEventListener('mousemove', e => {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.beginPath();
+      ctx.arc(e.clientX - rect.left, e.clientY - rect.top, 2, 0, Math.PI * 2);
+      ctx.fillStyle = "#000";
+      ctx.fill();
+    });
+
+    // Borrar canvas con doble click
+    canvas.addEventListener('dblclick', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // --- localStorage ---
+    const gallery = document.getElementById("gallery");
+    const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
+
+    savedImages.forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      gallery.appendChild(img);
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const dataURL = canvas.toDataURL("image/png");
+
+      const link = document.createElement('a');
+      link.href = dataURL;
+      link.download = 'wtf.png';
+      link.click();
+
+      const img = document.createElement("img");
+      img.src = dataURL;
+      gallery.appendChild(img);
+
+      savedImages.push(dataURL);
+      localStorage.setItem("galleryImages", JSON.stringify(savedImages));
+    });
+  </script>
+</body>
+</html>
