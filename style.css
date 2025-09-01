@@ -38,7 +38,7 @@ img.himages {
   display: flex;
   flex-wrap: wrap;
   gap: 3px;      
-  justify-content: left; 
+  justify-content: flex-start; 
 }
 
 .konami-wrapper {
