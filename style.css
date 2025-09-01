@@ -34,6 +34,13 @@ img.himages {
   margin: 0 0 2px 0;            /* small bottom spacing */
 }
 
+.videos-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;      
+  justify-content: center; 
+}
+
 .konami-wrapper {
     position: absolute;
     bottom: 20%;
