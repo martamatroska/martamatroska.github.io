@@ -2,26 +2,16 @@
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>↑ ↑ ↓ ↓ ← → ← →</title> 
-  <!-- FAVICON --> 
+  <title>Canvas activo</title> 
   <link rel="icon" href="assets/favicon.ico">
   <link rel="stylesheet" type="text/css" href="style.css">
   <style>
-    #canvasContainer { display: none; margin-top: 1rem; }
+    #canvasContainer { margin-top: 1rem; }
     canvas { border: 1px solid #000; background: #fff; }
     button { margin-top: 0.5rem; }
     #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
     #gallery img { max-width:150px; border:1px solid #ccc; }
   </style>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-F9YHR26YNQ');
-  </script>
 </head>
 <body>
   <div id="content">
@@ -41,13 +31,11 @@
   </div>
 
   <script>
-    // --- KONAMI CODE ---
+    /*
+    // --- KONAMI CODE --- 
     const secretKeys = [38,38,40,40,37,39,37,39];
-    const secretGestures = ["up","up","down","down","left","right","left","right"];
     let inputKeys = [];
-    let inputGestures = [];
-
-    // Versión teclado (PC)
+    
     window.addEventListener('keydown', e => {
       inputKeys.push(e.keyCode);
       if (inputKeys.length > secretKeys.length) inputKeys.shift();
@@ -56,40 +44,7 @@
         inputKeys = [];
       }
     });
-
-    // Versión móvil (swipes)
-    let touchStartX = 0, touchStartY = 0;
-    let touchEndX = 0, touchEndY = 0;
-
-    function handleGesture() {
-      const dx = touchEndX - touchStartX;
-      const dy = touchEndY - touchStartY;
-      if (Math.abs(dx) > Math.abs(dy)) {
-        if (dx > 30) return "right";
-        if (dx < -30) return "left";
-      } else {
-        if (dy > 30) return "down";
-        if (dy < -30) return "up";
-      }
-    }
-
-    document.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-      touchStartY = e.changedTouches[0].screenY;
-    }, false);
-
-    document.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      touchEndY = e.changedTouches[0].screenY;
-      const gesture = handleGesture();
-      if (!gesture) return;
-      inputGestures.push(gesture);
-      if (inputGestures.length > secretGestures.length) inputGestures.shift();
-      if (inputGestures.toString() === secretGestures.toString()) {
-        document.getElementById('canvasContainer').style.display = 'block';
-        inputGestures = [];
-      }
-    }, false);
+    */
 
     // Expanding download text
     const btn = document.getElementById('downloadBtn'); 
@@ -119,7 +74,6 @@
       ctx.fill();
     });
 
-    // Borrar canvas con doble click
     canvas.addEventListener('dblclick', () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
