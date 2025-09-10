@@ -236,6 +236,10 @@ body.bg-active {
   padding: 0;
 }
 
+#home-link {
+  text-decoration: none;
+}
+
 #tabloid {
     position: fixed;
     top: 10px;
