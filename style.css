@@ -194,9 +194,8 @@ a:hover {
 }
 
 .vhs-img {
-  width: 50px;   /* ajusta el tamaño que quieras */
+  width: 20px;   /* ajusta el tamaño que quieras */
   height: auto;   /* mantiene la proporción */
-  display: block;
   margin: 20px auto; /* opcional: centrar la imagen */
 }
 
