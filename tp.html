@@ -5,6 +5,35 @@
   <title> 🖭 </title> 
   <link rel="icon" href="assets/favicon.ico">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      position: relative;
+      min-height: 100vh;
+      font-family: 'Times New Roman', serif;
+      overflow-x: hidden;
+    }
+
+    /* Fondo con opacidad */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('assets/FONDO-VHS.png') no-repeat center center / cover;
+      opacity: 0.5; 
+      z-index: -1;
+    }
+
+    /* Opcional: centrar el contenido */
+    #content {
+      position: relative;
+      z-index: 1;
+      padding: 20px;
+    }
+  </style>
   <script>
         function startTime() {
             var today = new Date();
@@ -18,11 +47,10 @@
             var t = setTimeout(startTime, 500);
         }
         function checkTime(i) {
-            if (i < 10) {i = "0" + i;}  // add zero in front of numbers < 10
+            if (i < 10) {i = "0" + i;}
             return i;
         }
 
-        // Textos en ambos idiomas
         const texts = {
           en: {
             tape: "Hi I'm Marta, and I digitize >> betamax, VHS, HDV, miniDV, 8/Hi8; allowing yourself to get rid of your tapes (if you want) while preserving your footage with a quality you've never seen",
@@ -58,7 +86,6 @@
 
         window.onload = function() {
           startTime();
-          // Detectar idioma del navegador
           const userLang = navigator.language || navigator.userLanguage;
           if (userLang.startsWith("es")) {
             setLang("es");
