@@ -4,7 +4,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title> 🖭 </title> 
   <link rel="icon" href="assets/favicon.ico">
-  <link rel="stylesheet" type="text/css" href="style.css">
   <style>
     body {
       margin: 0;
@@ -12,95 +11,134 @@
       min-height: 100vh;
       font-family: 'Times New Roman', serif;
       overflow-x: hidden;
+      color: #fff; /* texto blanco sobre fondo oscuro */
     }
 
-    /* Fondo con opacidad */
+    /* Imagen de fondo */
     body::before {
       content: "";
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       background: url('assets/FONDO-VHS.png') no-repeat center center / cover;
-      opacity: 1; 
-      z-index: -1;
-      mix-blend-mode: difference;
+      z-index: -2;
     }
 
-    /* Opcional: centrar el contenido */
+    /* Overlay semitransparente */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4); /* ajuste de opacidad */
+      z-index: -1;
+    }
+
+    /* Contenedor principal */
     #content {
       position: relative;
       z-index: 1;
       padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Texto responsivo */
+    .text {
+      max-width: 90%;
+      margin: 0 auto;
+      font-size: 11pt;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    /* Bloque mail con tabulación y adaptación */
+    pre.mail {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Times New Roman', serif;
+      font-size: 11pt;
+      margin: 0;
+    }
+
+    /* Botón idioma */
+    #lang-btn {
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* Ajustes para pantallas pequeñas */
+    @media (max-width: 600px) {
+      .text {
+        font-size: 10pt;
+        padding: 10px;
+      }
+      pre.mail {
+        font-size: 10pt;
+      }
     }
   </style>
   <script>
-        function startTime() {
-            var today = new Date();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);
-            document.getElementById('clock').innerHTML =
-            h + ":" + m + ":" + s;
-            var t = setTimeout(startTime, 500);
-        }
-        function checkTime(i) {
-            if (i < 10) {i = "0" + i;}
-            return i;
-        }
+    function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+      setTimeout(startTime, 500);
+    }
+    function checkTime(i) { return i < 10 ? "0" + i : i; }
 
-        const texts = {
-          en: {
-            tape: "Hi I'm Marta, and I digitize >> betamax, VHS, HDV, miniDV, 8/Hi8; allowing yourself to get rid of your tapes (if you want) while preserving your footage with a quality you've never seen",
-            quality: "HD, UHD (4k)",
-            desc: "Remove noise and fix compression artifacts, footage restoration, stabilization, upscaling without sacrificing quality",
-            contact: "please contact via telegram or mail:",
-            delivery: "ready on your mail in format >>> .mp4 / .mov"
-          },
-          es: {
-            tape: "Hola, soy Marta y digitalizo >> betamax, VHS, HDV, miniDV, 8/Hi8; permitiéndote deshacerte de tus cintas (si quieres) mientras conservas tu material con una calidad que nunca habías visto",
-            quality: "HD, UHD (4k)",
-            desc: "Elimino ruido y artefactos de compresión, restauro material, estabilizo, y escalo sin sacrificar calidad",
-            contact: "puedes contactarme por telegram o correo electrónico:",
-            delivery: "lo recibirás en tu correo en formato >>> .mp4 / .mov"
-          }
-        };
+    const texts = {
+      en: {
+        tape: "Hi I'm Marta, and I digitize >> betamax, VHS, HDV, miniDV, 8/Hi8; allowing yourself to get rid of your tapes (if you want) while preserving your footage with a quality you've never seen",
+        quality: "HD, UHD (4k)",
+        desc: "Remove noise and fix compression artifacts, footage restoration, stabilization, upscaling without sacrificing quality",
+        contact: "please contact via telegram or mail:",
+        delivery: "ready on your mail in format >>> .mp4 / .mov"
+      },
+      es: {
+        tape: "Hola, soy Marta y digitalizo >> betamax, VHS, HDV, miniDV, 8/Hi8; permitiéndote deshacerte de tus cintas (si quieres) mientras conservas tu material con una calidad que nunca habías visto",
+        quality: "HD, UHD (4k)",
+        desc: "Elimino ruido y artefactos de compresión, restauro material, estabilizo, y escalo sin sacrificar calidad",
+        contact: "puedes contactarme por telegram o correo electrónico:",
+        delivery: "lo recibirás en tu correo en formato >>> .mp4 / .mov"
+      }
+    };
 
-        let currentLang = "en";
+    let currentLang = "en";
 
-        function setLang(lang) {
-          currentLang = lang;
-          document.getElementById("tape").textContent = texts[currentLang].tape;
-          document.getElementById("quality").textContent = texts[currentLang].quality;
-          document.getElementById("desc").textContent = texts[currentLang].desc;
-          document.getElementById("contact").textContent = texts[currentLang].contact;
-          document.getElementById("delivery").textContent = texts[currentLang].delivery;
-          document.getElementById("lang-btn").textContent = currentLang === "en" ? "ESPAÑOL" : "ENGLISH";
-        }
+    function setLang(lang) {
+      currentLang = lang;
+      document.getElementById("tape").textContent = texts[currentLang].tape;
+      document.getElementById("quality").textContent = texts[currentLang].quality;
+      document.getElementById("desc").textContent = texts[currentLang].desc;
+      document.getElementById("contact").textContent = texts[currentLang].contact;
+      document.getElementById("delivery").textContent = texts[currentLang].delivery;
+      document.getElementById("lang-btn").textContent = currentLang === "en" ? "ESPAÑOL" : "ENGLISH";
+    }
 
-        function toggleLang() {
-          setLang(currentLang === "en" ? "es" : "en");
-        }
+    function toggleLang() {
+      setLang(currentLang === "en" ? "es" : "en");
+    }
 
-        window.onload = function() {
-          startTime();
-          const userLang = navigator.language || navigator.userLanguage;
-          if (userLang.startsWith("es")) {
-            setLang("es");
-          } else {
-            setLang("en");
-          }
-        }
+    window.onload = function() {
+      startTime();
+      const userLang = navigator.language || navigator.userLanguage;
+      if (userLang.startsWith("es")) setLang("es"); else setLang("en");
+    }
   </script>
 </head>
 <body>
   <div id="content">
     <div class="container">
       <div class="text">
-        <button onclick="toggleLang()" id="lang-btn" style="margin-bottom:10px;"></button>
+        <button onclick="toggleLang()" id="lang-btn"></button>
         <br>
         <a href='index' id="home-link">*</a>
         <br>
@@ -112,11 +150,11 @@
         <br><br><br>
         <span id="contact"></span>
         <br><br>
-        <div style="white-space: pre; font-family: 'Times New Roman', serif; font-size: 11pt;">
+        <pre class="mail">
                  @
 casfemarta   gmail   com
                                . 
-        </div>
+        </pre>
         <br><br>
         <span id="delivery"></span>
         <div id="clock"></div>
