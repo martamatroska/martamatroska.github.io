@@ -239,11 +239,11 @@ body.bg-active {
 #lang-btn {
 font-family: "Times New Roman", Times, serif;
   font-size: 11pt;
-  letter-spacing: -0.3px;
+  letter-spacing: 1px;
   background: none;
-  border: none;
+  border: 1px, dotted;
   color: black;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
   padding: 0;
 }
