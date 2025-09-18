@@ -6,7 +6,7 @@
   <link rel="icon" href="assets/favicon.ico">
   <style>
     body {
-      margin: 0;
+      margin: 10;
       position: relative;
       min-height: 100vh;
       font-family: 'Times New Roman', serif;
@@ -40,12 +40,22 @@
   font-size: 11pt;
   letter-spacing: 1px;
   background: none;
-  border: 1px, dotted;
+  border: 2px, dotted;
   color: #fff;
   text-decoration: none;
   cursor: pointer;
   padding: 0;
     }
+
+    #clock {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-family: 'Times New Roman', serif;
+  font-size: 11pt;
+  color: #fff;
+  z-index: 2; /* por encima del overlay */
+}
 
     /* Texto responsivo */
     .text {
@@ -133,9 +143,9 @@
   <div id="content">
     <div class="container">
       <div class="text">
+        <br><br><br>
         <button onclick="toggleLang()" id="lang-btn"></button>
-        <br>
-        <br>
+        <br><br>
         <span id="tape"></span>
         <br><br>
         <span id="quality"></span>
