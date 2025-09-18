@@ -235,6 +235,18 @@ body.bg-active {
   cursor: pointer;
   padding: 0;
 }
+ 
+#lang-btn {
+font-family: "Times New Roman", Times, serif;
+  font-size: 11pt;
+  letter-spacing: -0.3px;
+  background: none;
+  border: none;
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
 
 #home-link {
   text-decoration: none;
