@@ -193,6 +193,13 @@ a:hover {
   text-shadow: 1px 1px 1px white, 1px -1px 1px white, -1px 1px 1px white, -1px -1px 1px white;
 }
 
+.vhs-img {
+  width: 200px;   /* ajusta el tamaño que quieras */
+  height: auto;   /* mantiene la proporción */
+  display: block;
+  margin: 20px auto; /* opcional: centrar la imagen */
+}
+
 video::-webkit-media-controls-panel {
   background-image: none !important;
   filter: brightness(0.4);
