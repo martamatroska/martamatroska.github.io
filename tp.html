@@ -5,7 +5,7 @@
   <title> 🖭 </title> 
   <link rel="icon" href="assets/favicon.ico">
   <link rel="stylesheet" type="text/css" href="style.css">
-   <script>
+  <script>
         function startTime() {
             var today = new Date();
             var h = today.getHours();
@@ -21,40 +21,79 @@
             if (i < 10) {i = "0" + i;}  // add zero in front of numbers < 10
             return i;
         }
-    </script>
+
+        // Textos en ambos idiomas
+        const texts = {
+          en: {
+            tape: "betamax, VHS, miniDV, 8/Hi8",
+            quality: "HD, UHD, 4k",
+            desc: "Remove noise and fix compression artifacts, footage restoration, stabilization, upscaling without sacrificing quality",
+            contact: "please contact via telegram or mail:",
+            delivery: "ready on your mail in format >>> .mp4/.mov"
+          },
+          es: {
+            tape: "betamax, VHS, miniDV, 8/Hi8",
+            quality: "HD, UHD, 4k",
+            desc: "Elimina ruido y artefactos de compresión, restauración de material, estabilización, escalado sin perder calidad",
+            contact: "contacto vía telegram o correo:",
+            delivery: "recibirás en tu correo en formato >>> .mp4/.mov"
+          }
+        };
+
+        let currentLang = "en";
+
+        function setLang(lang) {
+          currentLang = lang;
+          document.getElementById("tape").textContent = texts[currentLang].tape;
+          document.getElementById("quality").textContent = texts[currentLang].quality;
+          document.getElementById("desc").textContent = texts[currentLang].desc;
+          document.getElementById("contact").textContent = texts[currentLang].contact;
+          document.getElementById("delivery").textContent = texts[currentLang].delivery;
+          document.getElementById("lang-btn").textContent = currentLang === "en" ? "ES" : "EN";
+        }
+
+        function toggleLang() {
+          setLang(currentLang === "en" ? "es" : "en");
+        }
+
+        window.onload = function() {
+          startTime();
+          // Detectar idioma del navegador
+          const userLang = navigator.language || navigator.userLanguage;
+          if (userLang.startsWith("es")) {
+            setLang("es");
+          } else {
+            setLang("en");
+          }
+        }
+  </script>
 </head>
 <body>
-<body onload="startTime()">
   <div id="content">
     <div class="container">
       <div class="text">
+        <button onclick="toggleLang()" id="lang-btn" style="margin-bottom:10px;"></button>
+        <br>
         <a href='index' id="home-link">*</a>
         <br>
-        betamax, VHS, miniDV, 8/Hi8
-
+        <span id="tape"></span>
         <br>
-        HD, UHD, 4k
+        <span id="quality"></span>
         <br>
-        Remove noise and fix compression artifacts, footage restoration, stabilization, upscaling without sacrificing quality
-
-        please contact via telegram or mail:
-         <br>
-         <br>
-<div style="white-space: pre; font-family: 'Times New Roman', serif; font-size: 12px;">
+        <span id="desc"></span>
+        <br>
+        <span id="contact"></span>
+        <br><br>
+        <div style="white-space: pre; font-family: 'Times New Roman', serif; font-size: 11pt;">
                  @
 casfemarta   gmail  com
                                 . 
-</div>
-         <br>
-         <br>
-
-        ready on your mail in format >>> .mp4/.mov
+        </div>
+        <br><br>
+        <span id="delivery"></span>
         <div id="clock"></div>
       </div>
     </div>
   </div>
-
-
 </body>
-  
 </html>
