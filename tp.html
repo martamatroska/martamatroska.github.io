@@ -14,7 +14,6 @@
       color: #fff;
     }
 
-    /* Imagen de fondo */
     body::before {
       content: "";
       position: fixed;
@@ -27,44 +26,42 @@
       opacity: 0.8;
     }
 
-.vhs-img {
-  width: 200px; 
-  height: auto;
-  display: block;
-}
+    .vhs-img {
+      width: 200px; 
+      height: auto;
+      display: block;
+    }
 
-    /* Overlay semitransparente */
     body::after {
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.4); /* ajuste de opacidad */
+      background: rgba(0,0,0,0.4);
       z-index: -1;
     }
 
     #lang-btn {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 11pt;
-  letter-spacing: 1px;
-  background: none;
-  border: 2px, dotted;
-  color: #fff;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 0;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 11pt;
+      letter-spacing: 1px;
+      background: none;
+      border: 2px, dotted;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 0;
     }
 
     #clock {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  font-family: 'Times New Roman', serif;
-  font-size: 11pt;
-  color: #fff;
-  z-index: 2; /* por encima del overlay */
-}
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      font-family: 'Times New Roman', serif;
+      font-size: 11pt;
+      color: #fff;
+      z-index: 2;
+    }
 
-    /* Texto responsivo */
     .text {
       max-width: 90%;
       margin: 0 auto;
@@ -73,7 +70,6 @@
       word-wrap: break-word;
     }
 
-    /* Bloque mail con tabulación y adaptación */
     pre.mail {
       white-space: pre-wrap;
       word-wrap: break-word;
@@ -82,7 +78,6 @@
       margin: 0;
     }
 
-    /* Ajustes para pantallas pequeñas */
     @media (max-width: 600px) {
       .text {
         font-size: 10pt;
@@ -94,17 +89,7 @@
     }
   </style>
   <script>
-    function startTime() {
-      var today = new Date();
-      var h = today.getHours();
-      var m = today.getMinutes();
-      var s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
-      setTimeout(startTime, 500);
-    }
-    function checkTime(i) { return i < 10 ? "0" + i : i; }
+    let currentLang = "en";
 
     const texts = {
       en: {
@@ -112,18 +97,42 @@
         quality: "HD, 2k, UHD (4k)",
         desc: "Remove noise and fix compression artifacts, footage restoration, stabilization, upscaling without sacrificing quality",
         contact: "Please contact via telegram or e-mail:",
-        delivery: "Ready on your e-mail in format >>> .mp4 / .mov"
+        delivery: "Ready on your e-mail in format >>> .mp4 / .mov",
+        tableTitle: "Digitization Pricing",
+        plans: [
+          { name: "Basic", include: "HD (1080p)", price: "15 € per tape (up to 2h)\n+5 €/extra hour" },
+          { name: "Standard", include: "Full HD / 2K\nNoise reduction\nLight stabilization\nUSB or cloud delivery", price: "25 € per tape (up to 2h)\n+8 €/extra hour" },
+          { name: "Premium", include: "4K UHD\nAdvanced restoration\nUpscale to maximum quality\nUSB/hard drive + cloud copy", price: "40 € per tape (up to 2h)\n+12 €/extra hour" }
+        ],
+  
       },
       es: {
         tape: "Hola, soy Marta y digitalizo >> betamax, VHS, HDV, miniDV, 8/Hi8; permitiéndote deshacerte de tus cintas (si quieres) mientras conservas tu material con una calidad que nunca habías visto",
         quality: "HD, 2k, UHD (4k)",
         desc: "Elimino ruido y artefactos de compresión, restauro material, estabilizo, y escalo sin sacrificar calidad",
         contact: "Por favor, contáctame por telegram o correo electrónico:",
-        delivery: "Listo en tu correo electrónico en formato >>> .mp4 / .mov"
+        delivery: "Listo en tu correo electrónico en formato >>> .mp4 / .mov",
+        tableTitle: "Tarifas de digitalización",
+        plans: [
+          { name: "Básico", include: "HD (1080p)", price: "15 € por cinta (hasta 2h)\n+5 €/hora extra" },
+          { name: "Estándar", include: "Full HD / 2K\nReducción de ruido\nEstabilización ligera\nEntrega en USB o nube", price: "25 € por cinta (hasta 2h)\n+8 €/hora extra" },
+          { name: "Premium", include: "4K UHD\nRestauración avanzada\nEscalado máxima calidad\nUSB/disco duro + copia en nube", price: "40 € por cinta (hasta 2h)\n+12 €/hora extra" }
+        ],
+       
       }
     };
 
-    let currentLang = "en";
+    function startTime() {
+      const today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      m = checkTime(m); s = checkTime(s);
+      document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+      setTimeout(startTime, 500);
+    }
+
+    function checkTime(i) { return i < 10 ? "0" + i : i; }
 
     function setLang(lang) {
       currentLang = lang;
@@ -133,11 +142,17 @@
       document.getElementById("contact").textContent = texts[currentLang].contact;
       document.getElementById("delivery").textContent = texts[currentLang].delivery;
       document.getElementById("lang-btn").textContent = currentLang === "en" ? "ESPAÑOL" : "ENGLISH";
+
+      document.getElementById("table-title").textContent = texts[currentLang].tableTitle;
+      texts[currentLang].plans.forEach((plan, i) => {
+        document.getElementById(`plan-name-${i}`).textContent = plan.name;
+        document.getElementById(`plan-include-${i}`).textContent = plan.include;
+        document.getElementById(`plan-price-${i}`).textContent = plan.price;
+      });
+      document.getElementById("extras").textContent = texts[currentLang].extras;
     }
 
-    function toggleLang() {
-      setLang(currentLang === "en" ? "es" : "en");
-    }
+    function toggleLang() { setLang(currentLang === "en" ? "es" : "en"); }
 
     window.onload = function() {
       startTime();
@@ -152,65 +167,53 @@
       <div class="text">
         <br>
         <button onclick="toggleLang()" id="lang-btn"></button>
-        <br>
+        <br><br>
         <span id="tape"></span>
-        <br>
+        <br><br>
         <span id="quality"></span>
-        <br>
+        <br><br>
         <span id="desc"></span>
-        <br>
+        <br><br>
         <span id="contact"></span>
-        <br>
+        <br><br>
         <pre class="mail">
                  @
 casfemarta   gmail   com
                                . 
         </pre>
         <img src="assets/vhssoise.png" class="vhs-img">
-        <br>
+        <br><br>
         <span id="delivery"></span>
-        <br>
-<div class="text">
-  <h3>Tarifas de digitalización</h3>
-  <table style="width:100%; border-collapse: collapse; color: #fff; text-align: left;">
-    <tr style="background: rgba(255,255,255,0.1);">
-      <th style="padding: 10px;">Plan</th>
-      <th style="padding: 10px;">Qué incluye</th>
-      <th style="padding: 10px;">Precio</th>
-    </tr>
-    <tr style="background: rgba(255,255,255,0.05);">
-      <td style="padding: 10px;">Básico</td>
-      <td style="padding: 10px;">
-        HD (1080p)<br>
-      </td>
-      <td style="padding: 10px;">
-        15 € por cinta (hasta 2h)<br>+5 €/hora extra
-      </td>
-    </tr>
-    <tr style="background: rgba(255,255,255,0.1);">
-      <td style="padding: 10px;">Estándar</td>
-      <td style="padding: 10px;">
-        Full HD / 2K<br>
-        Reducción de ruido<br>
-        Estabilización ligera<br>
-      </td>
-      <td style="padding: 10px;">
-        25 € por cinta (hasta 2h)<br>+8 €/hora extra
-      </td>
-    </tr>
-    <tr style="background: rgba(255,255,255,0.05);">
-      <td style="padding: 10px;">Premium</td>
-      <td style="padding: 10px;">
-        4K UHD<br>
-        Restauración avanzada<br>
-        Escalado máxima calidad<br>
-      </td>
-      <td style="padding: 10px;">
-        40 € por cinta (hasta 2h)<br>+12 €/hora extra
-      </td>
-    </tr>
-  </table>
-</div>
+        <br><br>
+
+        <div class="text">
+          <h3 id="table-title">Tarifas de digitalización</h3>
+          <table style="width:100%; border-collapse: collapse; color: #fff; text-align: left;">
+            <tr style="background: rgba(255,255,255,0.1);">
+              <th style="padding: 10px;">Plan</th>
+              <th style="padding: 10px;">Qué incluye</th>
+              <th style="padding: 10px;">Precio</th>
+            </tr>
+            <tr style="background: rgba(255,255,255,0.05);">
+              <td style="padding: 10px;" id="plan-name-0">Básico</td>
+              <td style="padding: 10px;" id="plan-include-0">HD (1080p)</td>
+              <td style="padding: 10px;" id="plan-price-0">15 € por cinta (hasta 2h)<br>+5 €/hora extra</td>
+            </tr>
+            <tr style="background: rgba(255,255,255,0.1);">
+              <td style="padding: 10px;" id="plan-name-1">Estándar ⭐</td>
+              <td style="padding: 10px;" id="plan-include-1">Full HD / 2K...</td>
+              <td style="padding: 10px;" id="plan-price-1">25 € por cinta (hasta 2h)<br>+8 €/hora extra</td>
+            </tr>
+            <tr style="background: rgba(255,255,255,0.05);">
+              <td style="padding: 10px;" id="plan-name-2">Premium</td>
+              <td style="padding: 10px;" id="plan-include-2">4K UHD...</td>
+              <td style="padding: 10px;" id="plan-price-2">40 € por cinta (hasta 2h)<br>+12 €/hora extra</td>
+            </tr>
+          </table>
+          <br>
+          <pre id="extras" style="white-space: pre-wrap; color: #fff;">
+          </pre>
+        </div>
 
         <div id="clock"></div>
       </div>
