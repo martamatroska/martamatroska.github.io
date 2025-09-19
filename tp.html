@@ -223,7 +223,7 @@
     icons.forEach((ico, i) => {
       positions.push({ x: parseInt(ico.style.left), y: parseInt(ico.style.top) });
       // velocidades distintas para cada ícono
-      velocities.push({ dx: 0.3 + i * 0.1, dy: 0.2 + i * 0.1 });
+      velocities.push({ dx: 0.5 + i * 0.1, dy: 0.4 + i * 0.1 });
     });
 
     function moveIcons() {
