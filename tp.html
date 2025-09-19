@@ -11,41 +11,17 @@
       min-height: 100vh;
       font-family: 'Times New Roman', serif;
       overflow-x: hidden;
-      color: #0000;
+      color: black;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: url('assets/FOND-VHS.png') no-repeat center center / cover;
-      z-index: -2;
-      opacity: 0.8;
-    }
 
-    .vhs-img {
-      width: 120px; 
-      height: auto;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: -1;
-    }
-
-    #lang-btn {
+      #lang-btn {
       font-family: "Times New Roman", Times, serif;
       font-size: 11pt;
       letter-spacing: 1px;
       background: none;
       border: 2px, dotted;
-      color: #fff;
+      color: black;
       text-decoration: none;
       cursor: pointer;
       padding: 0;
@@ -95,14 +71,14 @@
 
     @media (max-width: 600px) {
       .text {
-        font-size: 10pt;
+        font-size: 11pt;
         padding: 10px;
       }
       .mail-container {
-        font-size: 10pt;
+        font-size: 11pt;
       }
       table {
-        font-size: 10pt;
+        font-size: 11pt;
       }
     }
   </style>
