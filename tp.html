@@ -2,7 +2,7 @@
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title> 🖭 </title> 
+  <title> @vhssoise </title> 
   <link rel="icon" href="assets/favicon.ico">
   <style>
     body {
@@ -210,29 +210,44 @@
         </div>
 
         <div id="clock"></div>
-        <img src="assets/VHS Tape.ico" id="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 0; left: 0; z-index: 999;">
+     
+  <img src="assets/VHS Tape.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 0; left: 0; z-index: 999;">
+  <img src="assets/Sony_TRV_99.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 50px; left: 50px; z-index: 999;">
+  <img src="assets/iMac DV Lime.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 100px; left: 100px; z-index: 999;">
 
-<script>
-  let ico = document.getElementById("floating-ico");
-  let x = 0, y = 0;
-  let dx = 0.3, dy = 0.2; // velocidad
+  <script>
+    let icons = document.querySelectorAll(".floating-ico");
+    let positions = [];
+    let velocities = [];
 
-  function moveIco() {
-    x += dx;
-    y += dy;
+    icons.forEach((ico, i) => {
+      positions.push({ x: parseInt(ico.style.left), y: parseInt(ico.style.top) });
+      // velocidades distintas para cada ícono
+      velocities.push({ dx: 0.3 + i * 0.1, dy: 0.2 + i * 0.1 });
+    });
 
-    // rebote en bordes de la ventana
-    if (x + ico.offsetWidth > window.innerWidth || x < 0) dx = -dx;
-    if (y + ico.offsetHeight > window.innerHeight || y < 0) dy = -dy;
+    function moveIcons() {
+      icons.forEach((ico, i) => {
+        positions[i].x += velocities[i].dx;
+        positions[i].y += velocities[i].dy;
 
-    ico.style.left = x + "px";
-    ico.style.top = y + "px";
+        if (positions[i].x + ico.offsetWidth > window.innerWidth || positions[i].x < 0) {
+          velocities[i].dx = -velocities[i].dx;
+        }
+        if (positions[i].y + ico.offsetHeight > window.innerHeight || positions[i].y < 0) {
+          velocities[i].dy = -velocities[i].dy;
+        }
 
-    requestAnimationFrame(moveIco);
-  }
+        ico.style.left = positions[i].x + "px";
+        ico.style.top = positions[i].y + "px";
+      });
 
-  moveIco();
-</script>
+      requestAnimationFrame(moveIcons);
+    }
+
+    moveIcons();
+  </script>
+
 
       </div>
     </div>
