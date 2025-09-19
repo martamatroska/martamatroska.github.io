@@ -210,6 +210,30 @@
         </div>
 
         <div id="clock"></div>
+        <img src="assets/VHS Tape.ico" id="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 0; left: 0; z-index: 999;">
+
+<script>
+  let ico = document.getElementById("floating-ico");
+  let x = 0, y = 0;
+  let dx = 0.3, dy = 0.2; // velocidad
+
+  function moveIco() {
+    x += dx;
+    y += dy;
+
+    // rebote en bordes de la ventana
+    if (x + ico.offsetWidth > window.innerWidth || x < 0) dx = -dx;
+    if (y + ico.offsetHeight > window.innerHeight || y < 0) dy = -dy;
+
+    ico.style.left = x + "px";
+    ico.style.top = y + "px";
+
+    requestAnimationFrame(moveIco);
+  }
+
+  moveIco();
+</script>
+
       </div>
     </div>
   </div>
