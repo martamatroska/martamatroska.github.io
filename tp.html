@@ -27,9 +27,8 @@
     }
 
     .vhs-img {
-      width: 200px; 
+      width: 120px; 
       height: auto;
-      display: block;
     }
 
     body::after {
@@ -70,12 +69,11 @@
       word-wrap: break-word;
     }
 
-    pre.mail {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      font-family: 'Times New Roman', serif;
+    .mail-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-size: 11pt;
-      margin: 0;
     }
 
     table {
@@ -100,7 +98,7 @@
         font-size: 10pt;
         padding: 10px;
       }
-      pre.mail {
+      .mail-container {
         font-size: 10pt;
       }
       table {
@@ -116,26 +114,26 @@
         tape: "Hi I'm Marta, and I digitize >> betamax, VHS, HDV, miniDV, 8/Hi8; allowing yourself to get rid of your tapes (if you want) while preserving your footage with a quality you've never seen",
         quality: "HD, 2k, UHD (4k)",
         desc: "Remove noise and fix compression artifacts, footage restoration, stabilization, upscaling without sacrificing quality",
-        contact: "Please contact via telegram or e-mail:",
+        contact: "Contact via telegram or e-mail:",
         delivery: "Ready on your e-mail in format >>> .mp4 / .mov",
         tableTitle: "Digitization Pricing",
         plans: [
-          { name: "Basic", include: "HD (1080p)", price: "12€ (up to 120min)<br>+5€/extra hour" },
-          { name: "Standard", include: "Full HD / 2K<br>Noise reduction<br>Stabilization", price: "20€ (up to 120min)<br>+7€/extra hour" },
-          { name: "Advanced", include: "4K UHD<br>Deep restoration<br>Upscale to maximum quality", price: "35€ (up to 120min)<br>+10€/extra hour" }
+          { name: "Basic", include: "HD (1080p)", price: "12€ (up to 120min) >> +5€/extra hour" },
+          { name: "Standard", include: "Full HD / 2K >> Noise reduction >> Stabilization", price: "20€ (up to 120min) +7€/extra hour" },
+          { name: "Advanced", include: "4K UHD >> Deep restoration >> Upscale to maximum quality", price: "35€ (up to 120min) +10€/extra hour" }
         ]
       },
       es: {
         tape: "Hola, soy Marta y digitalizo >> betamax, VHS, HDV, miniDV, 8/Hi8; permitiéndote deshacerte de tus cintas (si quieres) mientras conservas tu material con una calidad que nunca habías visto",
         quality: "HD, 2k, UHD (4k)",
         desc: "Elimino ruido y artefactos de compresión, restauro material, estabilizo, y escalo sin sacrificar calidad",
-        contact: "Por favor, contáctame por telegram o correo electrónico:",
+        contact: "Contáctame por telegram o correo electrónico:",
         delivery: "Listo en tu correo electrónico en formato >>> .mp4 / .mov",
         tableTitle: "Tarifas de digitalización",
         plans: [
-          { name: "Basic", include: "HD (1080p)", price: "12€ (hasta 120min)<br>+5€/hora extra" },
-          { name: "Standard", include: "Full HD / 2K<br>Reducción de ruido<br>Estabilización", price: "20€ (hasta 120min)<br>+7€/hora extra" },
-          { name: "Advanced", include: "4K UHD<br>Deep restoration<br>Escalado máxima calidad", price: "35€ (hasta 120min)<br>+10€/hora extra" }
+          { name: "Basic", include: "HD (1080p)", price: "12€ (hasta 120min) >> +5€/hora extra" },
+          { name: "Standard", include: "Full HD / 2K >> Reducción de ruido >> Estabilización", price: "20€ (hasta 120min) +7€/hora extra" },
+          { name: "Advanced", include: "4K UHD >> Restauración avanzada >> Escalado máxima calidad", price: "35€ (hasta 120min) +10€/hora extra" }
         ]
       }
     };
@@ -193,12 +191,12 @@
         <br><br>
         <span id="contact"></span>
         <br><br>
-        <pre class="mail">
-                 @
-casfemarta   gmail   com
-                               . 
-        </pre>
-        <img src="assets/vhssoise.png" class="vhs-img">
+
+        <div class="mail-container">
+          <span class="mail">casfemarta@gmail.com</span>
+          <img src="assets/vhssoise.png" class="vhs-img">
+        </div>
+
         <br><br>
         <span id="delivery"></span>
         <br><br>
@@ -211,21 +209,21 @@ casfemarta   gmail   com
               <td class="arrow">→</td>
               <td id="plan-include-0">HD (1080p)</td>
               <td class="arrow">→</td>
-              <td id="plan-price-0">12€ (hasta 120min)<br>+5€/hora extra</td>
+              <td id="plan-price-0">12€ (hasta 120min) +5€/hora extra</td>
             </tr>
             <tr>
               <td id="plan-name-1">Standard</td>
               <td class="arrow">→</td>
-              <td id="plan-include-1">Full HD / 2K<br>Reducción de ruido<br>Estabilización</td>
+              <td id="plan-include-1">Full HD / 2K >> Reducción de ruido >> Estabilización</td>
               <td class="arrow">→</td>
-              <td id="plan-price-1">20€ (hasta 120min)<br>+7€/hora extra</td>
+              <td id="plan-price-1">20€ (hasta 120min) +7€/hora extra</td>
             </tr>
             <tr>
               <td id="plan-name-2">Advanced</td>
               <td class="arrow">→</td>
-              <td id="plan-include-2">4K UHD<br>Deep restoration<br>Escalado máxima calidad</td>
+              <td id="plan-include-2">4K UHD >> Restauración avanzada >> Escalado máxima calidad</td>
               <td class="arrow">→</td>
-              <td id="plan-price-2">35€ (hasta 120min)<br>+10€/hora extra</td>
+              <td id="plan-price-2">35€ (hasta 120min) +10€/hora extra</td>
             </tr>
           </table>
         </div>
