@@ -2,7 +2,7 @@
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title> @vhssoise </title> 
+  <title>@vhssoise</title> 
   <link rel="icon" href="assets/favicon.ico">
   <style>
     body {
@@ -14,13 +14,12 @@
       color: black;
     }
 
-
-      #lang-btn {
+    #lang-btn {
       font-family: "Times New Roman", Times, serif;
       font-size: 11pt;
       letter-spacing: 1px;
       background: none;
-      border: 2px, dotted;
+      border: 2px dotted;
       color: black;
       text-decoration: none;
       cursor: pointer;
@@ -57,23 +56,6 @@
       height: auto;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
-      font-size: 11pt;
-    }
-
-    td {
-      padding: 3px 4px;
-      vertical-align: top;
-    }
-
-    .arrow {
-      padding: 0 4px;
-      font-weight: regular;
-    }
-
     @media (max-width: 600px) {
       .text {
         font-size: 22pt;
@@ -82,13 +64,9 @@
       .mail-container {
         font-size: 22pt;
       }
-       table, td {
-    font-size: 44pt !important;
-  }
-  table {
-    table-layout: fixed;
-    word-wrap: break-word;
-  }
+      #plans {
+        font-size: 44pt !important;
+      }
     }
   </style>
   <script>
@@ -188,71 +166,62 @@
 
         <div class="text">
           <h3 id="table-title">Tarifas de digitalización</h3>
-          <table>
-            <tr>
-              <td id="plan-name-0">Basic</td>
-              <td class="arrow">→</td>
-              <td id="plan-include-0">HD (1080p)</td>
-              <td class="arrow">→</td>
-              <td id="plan-price-0">12€ (hasta 120min) +5€/hora extra</td>
-            </tr>
-            <tr>
-              <td id="plan-name-1">Standard</td>
-              <td class="arrow">→</td>
-              <td id="plan-include-1">Full HD / 2K >> Reducción de ruido >> Estabilización</td>
-              <td class="arrow">→</td>
-              <td id="plan-price-1">20€ (hasta 120min) +7€/hora extra</td>
-            </tr>
-            <tr>
-              <td id="plan-name-2">Advanced</td>
-              <td class="arrow">→</td>
-              <td id="plan-include-2">4K UHD >> Restauración avanzada >> Escalado máxima calidad</td>
-              <td class="arrow">→</td>
-              <td id="plan-price-2">35€ (hasta 120min) +10€/hora extra</td>
-            </tr>
-          </table>
+          <div id="plans">
+            <p>
+              <span id="plan-name-0">Basic</span> → 
+              <span id="plan-include-0">HD (1080p)</span> → 
+              <span id="plan-price-0">12€ (hasta 120min) +5€/hora extra</span>
+            </p>
+            <p>
+              <span id="plan-name-1">Standard</span> → 
+              <span id="plan-include-1">Full HD / 2K >> Reducción de ruido >> Estabilización</span> → 
+              <span id="plan-price-1">20€ (hasta 120min) +7€/hora extra</span>
+            </p>
+            <p>
+              <span id="plan-name-2">Advanced</span> → 
+              <span id="plan-include-2">4K UHD >> Restauración avanzada >> Escalado máxima calidad</span> → 
+              <span id="plan-price-2">35€ (hasta 120min) +10€/hora extra</span>
+            </p>
+          </div>
         </div>
 
         <div id="clock"></div>
      
-  <img src="assets/VHS Tape.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 0; left: 0; z-index: 999;">
-  <img src="assets/Sony_TRV_99.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 50px; left: 50px; z-index: 999;">
-  <img src="assets/iMac DV Lime.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 100px; left: 100px; z-index: 999;">
+        <img src="assets/VHS Tape.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 0; left: 0; z-index: 999;">
+        <img src="assets/Sony_TRV_99.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 50px; left: 50px; z-index: 999;">
+        <img src="assets/iMac DV Lime.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 100px; left: 100px; z-index: 999;">
 
-  <script>
-    let icons = document.querySelectorAll(".floating-ico");
-    let positions = [];
-    let velocities = [];
+        <script>
+          let icons = document.querySelectorAll(".floating-ico");
+          let positions = [];
+          let velocities = [];
 
-    icons.forEach((ico, i) => {
-      positions.push({ x: parseInt(ico.style.left), y: parseInt(ico.style.top) });
-      // velocidades distintas para cada ícono
-      velocities.push({ dx: 0.5 + i * 0.1, dy: 0.4 + i * 0.1 });
-    });
+          icons.forEach((ico, i) => {
+            positions.push({ x: parseInt(ico.style.left), y: parseInt(ico.style.top) });
+            velocities.push({ dx: 0.5 + i * 0.1, dy: 0.4 + i * 0.1 });
+          });
 
-    function moveIcons() {
-      icons.forEach((ico, i) => {
-        positions[i].x += velocities[i].dx;
-        positions[i].y += velocities[i].dy;
+          function moveIcons() {
+            icons.forEach((ico, i) => {
+              positions[i].x += velocities[i].dx;
+              positions[i].y += velocities[i].dy;
 
-        if (positions[i].x + ico.offsetWidth > window.innerWidth || positions[i].x < 0) {
-          velocities[i].dx = -velocities[i].dx;
-        }
-        if (positions[i].y + ico.offsetHeight > window.innerHeight || positions[i].y < 0) {
-          velocities[i].dy = -velocities[i].dy;
-        }
+              if (positions[i].x + ico.offsetWidth > window.innerWidth || positions[i].x < 0) {
+                velocities[i].dx = -velocities[i].dx;
+              }
+              if (positions[i].y + ico.offsetHeight > window.innerHeight || positions[i].y < 0) {
+                velocities[i].dy = -velocities[i].dy;
+              }
 
-        ico.style.left = positions[i].x + "px";
-        ico.style.top = positions[i].y + "px";
-      });
+              ico.style.left = positions[i].x + "px";
+              ico.style.top = positions[i].y + "px";
+            });
 
-      requestAnimationFrame(moveIcons);
-    }
+            requestAnimationFrame(moveIcons);
+          }
 
-    moveIcons();
-  </script>
-
-
+          moveIcons();
+        </script>
       </div>
     </div>
   </div>
