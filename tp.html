@@ -86,11 +86,12 @@
     }
 
     td {
-      padding: 6px;
+      padding: 3px 4px;
+      vertical-align: top;
     }
 
     .arrow {
-      padding: 0 8px;
+      padding: 0 4px;
       font-weight: bold;
     }
 
@@ -119,11 +120,10 @@
         delivery: "Ready on your e-mail in format >>> .mp4 / .mov",
         tableTitle: "Digitization Pricing",
         plans: [
-          { name: "Basic", include: "HD (1080p)", price: "12€ (up to 120min)\n+5€/extra hour" },
-          { name: "Standard", include: "Full HD / 2K\nNoise reduction\nStabilization", price: "20€ (up to 120min)\n+7€/extra hour" },
-          { name: "Premium", include: "4K UHD\nAdvanced restoration\nUpscale to maximum quality", price: "35€ (up to 120min)\n+10€/extra hour" }
-        ],
-  
+          { name: "Basic", include: "HD (1080p)", price: "12€ (up to 120min)<br>+5€/extra hour" },
+          { name: "Standard", include: "Full HD / 2K<br>Noise reduction<br>Stabilization", price: "20€ (up to 120min)<br>+7€/extra hour" },
+          { name: "Advanced", include: "4K UHD<br>Deep restoration<br>Upscale to maximum quality", price: "35€ (up to 120min)<br>+10€/extra hour" }
+        ]
       },
       es: {
         tape: "Hola, soy Marta y digitalizo >> betamax, VHS, HDV, miniDV, 8/Hi8; permitiéndote deshacerte de tus cintas (si quieres) mientras conservas tu material con una calidad que nunca habías visto",
@@ -133,11 +133,10 @@
         delivery: "Listo en tu correo electrónico en formato >>> .mp4 / .mov",
         tableTitle: "Tarifas de digitalización",
         plans: [
-          { name: "Básico", include: "HD (1080p)", price: "12€ (hasta 120min)\n+5€/hora extra" },
-          { name: "Estándar", include: "Full HD / 2K\nReducción de ruido\nEstabilización", price: "20€ (hasta 120min)\n+7€/hora extra" },
-          { name: "Premium", include: "4K UHD\nRestauración avanzada\nEscalado máxima calidad", price: "35€ (hasta 120min)\n+10€/hora extra" }
-        ],
-       
+          { name: "Basic", include: "HD (1080p)", price: "12€ (hasta 120min)<br>+5€/hora extra" },
+          { name: "Standard", include: "Full HD / 2K<br>Reducción de ruido<br>Estabilización", price: "20€ (hasta 120min)<br>+7€/hora extra" },
+          { name: "Advanced", include: "4K UHD<br>Deep restoration<br>Escalado máxima calidad", price: "35€ (hasta 120min)<br>+10€/hora extra" }
+        ]
       }
     };
 
@@ -164,11 +163,10 @@
 
       document.getElementById("table-title").textContent = texts[currentLang].tableTitle;
       texts[currentLang].plans.forEach((plan, i) => {
-        document.getElementById(`plan-name-${i}`).textContent = plan.name;
-        document.getElementById(`plan-include-${i}`).textContent = plan.include;
-        document.getElementById(`plan-price-${i}`).textContent = plan.price;
+        document.getElementById(`plan-name-${i}`).innerHTML = plan.name;
+        document.getElementById(`plan-include-${i}`).innerHTML = plan.include;
+        document.getElementById(`plan-price-${i}`).innerHTML = plan.price;
       });
-      document.getElementById("extras").textContent = texts[currentLang].extras;
     }
 
     function toggleLang() { setLang(currentLang === "en" ? "es" : "en"); }
@@ -209,30 +207,27 @@ casfemarta   gmail   com
           <h3 id="table-title">Tarifas de digitalización</h3>
           <table>
             <tr>
-              <td id="plan-name-0">Básico</td>
+              <td id="plan-name-0">Basic</td>
               <td class="arrow">→</td>
               <td id="plan-include-0">HD (1080p)</td>
               <td class="arrow">→</td>
               <td id="plan-price-0">12€ (hasta 120min)<br>+5€/hora extra</td>
             </tr>
             <tr>
-              <td id="plan-name-1">Estándar</td>
+              <td id="plan-name-1">Standard</td>
               <td class="arrow">→</td>
               <td id="plan-include-1">Full HD / 2K<br>Reducción de ruido<br>Estabilización</td>
               <td class="arrow">→</td>
               <td id="plan-price-1">20€ (hasta 120min)<br>+7€/hora extra</td>
             </tr>
             <tr>
-              <td id="plan-name-2">Premium</td>
+              <td id="plan-name-2">Advanced</td>
               <td class="arrow">→</td>
-              <td id="plan-include-2">4K UHD<br>Restauración avanzada<br>Escalado máxima calidad</td>
+              <td id="plan-include-2">4K UHD<br>Deep restoration<br>Escalado máxima calidad</td>
               <td class="arrow">→</td>
               <td id="plan-price-2">35€ (hasta 120min)<br>+10€/hora extra</td>
             </tr>
           </table>
-          <br>
-          <pre id="extras" style="white-space: pre-wrap; color: #fff;">
-          </pre>
         </div>
 
         <div id="clock"></div>
