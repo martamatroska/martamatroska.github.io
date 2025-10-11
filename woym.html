@@ -1,67 +1,55 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title> (˵ ͡° ͜ʖ ͡°˵) </title> 
+  <meta charset="utf-8">
+  <title>(˵ ͡° ͜ʖ ͡°˵)</title>
   <link rel="icon" href="assets/favicon.ico">
   <link rel="stylesheet" type="text/css" href="style.css">
   <style>
     #canvasContainer { margin-top: 1rem; }
-    canvas { border: 1px solid #000; background: #fff; }
-    button { margin-top: 0.5rem; }
+    canvas { border: 1px solid #000; background: #fff; display: block; }
+    #downloadBtn {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11pt;
+  letter-spacing: -0.3px;
+  background: none;
+  border: none;
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
     #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
     #gallery img { max-width:150px; border:1px solid #ccc; }
+    .text { margin-bottom: 1rem; }
   </style>
 </head>
 <body>
   <div id="content">
     <div class="container">
       <div class="text">
-        <a href='index' id="home-link">*</a>
-        <br>
-        what's on your mind? (🖌double click to start again🖌)
+        <a href='index' id="home-link">*</a><br>
+        what's on your mind? ( double click to start again )
       </div>
     </div>
   </div>
 
   <div id="canvasContainer">
     <canvas id="drawCanvas" width="500" height="500"></canvas>
-    <button id="downloadBtn">download!</button>
+    <button id="downloadBtn">send! (I want to be a proud collector)</button>
     <div id="gallery"></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-    /*
-    // --- KONAMI CODE --- 
-    const secretKeys = [38,38,40,40,37,39,37,39];
-    let inputKeys = [];
-    
-    window.addEventListener('keydown', e => {
-      inputKeys.push(e.keyCode);
-      if (inputKeys.length > secretKeys.length) inputKeys.shift();
-      if (inputKeys.toString() === secretKeys.toString()) {
-        document.getElementById('canvasContainer').style.display = 'block';
-        inputKeys = [];
-      }
-    });
-    */
+    emailjs.init({ publicKey: "l06doB2wxnGk4vSmz" });
 
-    // Expanding download text
-    const btn = document.getElementById('downloadBtn'); 
-    const originalText = btn.textContent; 
-    btn.addEventListener('click', function handleClick() { 
-      if (btn.textContent === originalText) {
-        btn.textContent = 'download! (and please send it to me, because I want to be a proud collector)';
-      } else {
-        btn.textContent = originalText;
-      }
-    });
-
-    // Drawing on canvas
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
+    const btn = document.getElementById('downloadBtn');
     let drawing = false;
 
+    // Dibujo
     canvas.addEventListener('mousedown', () => drawing = true);
     canvas.addEventListener('mouseup', () => drawing = false);
     canvas.addEventListener('mouseout', () => drawing = false);
@@ -73,12 +61,9 @@
       ctx.fillStyle = "#000";
       ctx.fill();
     });
+    canvas.addEventListener('dblclick', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
 
-    canvas.addEventListener('dblclick', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
-
-    // --- localStorage ---
+    // Galería y localStorage
     const gallery = document.getElementById("gallery");
     const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
 
@@ -88,20 +73,37 @@
       gallery.appendChild(img);
     });
 
-    document.getElementById('downloadBtn').addEventListener('click', () => {
+    // Enviar dibujo por EmailJS y guardar en galería
+    btn.addEventListener('click', async () => {
       const dataURL = canvas.toDataURL("image/png");
 
-      const link = document.createElement('a');
-      link.href = dataURL;
-      link.download = 'wtf.png';
-      link.click();
-
+      // Guardar en galería
       const img = document.createElement("img");
       img.src = dataURL;
       gallery.appendChild(img);
-
       savedImages.push(dataURL);
       localStorage.setItem("galleryImages", JSON.stringify(savedImages));
+
+      // Enviar EmailJS
+      const params = {
+        to_email: "casfemarta@gmail.com",
+        message: "Nuevo dibujo recibido 🎨",
+        attachment: dataURL
+      };
+
+      btn.disabled = true;
+      btn.textContent = "sending...";
+
+      try {
+        await emailjs.send("service_o3jmvle", "template_r72a0hl", params);
+        alert("éxito rotundo");
+      } catch (err) {
+        console.error("Error detallado:", err);
+        alert("Error al enviar el dibujo (mira la consola)");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "send another!";
+      }
     });
   </script>
 </body>
