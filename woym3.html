@@ -7,12 +7,12 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   <style>
     #canvasContainer { margin-top: 1rem; }
-    canvas { border: 1px solid #000; background: #fff; display: block; margin: 0 auto; }
-    button { margin-top: 0.5rem; padding: 6px 10px; cursor: pointer; border-radius: 6px; background: #000; color: #fff; border: none; }
-    button:hover { background: #444; }
-    #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; justify-content:center; }
+    canvas { border: 1px solid #000; background: #fff; display: block; }
+    #sendBtn { margin-top: 0.5rem; padding: 6px 10px; cursor: pointer; border-radius: 0; background: #eee; color: #000; border: 1px solid #ccc; display: block; }
+    #sendBtn:hover { background: #ddd; }
+    #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
     #gallery img { max-width:150px; border:1px solid #ccc; }
-    .text { text-align: center; margin-bottom: 1rem; }
+    .text { margin-bottom: 1rem; }
   </style>
 </head>
 <body>
@@ -31,10 +31,8 @@
     <div id="gallery"></div>
   </div>
 
-  <!-- SDK NUEVO de EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-    // Inicializar EmailJS
     emailjs.init({ publicKey: "l06doB2wxnGk4vSmz" });
 
     const canvas = document.getElementById('drawCanvas');
@@ -56,7 +54,7 @@
     });
     canvas.addEventListener('dblclick', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
 
-    // --- Galería y localStorage ---
+    // Galería y localStorage
     const gallery = document.getElementById("gallery");
     const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
 
@@ -70,7 +68,7 @@
     btn.addEventListener('click', async () => {
       const dataURL = canvas.toDataURL("image/png");
 
-      // Guardar en galería local
+      // Guardar en galería
       const img = document.createElement("img");
       img.src = dataURL;
       gallery.appendChild(img);
