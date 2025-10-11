@@ -92,17 +92,17 @@
       };
 
       btn.disabled = true;
-      btn.textContent = "enviando...";
+      btn.textContent = "sending...";
 
       try {
         await emailjs.send("service_o3jmvle", "template_r72a0hl", params);
-        alert("¡Dibujo enviado a Marta!");
+        alert("éxito rotundo");
       } catch (err) {
         console.error("Error detallado:", err);
-        alert("Error al enviar el dibujo 😢 (mira la consola)");
+        alert("Error al enviar el dibujo (mira la consola)");
       } finally {
         btn.disabled = false;
-        btn.textContent = "enviar dibujo 🎨";
+        btn.textContent = "send another!";
       }
     });
   </script>
