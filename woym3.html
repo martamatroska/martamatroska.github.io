@@ -8,8 +8,17 @@
   <style>
     #canvasContainer { margin-top: 1rem; }
     canvas { border: 1px solid #000; background: #fff; display: block; }
-    #sendBtn { margin-top: 0.5rem; padding: 6px 10px; cursor: pointer; border-radius: 0; background: #eee; color: #000; border: 1px solid #ccc; display: block; }
-    #sendBtn:hover { background: #ddd; }
+    #downloadBtn {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11pt;
+  letter-spacing: -0.3px;
+  background: none;
+  border: none;
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
     #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
     #gallery img { max-width:150px; border:1px solid #ccc; }
     .text { margin-bottom: 1rem; }
@@ -20,14 +29,14 @@
     <div class="container">
       <div class="text">
         <a href='index' id="home-link">*</a><br>
-        what's on your mind? (🖌double click to start again🖌)
+        what's on your mind? ( double click to start again )
       </div>
     </div>
   </div>
 
   <div id="canvasContainer">
     <canvas id="drawCanvas" width="500" height="500"></canvas>
-    <button id="sendBtn">enviar dibujo 🎨</button>
+    <button id="downloadBtn">send! (I want to be a proud collector)</button>
     <div id="gallery"></div>
   </div>
 
@@ -37,7 +46,7 @@
 
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
-    const btn = document.getElementById('sendBtn');
+    const btn = document.getElementById('downloadBtn');
     let drawing = false;
 
     // Dibujo
