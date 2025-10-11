@@ -6,17 +6,18 @@
   <link rel="icon" href="assets/favicon.ico">
   <link rel="stylesheet" href="style.css">
   <style>
-    #canvasContainer { margin-top: 1rem; }
-    canvas { border: 1px solid #000; background: #fff; }
-    button { margin-top: 0.5rem; padding: 6px 10px; cursor: pointer; }
-    #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
+    #canvasContainer { margin-top: 1rem; text-align: center; }
+    canvas { border: 1px solid #000; background: #fff; display: block; margin: 0 auto; }
+    button { margin-top: 0.5rem; padding: 8px 14px; cursor: pointer; border-radius: 6px; background: #000; color: #fff; border: none; }
+    button:hover { background: #444; }
+    #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; justify-content:center; }
     #gallery img { max-width:150px; border:1px solid #ccc; }
   </style>
 </head>
 <body>
   <div id="content">
     <div class="container">
-      <div class="text">
+      <div class="text" style="text-align:center;">
         <a href='index' id="home-link">*</a><br>
         what's on your mind? (🖌double click to start again🖌)
       </div>
@@ -25,15 +26,17 @@
 
   <div id="canvasContainer">
     <canvas id="drawCanvas" width="500" height="500"></canvas>
-    <button id="sendBtn">enviar dibujo</button>
+    <button id="sendBtn">enviar dibujo 🎨</button>
     <div id="gallery"></div>
   </div>
 
+  <!-- EmailJS SDK -->
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
   <script>
     // Inicializar EmailJS
     (function() {
-      emailjs.init("l06doB2wxnGk4vSmz"); // reemplaza con tu clave pública
+      emailjs.init("l06doB2wxnGk4vSmz"); // Public Key
     })();
 
     const canvas = document.getElementById('drawCanvas');
@@ -41,7 +44,7 @@
     const btn = document.getElementById('sendBtn');
     let drawing = false;
 
-    // Dibujo
+    // Dibujo simple
     canvas.addEventListener('mousedown', () => drawing = true);
     canvas.addEventListener('mouseup', () => drawing = false);
     canvas.addEventListener('mouseout', () => drawing = false);
@@ -55,7 +58,7 @@
     });
     canvas.addEventListener('dblclick', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
 
-    // Enviar por EmailJS
+    // Enviar dibujo por EmailJS
     btn.addEventListener('click', async () => {
       const dataURL = canvas.toDataURL("image/png");
 
@@ -65,12 +68,18 @@
         attachment: dataURL
       };
 
+      btn.disabled = true;
+      btn.textContent = "enviando...";
+
       try {
-        await emailjs.send("service_dcy0gxo", "template_r72a0hl", params);
-        alert("¡enviado!");
+        await emailjs.send("service_o3jmvle", "template_r72a0hl", params);
+        alert("¡Dibujo enviado a Marta!");
       } catch (err) {
-        console.error(err);
-        alert("Error");
+        console.error("Error al enviar:", err);
+        alert("Error al enviar el dibujo 😢");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "enviar dibujo 🎨";
       }
     });
   </script>
