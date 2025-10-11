@@ -4,184 +4,54 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>MARTA.MKV [WORKS]</title> 
-   
 
-	 <!-- FAVICON --> 
     <link rel="icon" href="assets/favicon.ico">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js">
-	</script>
-	  <link rel="stylesheet" type="text/css" href="style.css">
-	<script>
-	function startTime() {
-	  var today = new Date();
-	  var h = today.getHours();
-	  var m = today.getMinutes();
-	  var s = today.getSeconds();
-	  m = checkTime(m);
-	  s = checkTime(s);
-	  document.getElementById('clock').innerHTML =
-	  h + ":" + m + ":" + s;
-	  var t = setTimeout(startTime, 500);
-	}
-	function checkTime(i) {
-	  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-	  return i;
-	}
-	</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-		<style>
-			.change {
-					cursor: pointer;
+    <script>
+        function startTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+            setTimeout(startTime, 500);
+        }
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};
+            return i;
+        }
+    </script>
 
-			}
-			.dark{
-					background-color: #030303;
-					color: #00e31a;}
-					.dark.change{
-						color: #00e31a}
-				.dark a {
-					  color: #00e31a;				   letter-spacing: -.3px;
-					}
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
-					.dark	a:visited {
-					  color: #00e31a;				   letter-spacing: -.3px;
-					}
+    <style>
+        .change { cursor: pointer; }
+        .dark{ background-color: #030303; color: #00e31a; }
+        .dark a { color: #00e31a; letter-spacing: -.3px; }
+        .dark hr { border: none; height: 2px; background: linear-gradient(90deg, #00e31a, #00ff55, #00e31a); box-shadow: 0 0 8px #00e31a, 0 0 12px #00ff55, 0 0 16px #00e31a; }
 
-					.dark	a:hover {
-						color: #00e31a;
-									   letter-spacing: -.3px;
-					}
-				
-				.dark hr {
-  					border: none; 
-  					height: 2px;
-  					background: linear-gradient(90deg, #00e31a, #00ff55, #00e31a); 
-  					box-shadow: 0 0 8px #00e31a, 0 0 12px #00ff55, 0 0 16px #00e31a; 
- 				 	
-					}
-			
-				.dark	.styleone:link {
-					  color: black;				   letter-spacing: -.3px;
-					text-decoration: none;
-					}
+        .text { margin:0 0 9px 0; width:800px; color:#00e31a; font-size:11pt; font-family:"Times New Roman", Times, serif; letter-spacing:-.3px; }
+        .text2 { color:black; }
+        .title { color:#00e31a; width:700px; }
+        #clock{ position: fixed; color:#00e31a; bottom:8px; right:16px; font-size:11pt; font-family:"Times New Roman", Times, serif; letter-spacing:-.3px; }
 
-				.dark	.styleone:visited {
-					  color: black;				   letter-spacing: -.3px;
-					text-decoration: none;
-					}
+        .video-container { margin-bottom:15px; }
+        .video-block { display:block; }
+    </style>
 
-				.dark	.styleone:hover {
-					  color: #00e31a;				   letter-spacing: -.3px;
-					text-decoration: none;
-					}
-
-
-			.dark		.styletwo:link {
-					  color: black;				   letter-spacing: -.3px;
-
-					}
-
-			.dark		.styletwo:visited {
-					  color: black;				   letter-spacing: -.3px;
-
-					}
-
-				.dark	.styletwo:hover {
-					  color: #00e31a;				   letter-spacing: -.3px;
-
-					}
-
-				.dark	.stylethree:link {
-					  color: black;				   letter-spacing: -.3px;
-					text-decoration: none;
-					}
-
-				.dark	.stylethree:visited {
-					  color: black;				   letter-spacing: -.3px;
-					text-decoration: none;
-					}
-
-				.dark	.stylethree:hover {
-					  color: #00e31a;				   letter-spacing: -.3px;
-					text-decoration: none;
-					}
-	
-				.dark	::selection {
-						background: black;
-						    color: black;
-						    text-shadow: 1px 1px 1px black, 1px -1px 1px black, -1px 1px 1px black, -1px -1px 1px black;
-						}
-					.dark.mode{color: #00e31a;			}			.dark.dark.mode{color: #00e31a;
-
-			}
-			.dark button {
-		  border: none;
-		  color: #00e31a;
-		  text-decoration: none;
-		  cursor: default;
-		background-color:rgba(0, 0, 0, 0.0);
-		 font-family: "serif";
-		 font-size: 11pt;
-		 display: block;
-		    padding: 0px;
-		    margin: 0;
-		 text-decoration: underline;
-		 letter-spacing: -.3px;
-		}
-
-		.dark .text{
-
-				    margin: 0 0 9px 0;
-						 width: 800px; margin-bottom: 9px;
-						 color:#00e31a;
-				 		font-size: 11pt;
-				 	 font-family: "Times New Roman", Times, serif;
-					   letter-spacing: -.3px;
-			}
-
-			.dark 	.text2{
-
-					    margin: 0 0 9px 0;
-							 width: 800px; margin-bottom: 9px;
-							 color:black;
-					 		font-size: 11pt;
-					 	 font-family: "Times New Roman", Times, serif;
-						   letter-spacing: -.3px;
-				}
-			.dark 	.title{
-
-					    margin: 0 0 9px 0;
-							 width: 700px; margin-bottom: 9px;
-							 color:#00e31a;
-					 		font-size: 11pt;
-					 	 font-family: "Times New Roman", Times, serif;
-
-						   letter-spacing: -.3px;
-				}
-
-			.dark #clock{
-					position: fixed;
-					color: #00e31a;
-					bottom: 8px;
-				    right: 16px;
-					font-size: 11pt;
-				    font-family: "Times New Roman", Times, serif;
-				letter-spacing: -.3px;
-					}
-	</style>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-F9YHR26YNQ');
-</script>
-	
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-F9YHR26YNQ');
+    </script>
 </head>
+
 <body onload="startTime()">
     <div id="content">
         <div class="container">
@@ -189,384 +59,336 @@
                 <a href="#" class="styleone" id="lavalamp">*</a>
                 <br>
                 <img src="assets/AE-logo-old.png" alt="AE Logo" style="height: 1em; vertical-align: baseline;"> My name is Marta, and I'm a Postproduction Artist at 
-                <a href="https://www.canadacanada.com/" target="_blank">CANADA</a>
-                , a production company based in 
-                <a href="https://maps.app.goo.gl/8Jax9VNqDX4G4gpo7" target="_blank">Barcelona</a>; Specializing in digital and analog workflows. Focused on motion graphics, animation, 
-				clean plates, rotoscoping, beauty VFX, 2D compositing, chroma keying, Artificial Intelligence imagery, sky/screen integration, set extension, wire removal, 
-				offline/online editing, and social media adaptations. Skilled in Adobe Premiere and postproduction pipelines.
+                <a href="https://www.canadacanada.com/" target="_blank">CANADA</a>, a production company based in 
+                <a href="https://maps.app.goo.gl/8Jax9VNqDX4G4gpo7" target="_blank">Barcelona</a>; Specializing in digital and analog workflows. Focused on motion graphics, animation, clean plates, rotoscoping, beauty VFX, 2D compositing, chroma keying, AI imagery, sky/screen integration, set extension, wire removal, offline/online editing, and social media adaptations. Skilled in Adobe Premiere and postproduction pipelines.
                 
-                <br>            
-                <br>       
-                <br>            
-                <br>           
-                <br>     
+                <br><br><br><br>
+                
                 <div class="text" style="display:flex; justify-content:space-between; align-items:center;">
-  <div><a href='index' style="text-decoration:underline;">Back</a></div>
-  <div>
-    <a href="#" class="filter-link" data-type="all" style="text-decoration:underline;">All</a> &nbsp;|&nbsp;
-    <a href="#" class="filter-link" data-type="music" style="text-decoration:underline;">Music Video</a> &nbsp;|&nbsp;
-    <a href="#" class="filter-link" data-type="commercial" style="text-decoration:underline;">Commercial</a> &nbsp;|&nbsp;
-    <a href="#" class="filter-link" data-type="film" style="text-decoration:underline;">Film</a>
+                    <div><a href='index' style="text-decoration:underline;">Back</a></div>
+                    <div>
+                        <a href="#" class="filter-link" data-type="all" style="text-decoration:underline;">All</a> &nbsp;|&nbsp;
+                        <a href="#" class="filter-link" data-type="music" style="text-decoration:underline;">Music Video</a> &nbsp;|&nbsp;
+                        <a href="#" class="filter-link" data-type="commercial" style="text-decoration:underline;">Commercial</a> &nbsp;|&nbsp;
+                        <a href="#" class="filter-link" data-type="film" style="text-decoration:underline;">Film</a>
+                    </div>
+                </div>
+
+                <img id="lava" src="assets/lavalamp.gif" style="display:none; position:fixed; top:10px; right:10px; width:180px; z-index:-1;">
+            </div>
+
+            <script>
+                document.getElementById('lavalamp').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    let lava = document.getElementById('lava');
+                    let isDark = document.body.classList.contains("dark");
+                    if (isDark) {
+                        document.body.classList.remove("dark");
+                        lava.style.display = "none";
+                    } else {
+                        document.body.classList.add("dark");
+                        lava.style.display = "block";
+                    }
+                });
+
+                const filterLinks = document.querySelectorAll('.filter-link');
+                filterLinks.forEach(link => {
+                    link.addEventListener('click', e => {
+                        e.preventDefault();
+                        const type = link.getAttribute('data-type');
+                        const blocks = document.querySelectorAll('.video-block');
+                        blocks.forEach(b => {
+                            if(type === 'all') b.style.display = 'block';
+                            else if(b.getAttribute('data-type') === type) b.style.display = 'block';
+                            else b.style.display = 'none';
+                        });
+                    });
+                });
+            </script>
+
+            <!-- TODOS LOS BLOQUES SIGUIENDO PATRÓN -->
+
+        <HR>
+<div class="text video-block" data-type="music">SAINt JHN - Glitching <i>(Music Video)</i><br> 2 mins 46 seconds, 3840x1608</div>
+<div class="text video-block" data-type="music">Directed by Alex Gargot<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="849" height="356">
+    <source src="https://attachments.are.na/38956481/6c481b8e90a867ecad7acf4aa1a51d90.mp4?1755854577" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/nVJXUAcT-OA?si=HzAZKQmgO3bXuAWx" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">ROSALÍA - MOTOMAMI <i>(TikTok LIVE Performance)</i><br> 28 mins 47 seconds, 1080x1920</div>
+<div class="text video-block" data-type="music">Directed by STILLZ<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="382" height="680">
+    <source src="https://attachments.are.na/38956476/4f4ab1b0625cff362e57e4638aa045dc.mp4?1755854572" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/y51P8HNpwaM?si=wplt-Xjci438Zolv&t=28" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">ROSALÍA - MOTOMAMI World Tour <i>(Interlude Visuals Animation)</i><br> 1200x1466</div>
+<div class="text video-block" data-type="music">Designed by @viktorhstudios<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/39117866/0216b957f080baf65c199a36f2d185cb.mp4?1756379361" type="video/mp4">
+  </video>
+  <div class="img-container video-block" data-type="music">
+    <img class="himages" src="assets/LAX.jpg" height="480px">
   </div>
 </div>
 
-				<img id="lava" src="assets/lavalamp.gif" 
-     style="display:none; position:fixed; top:10px; right:10px; width:180px; z-index:-1;">
-
-<script>
-  document.getElementById('lavalamp').addEventListener('click', function(e) {
-    e.preventDefault();
-
-    let lava = document.getElementById('lava');
-    let isDark = document.body.classList.contains("dark");
-
-    if (isDark) {
- 
-      document.body.classList.remove("dark");
-      lava.style.display = "none";
-    } else {
- 
-      document.body.classList.add("dark");
-      lava.style.display = "block";
-    }
-  });
-</script>
-
-			</div>
 <HR>
-<div class="text">SAINt JHN - Glitching <i>(Music Video)</i><br> 2 mins 46 seconds, 3840x1608</div>
-
-<div class="text">Directed by Alex Gargot<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="356">
-  <source src="https://attachments.are.na/38956481/6c481b8e90a867ecad7acf4aa1a51d90.mp4?1755854577" type="video/mp4">
-</video>
-	<div class="text"><a href="https://youtu.be/nVJXUAcT-OA?si=HzAZKQmgO3bXuAWx" target="_blank">[watch]</a><br> </div>
-	
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-	
-<HR>
-<div class="text">ROSALÍA - MOTOMAMI <i>(TikTok LIVE Performance)</i><br> 28 mins 47 seconds, 1080x1920</div>
-
-<div class="text">Directed by STILLZ<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="382" height="680">
-  <source src="https://attachments.are.na/38956476/4f4ab1b0625cff362e57e4638aa045dc.mp4?1755854572" type="video/mp4">
-</video>
-	<div class="text"><a href="https://youtu.be/y51P8HNpwaM?si=wplt-Xjci438Zolv&t=28" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">ROSALÍA - MOTOMAMI World Tour <i>(Interlude Visuals Animation)</i><br> 1200x1466</div>
-
-<div class="text">Designed by @viktorhstudios<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/39117866/0216b957f080baf65c199a36f2d185cb.mp4?1756379361" type="video/mp4">
-</video>
-<div class="img-container">
-<img class="himages" src="assets/LAX.jpg" height="480px">
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-	<div class="text">SQUID - Cro-Magnon Man <i>(Music Video)</i><br> 4 mins 28 seconds, 3840x2160</div>
-
-<div class="text">Directed by Rory Alexander Stewart<br></div>
-	<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478" style="display:block; max-width:100%; height:auto;">
-  <source src="https://attachments.are.na/38955958/748cc2bcbaf4ebe10a1fcf69967b7dcb.mp4" type="video/mp4">
-</video>
-	<div class="text"><a href="https://youtu.be/Eb3zur0WewU?si=7VpN0ezsDPHI-qxk" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-	
-<HR>
-<div class="text">EA Sports - FC26 <i>(Commercial)</i><br> 52 seconds, 2202x2202</div>
-
-<div class="text">Directed by Billy King<br></div>
-		<div class="videos-wrapper">
-<div class="video-container">
-<video autoplay loop muted playsinline width="478" height="478">
-  <source src="https://attachments.are.na/39199891/6c476eed6a5182e1421e0eae7c2a455d.mp4?1756716715" type="video/mp4">
-</video>
-</div>
-			<div class="video-container">
-<video autoplay loop muted playsinline height="478">
-  <source src="https://attachments.are.na/39203101/731aff0d6b3dc28f8b3927bbb0b1f215.mp4?1756729937" type="video/mp4">
-</video>
-</div>
-			<div class="video-container">
-<video autoplay loop muted playsinline height="478">
-  <source src="https://attachments.are.na/39203098/6ad155fc81a38272922627f8c4867ab4.mp4?1756729937" type="video/mp4">
-</video>
-</div>
-			</div>
-
-
-<HR>
-	<div class="text">TINI - posta <i>(Music Video)</i><br> 2 mins 37 seconds, 1920x1080</div>
-
-<div class="text">Directed by Bàrbara Farré<br></div>
-	<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/38956471/b6b340e646d1d867e246db075a1a94b3.mp4?1755854566" type="video/mp4">
-</video>
-	<div class="text"><a href="https://youtu.be/uA_lWK3VecE?si=EV4uQuxjbrExIJXa" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Sasha Keable - FEEL SOMETHING <i>(Music Video)</i><br> 3 mins 15 seconds, 3840x2160</div>
-
-<div class="text">Directed by Billy King<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/38956480/a28d35104d63b8c40ed8c7899b52ee01.mp4?1755854577" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/dNjHfgGHlKQ?si=mnovlJoe3J_xD0mB" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">ROSALÍA, Rauw Alejandro - VAMPIROS <i>(Music Video)</i><br> 3 mins 33 seconds, 1440x1080</div>
-
-<div class="text">Directed by STILLZ<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="932" height="698">
-  <source src="https://attachments.are.na/38956477/66103277e90ee6437c8f8cb2dddf45df.mp4?1755854571" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/21xNk2eD77o?si=N_yNGhXIHa-2HeZ-" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Romeo Santos, ROSALÍA - El Pañuelo <i>(Music Video)</i><br> 4 mins 25 seconds, 1440x1080</div>
-
-<div class="text">Directed by Roger Guàrdia<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="932" height="693">
-  <source src="https://attachments.are.na/38956487/f5bd44478c71d3d713f739ef7e26eb44.mp4?1755854584" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/sWGJd26kUOY?si=6cV2wf6tvpdKF_i2" target="_blank">[watch]</a><br> </div>
-
-<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Mora - DE INMEDIATO <i>(Music Video)</i><br> 3 mins 19 seconds, 1440x1080</div>
-
-<div class="text">Directed by STILLZ<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="932" height="698">
-  <source src="https://attachments.are.na/38957709/932ec3e8626761e94331a6b8701fa106.mp4?1755860806" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/jNTMfto5g3M?si=hRYwL9tg3Q6hXqBm" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Rauw Alejandro & Chencho Corleone - Desesperados <i>(Music Video)</i><br> 3 mins 51 seconds, 1920x1080</div>
-
-<div class="text">Directed by MANSON<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/38956474/9d9b4c83b5807329cebd05825cae31fc.mp4?1755854570" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/K9mTSekTktw?si=NdYmTQKFGlMTjtsV" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Arca & Tokischa - Chama <i>(Music Video)</i><br> 4 mins 10 seconds, 1440x1080</div>
-
-<div class="text">Directed by STILLZ<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="932" height="698">
-  <source src="https://attachments.are.na/38956490/d6a7d3c7722d6dd36854760bcd06d44f.mp4?1755854587" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/fhsfy-nLapA?si=r4SpeXydOZrtbldq" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">DOESN'T IT FEEL LIKE THIS WAS THE BEGINNING? <i>(Music Video)</i><br> 5 mins 31 seconds, 1440x1080</div>
-
-<div class="text">Directed by STILLZ<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="932" height="698">
-  <source src="https://attachments.are.na/38956475/f8a7c58ca261b3924c4495cb3fba2cdb.mp4?1755854571" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/nu6ZPvFvcVo?si=TfE5Jp7_jpEDOtXU" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Tutto Passa - A Tribute to Napoli by Coldplay <i>(Music Video)</i><br> 11 mins 13 seconds, 1440x1080</div>
-
-<div class="text">Directed by STILLZ<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="932" height="698">
-  <source src="https://attachments.are.na/38956488/c547fdd6b68934b952b5a39ddc1d1be4.mp4?1755854585" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/ZFD85d5aJBo?si=1QLp8pHgU2j_40Wd" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">FOALS - 2001 <i>(Music Video)</i><br> 4 mins 27 seconds, 1500x1080</div>
-
-<div class="text">Directed by ESTEBAN<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="970" height="698">
-  <source src="https://attachments.are.na/38956484/e79ef45afa86a4630adcb13c51397d35.mp4?1755854582" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/ydBQz3SecaE?si=zvVoSE4_PHVq1qF3" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Bad Gyal - Sin Carné <i>(Music Video)</i><br> 2 mins 07 seconds, 1920x1080</div>
-
-<div class="text">Directed by MANSON<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/38956483/ac322fa62a3211090f58dcdf64fc5abc.mp4?1755854581" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/dMGh801b0Mw?si=mUZ7OA1m2Us6P__1" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Arlo Parks - Weightless <i>(Music Video)</i><br> 3 mins 39 seconds, 2806x2160</div>
-
-<div class="text">Directed by Marc Oller<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="842" height="648">
-  <source src="https://attachments.are.na/38956489/3974e72504664c3ad30201d68336f505.mp4?1755854586" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/3zb9X_unuqo?si=xAwztrokSrRWNOJQ" target="_blank">[watch]</a><br> </div>
-
-	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Residente - René <i>(Visualizer)</i><br> 7 mins 38 seconds, 1920x1080</div>
-
-<div class="text">Creative direction by TERRIVLE STUDIO, AI generations by Álvaro Posadas & Marta Ferrero @CANADA <br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/38956494/6b1a8b8bc6cf15a1003cfd811b513e48.mp4?1755854604" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/tPggy-f6cVo?si=IVZnzgtxP18Ye9lU" target="_blank">[watch]</a><br> </div>
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text">Volkswagen - Coplas <i>(Commercial)</i><br> 40 seconds, 1920x1080</div>
-
-<div class="text">Directed by Pau Carreté<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/38957694/73a2b4a6a924c05d8e4e07b603d21b57.mp4?1755860746" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/NSCa4KbG1rQ?si=K9lFXSyibtFbWKL4" target="_blank">[watch]</a><br> </div>
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text"> Barça x Spotify x Travis Scott <i>(Commercial)</i><br> 50 seconds, 1920x1080</div>
-
-<div class="text">Directed by Pau Carreté<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/38957689/e40715c14b1959659871a3b2779b2c83.mp4?1755860738" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/rAAZfBkzWa8?si=0xw6QZso5pHo7sM4" target="_blank">[watch]</a><br> </div>
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text"> Havana Club - Refreshingly Cuban <i>(Commercial)</i><br> 20 seconds, 2880x1620</div>
-
-<div class="text">Directed by Ryan Doubiago<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="478">
-  <source src="https://attachments.are.na/38957686/1a3014883d7815212f41c8d7960f913f.mp4?1755860730" type="video/mp4">
-</video>
-<div class="text"><a href="#" target="_blank">[watch]</a><br> </div>
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text"> Zara Origins - The Arrival Of Spring <i>(Commercial)</i><br> 2 minutes 05 seconds, 2796x1172</div>
-
-<div class="text">Directed by BYNT<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="849" height="356">
-  <source src="https://attachments.are.na/38957693/b4b9446abbe8c20e2c850aabfbcb82cf.mp4?1755860747" type="video/mp4">
-</video>
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text"> Polaroid - For the Imperfectionists: Coco Capitán <i>(Commercial)</i><br> 1 minute, 2186x1372</div>
-
-<div class="text">Directed by Luo Jian<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="842" height="648">
-  <source src="https://attachments.are.na/38957692/85fd8877115bb738ae7161575cfc1d0c.mp4?1755860745" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/g8xMXd5nnCM?si=VGF4iOrKYKkJUla1" target="_blank">[watch]</a><br> </div>
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text"> Aena - Un día sin aeropuertos 2024: Andaré, por David Bisbal <i>(Commercial)</i><br> 1 minute 50 seconds, 2160x1620</div>
-
-<div class="text">Directed by Alex Gargot<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="842" height="648">
-  <source src="https://attachments.are.na/38957687/a2720606944361cdd34176da15d8c302.mp4?1755860732" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/5uLjkEgKTF8?si=DJTQ_p-1ya48hYho" target="_blank">[watch]</a><br> </div>
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text"> Repsol - Switches <i>(Commercial)</i><br> 57 seconds, 1440x1080</div>
-
-<div class="text">Directed by ESTEBAN<br></div>
-<div class="video-container">
-<video autoplay loop muted playsinline width="932" height="698">
-  <source src="https://attachments.are.na/39013063/78be59c3a35a21fb1cfff1394c3583b7.mp4?1756110504" type="video/mp4">
-</video>
-<div class="text"><a href="https://youtu.be/oD-SLUBfcI0?si=U9v313bgaxOwTw90" target="_blank">[watch]</a><br> </div>
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text"> El Príncep <i>(Shortfilm)</i><br> 29 mins, DCI 2048x1080</div>
-
-<div class="text">Directed by Alex Sardà<br></div>
-<div class="img-container">
-<img class="himages" src="assets/PRINCEP01.png" width="480px">
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-<HR>
-<div class="text"> In Bocca Al Lupo <i>(Documentary)</i><br> 25 mins, 1920x1080</div>
-
-<div class="text">Directed by Adriana Roslin<br></div>
-<div class="img-container">
-<img class="himages" src="assets/IBAL01.png" width="480px">
-
-		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-	
-</div>
-<div id="clock"></div>
+<div class="text video-block" data-type="music">SQUID - Cro-Magnon Man <i>(Music Video)</i><br> 4 mins 28 seconds, 3840x2160</div>
+<div class="text video-block" data-type="music">Directed by Rory Alexander Stewart<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="849" height="478" style="display:block; max-width:100%; height:auto;">
+    <source src="https://attachments.are.na/38955958/748cc2bcbaf4ebe10a1fcf69967b7dcb.mp4?1755854577" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/Eb3zur0WewU?si=7VpN0ezsDPHI-qxk" target="_blank">[watch]</a></div>
 </div>
 
-		</body>
+<HR>
+<div class="text video-block" data-type="commercial">EA Sports - FC26 <i>(Commercial)</i><br> 52 seconds, 2202x2202</div>
+<div class="text video-block" data-type="commercial">Directed by Billy King<br></div>
+<div class="videos-wrapper video-block" data-type="commercial">
+  <div class="video-container video-block" data-type="commercial">
+    <video autoplay loop muted playsinline width="478" height="478">
+      <source src="https://attachments.are.na/39199891/6c476eed6a5182e1421e0eae7c2a455d.mp4?1756716715" type="video/mp4">
+    </video>
+  </div>
+  <div class="video-container video-block" data-type="commercial">
+    <video autoplay loop muted playsinline height="478">
+      <source src="https://attachments.are.na/39203101/731aff0d6b3dc28f8b3927bbb0b1f215.mp4?1756729937" type="video/mp4">
+    </video>
+  </div>
+  <div class="video-container video-block" data-type="commercial">
+    <video autoplay loop muted playsinline height="478">
+      <source src="https://attachments.are.na/39203098/6ad155fc81a38272922627f8c4867ab4.mp4?1756729937" type="video/mp4">
+    </video>
+  </div>
+</div>
 
-		</script>
-		</html>
+<HR>
+<div class="text video-block" data-type="music">TINI - posta <i>(Music Video)</i><br> 2 mins 37 seconds, 1920x1080</div>
+<div class="text video-block" data-type="music">Directed by Bàrbara Farré<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/38956471/b6b340e646d1d867e246db075a1a94b3.mp4?1755854566" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/uA_lWK3VecE?si=EV4uQuxjbrExIJXa" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Sasha Keable - FEEL SOMETHING <i>(Music Video)</i><br> 3 mins 15 seconds, 3840x2160</div>
+<div class="text video-block" data-type="music">Directed by Billy King<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/38956480/a28d35104d63b8c40ed8c7899b52ee01.mp4?1755854577" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/dNjHfgGHlKQ?si=mnovlJoe3J_xD0mB" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">ROSALÍA, Rauw Alejandro - VAMPIROS <i>(Music Video)</i><br> 3 mins 33 seconds, 1440x1080</div>
+<div class="text video-block" data-type="music">Directed by STILLZ<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="932" height="698">
+    <source src="https://attachments.are.na/38956477/66103277e90ee6437c8f8cb2dddf45df.mp4?1755854571" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/21xNk2eD77o?si=N_yNGhXIHa-2HeZ-" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Romeo Santos, ROSALÍA - El Pañuelo <i>(Music Video)</i><br> 4 mins 25 seconds, 1440x1080</div>
+<div class="text video-block" data-type="music">Directed by Roger Guàrdia<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="932" height="693">
+    <source src="https://attachments.are.na/38956487/f5bd44478c71d3d713f739ef7e26eb44.mp4?1755854584" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/sWGJd26kUOY?si=6cV2wf6tvpdKF_i2" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Mora - DE INMEDIATO <i>(Music Video)</i><br> 3 mins 19 seconds, 1440x1080</div>
+<div class="text video-block" data-type="music">Directed by STILLZ<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="932" height="698">
+    <source src="https://attachments.are.na/38957709/932ec3e8626761e94331a6b8701fa106.mp4?1755860806" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/jNTMfto5g3M?si=hRYwL9tg3Q6hXqBm" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Rauw Alejandro & Chencho Corleone - Desesperados <i>(Music Video)</i><br> 3 mins 51 seconds, 1920x1080</div>
+<div class="text video-block" data-type="music">Directed by MANSON<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/38956474/9d9b4c83b5807329cebd05825cae31fc.mp4?1755854570" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/K9mTSekTktw?si=NdYmTQKFGlMTjtsV" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Arca & Tokischa - Chama <i>(Music Video)</i><br> 4 mins 10 seconds, 1440x1080</div>
+<div class="text video-block" data-type="music">Directed by STILLZ<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="932" height="698">
+    <source src="https://attachments.are.na/38956490/d6a7d3c7722d6dd36854760bcd06d44f.mp4?1755854587" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/fhsfy-nLapA?si=r4SpeXydOZrtbldq" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">DOESN'T IT FEEL LIKE THIS WAS THE BEGINNING? <i>(Music Video)</i><br> 5 mins 31 seconds, 1440x1080</div>
+<div class="text video-block" data-type="music">Directed by STILLZ<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="932" height="698">
+    <source src="https://attachments.are.na/38956475/f8a7c58ca261b3924c4495cb3fba2cdb.mp4?1755854571" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/nu6ZPvFvcVo?si=TfE5Jp7_jpEDOtXU" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Tutto Passa - A Tribute to Napoli by Coldplay <i>(Music Video)</i><br> 11 mins 13 seconds, 1440x1080</div>
+<div class="text video-block" data-type="music">Directed by STILLZ<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="932" height="698">
+    <source src="https://attachments.are.na/38956488/c547fdd6b68934b952b5a39ddc1d1be4.mp4?1755854585" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/ZFD85d5aJBo?si=1QLp8pHgU2j_40Wd" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">FOALS - 2001 <i>(Music Video)</i><br> 4 mins 27 seconds, 1500x1080</div>
+<div class="text video-block" data-type="music">Directed by ESTEBAN<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="970" height="698">
+    <source src="https://attachments.are.na/38956484/e79ef45afa86a4630adcb13c51397d35.mp4?1755854582" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/ydBQz3SecaE?si=zvVoSE4_PHVq1qF3" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Bad Gyal - Sin Carné <i>(Music Video)</i><br> 2 mins 07 seconds, 1920x1080</div>
+<div class="text video-block" data-type="music">Directed by MANSON<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/38956483/ac322fa62a3211090f58dcdf64fc5abc.mp4?1755854581" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/dMGh801b0Mw?si=mUZ7OA1m2Us6P__1" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Arlo Parks - Weightless <i>(Music Video)</i><br> 3 mins 39 seconds, 2806x2160</div>
+<div class="text video-block" data-type="music">Directed by Marc Oller<br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="842" height="648">
+    <source src="https://attachments.are.na/38956489/3974e72504664c3ad30201d68336f505.mp4?1755854586" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/3zb9X_unuqo?si=xAwztrokSrRWNOJQ" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="music">Residente - René <i>(Visualizer)</i><br> 7 mins 38 seconds, 1920x1080</div>
+<div class="text video-block" data-type="music">Creative direction by TERRIVLE STUDIO, AI generations by Álvaro Posadas & Marta Ferrero @CANADA <br></div>
+<div class="video-container video-block" data-type="music">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/38956494/6b1a8b8bc6cf15a1003cfd811b513e48.mp4?1755854604" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="music"><a href="https://youtu.be/tPggy-f6cVo?si=IVZnzgtxP18Ye9lU" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="commercial">Volkswagen - Coplas <i>(Commercial)</i><br> 40 seconds, 1920x1080</div>
+<div class="text video-block" data-type="commercial">Directed by Pau Carreté<br></div>
+<div class="video-container video-block" data-type="commercial">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/38957694/73a2b4a6a924c05d8e4e07b603d21b57.mp4?1755860746" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="commercial"><a href="https://youtu.be/NSCa4KbG1rQ?si=K9lFXSyibtFbWKL4" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="commercial">Barça x Spotify x Travis Scott <i>(Commercial)</i><br> 50 seconds, 1920x1080</div>
+<div class="text video-block" data-type="commercial">Directed by Pau Carreté<br></div>
+<div class="video-container video-block" data-type="commercial">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/38957689/e40715c14b1959659871a3b2779b2c83.mp4?1755860738" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="commercial"><a href="https://youtu.be/rAAZfBkzWa8?si=0xw6QZso5pHo7sM4" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="commercial">Havana Club - Refreshingly Cuban <i>(Commercial)</i><br> 20 seconds, 2880x1620</div>
+<div class="text video-block" data-type="commercial">Directed by Ryan Doubiago<br></div>
+<div class="video-container video-block" data-type="commercial">
+  <video autoplay loop muted playsinline width="849" height="478">
+    <source src="https://attachments.are.na/38957686/1a3014883d7815212f41c8d7960f913f.mp4?1755860730" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="commercial"><a href="#" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="commercial">Zara Origins - The Arrival Of Spring <i>(Commercial)</i><br> 2 minutes 05 seconds, 2796x1172</div>
+<div class="text video-block" data-type="commercial">Directed by BYNT<br></div>
+<div class="video-container video-block" data-type="commercial">
+  <video autoplay loop muted playsinline width="849" height="356">
+    <source src="https://attachments.are.na/38957693/b4b9446abbe8c20e2c850aabfbcb82cf.mp4?1755860747" type="video/mp4">
+  </video>
+</div>
+
+<HR>
+<div class="text video-block" data-type="commercial">Polaroid - For the Imperfectionists: Coco Capitán <i>(Commercial)</i><br> 1 minute, 2186x1372</div>
+<div class="text video-block" data-type="commercial">Directed by Luo Jian<br></div>
+<div class="video-container video-block" data-type="commercial">
+  <video autoplay loop muted playsinline width="842" height="648">
+    <source src="https://attachments.are.na/38957692/85fd8877115bb738ae7161575cfc1d0c.mp4?1755860745" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="commercial"><a href="https://youtu.be/g8xMXd5nnCM?si=VGF4iOrKYKkJUla1" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="commercial">Aena - Un día sin aeropuertos 2024: Andaré, por David Bisbal <i>(Commercial)</i><br> 1 minute 50 seconds, 2160x1620</div>
+<div class="text video-block" data-type="commercial">Directed by Alex Gargot<br></div>
+<div class="video-container video-block" data-type="commercial">
+  <video autoplay loop muted playsinline width="842" height="648">
+    <source src="https://attachments.are.na/38957687/a2720606944361cdd34176da15d8c302.mp4?1755860732" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="commercial"><a href="https://youtu.be/5uLjkEgKTF8?si=DJTQ_p-1ya48hYho" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="commercial">Repsol - Switches <i>(Commercial)</i><br> 57 seconds, 1440x1080</div>
+<div class="text video-block" data-type="commercial">Directed by ESTEBAN<br></div>
+<div class="video-container video-block" data-type="commercial">
+  <video autoplay loop muted playsinline width="932" height="698">
+    <source src="https://attachments.are.na/39013063/78be59c3a35a21fb1cfff1394c3583b7.mp4?1756110504" type="video/mp4">
+  </video>
+  <div class="text video-block" data-type="commercial"><a href="https://youtu.be/oD-SLUBfcI0?si=U9v313bgaxOwTw90" target="_blank">[watch]</a></div>
+</div>
+
+<HR>
+<div class="text video-block" data-type="shortfilm">El Príncep <i>(Shortfilm)</i><br> 29 mins, DCI 2048x1080</div>
+<div class="text video-block" data-type="shortfilm">Directed by Alex Sardà<br></div>
+<div class="img-container video-block" data-type="shortfilm">
+  <img class="himages" src="assets/PRINCEP01.png" width="480px">
+</div>
+
+<HR>
+<div class="text video-block" data-type="documentary">In Bocca Al Lupo <i>(Documentary)</i><br> 25 mins, 1920x1080</div>
+<div class="text video-block" data-type="documentary">Directed by Adriana Roslin<br></div>
+<div class="img-container video-block" data-type="documentary">
+  <img class="himages" src="assets/IBAL01.png" width="480px">
+</div>
+
+		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+
+        </div>
+        <div id="clock"></div>
+    </div>
+</body>
+</html>
