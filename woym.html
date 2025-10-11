@@ -87,7 +87,7 @@
       // Enviar EmailJS
       const params = {
         to_email: "casfemarta@gmail.com",
-        message: "Nuevo dibujo recibido 🎨",
+        message: "para descargar en .png primero guardar en Google Fotos y de ahí descargar",
         attachment: dataURL
       };
 
@@ -99,7 +99,7 @@
         alert("éxito rotundo");
       } catch (err) {
         console.error("Error detallado:", err);
-        alert("Error al enviar el dibujo (mira la consola)");
+        alert(" E R R O R ");
       } finally {
         btn.disabled = false;
         btn.textContent = "send another!";
