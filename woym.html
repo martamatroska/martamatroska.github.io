@@ -19,6 +19,21 @@
       cursor: pointer;
       padding: 0;
     }
+
+    #eraserBtn {
+font-family: "Times New Roman", Times, serif;
+      font-size: 11pt;
+      letter-spacing: -0.3px;
+      background: none;
+      border: none;
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+    }
+
+
+      
     #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
     #gallery img { max-width:150px; border:1px solid #ccc; }
     .text { margin-bottom: 1rem; }
@@ -76,12 +91,12 @@
     colorPicker.addEventListener('change', e => {
       currentColor = e.target.value;
       eraserMode = false;
-      eraserBtn.textContent = "Borrador";
+      eraserBtn.textContent = "eraser";
     });
 
     eraserBtn.addEventListener('click', () => {
       eraserMode = !eraserMode;
-      eraserBtn.textContent = eraserMode ? "Borrador (ON)" : "Borrador";
+      eraserBtn.textContent = eraserMode ? "eraser (ON)" : "eraser";
     });
 
     // ==== DIBUJO MEJORADO + BORRADOR ====
@@ -141,10 +156,6 @@
       try { canvas.releasePointerCapture(e.pointerId); } catch(_) {}
     });
 
-    canvas.addEventListener('dblclick', () => {
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
 
     // ==== GALERÍA Y ENVÍO ====
     const gallery = document.getElementById("gallery");
