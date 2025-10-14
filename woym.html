@@ -32,6 +32,18 @@ font-family: "Times New Roman", Times, serif;
       padding: 0;
     }
 
+    #colorPicker {
+font-family: "Times New Roman", Times, serif;
+      font-size: 11pt;
+      letter-spacing: -0.3px;
+      background: none;
+      border: none;
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+    }
+
 
       
     #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
@@ -56,10 +68,10 @@ font-family: "Times New Roman", Times, serif;
 
     <!-- NUEVAS HERRAMIENTAS -->
     <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-      <button id="eraserBtn">eraser</button>
-      <label style="font-size:12px;">eraser size:</label>
+      <button id="eraserBtn">eraser size >> </button>
+    
       <input id="eraserSize" type="range" min="4" max="60" value="20" />
-      <label style="font-size:12px;">color:</label>
+    
       <select id="colorPicker">
         <option value="#000000">b l a c k</option>
         <option value="#ff0000">r e d</option>
