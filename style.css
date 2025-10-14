@@ -275,3 +275,38 @@ font-family: "Times New Roman", Times, serif;
       max-width: 400px;
       text-align: left;
 }
+
+#eraserSize {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 3px;
+  background: #000;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+#eraserSize::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #000;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+#eraserSize::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+}
+
+#eraserSize::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: #000;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+#eraserSize::-moz-range-thumb:hover {
+  transform: scale(1.3);
+}
+
