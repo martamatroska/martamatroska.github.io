@@ -67,17 +67,17 @@ font-family: "Times New Roman", Times, serif;
     <button id="downloadBtn">send! (I want to be a proud collector)</button>
 
     <!-- NUEVAS HERRAMIENTAS -->
-    <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+    <div style="margin-top:10px; display:flex; gap:8px; align-items:right; flex-wrap:wrap;">
       <button id="eraserBtn">eraser size >> </button>
     
       <input id="eraserSize" type="range" min="4" max="60" value="20" />
     
       <select id="colorPicker">
-        <option value="#000000">b l a c k</option>
-        <option value="#ff0000">r e d</option>
-        <option value="#0000ff">b l u e</option>
-        <option value="#00e31a">g r e e n</option>
-        <option value="#ffff00">y e l l o w</option>
+        <option value="#000000">black</option>
+        <option value="#ff0000">red</option>
+        <option value="#0000ff">blue</option>
+        <option value="#00e31a">green</option>
+        <option value="#ffff00">yellow</option>
       </select>
     </div>
 
@@ -108,7 +108,7 @@ font-family: "Times New Roman", Times, serif;
 
     eraserBtn.addEventListener('click', () => {
       eraserMode = !eraserMode;
-      eraserBtn.textContent = eraserMode ? "eraser (ON)" : "eraser";
+      eraserBtn.textContent = eraserMode ? "eraser (ON)size >> " : "eraser size >> ";
     });
 
     // ==== DIBUJO MEJORADO + BORRADOR ====
