@@ -9,16 +9,16 @@
     #canvasContainer { margin-top: 1rem; }
     canvas { border: 1px solid #000; background: #fff; display: block; }
     #downloadBtn {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 11pt;
-  letter-spacing: -0.3px;
-  background: none;
-  border: none;
-  color: black;
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 0;
-}
+      font-family: "Times New Roman", Times, serif;
+      font-size: 11pt;
+      letter-spacing: -0.3px;
+      background: none;
+      border: none;
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+    }
     #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
     #gallery img { max-width:150px; border:1px solid #ccc; }
     .text { margin-bottom: 1rem; }
@@ -29,25 +29,30 @@
     <div class="container">
       <div class="text">
         <a href='index' id="home-link">*</a><br>
-       ✎ what's on your mind? ( double click to start again )
+        ✎ what's on your mind? ( double click to start again )
       </div>
     </div>
   </div>
 
   <div id="canvasContainer">
     <canvas id="drawCanvas" width="500" height="500"></canvas>
+
     <button id="downloadBtn">send! (I want to be a proud collector)</button>
 
-    <div style="margin-top:10px;">
-  <button id="eraserBtn">Eraser</button>
-  <select id="colorPicker">
-    <option value="#000000">Black</option>
-    <option value="#ff0000">Red</option>
-    <option value="#0000ff">Blue</option>
-    <option value="#00ff00">Green</option>
-    <option value="#ffff00">Yellow</option>
-  </select>
-</div>
+    <!-- NUEVAS HERRAMIENTAS -->
+    <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <button id="eraserBtn">Borrador</button>
+      <label style="font-size:12px;">Tamaño:</label>
+      <input id="eraserSize" type="range" min="4" max="60" value="20" />
+      <label style="font-size:12px;">Color:</label>
+      <select id="colorPicker">
+        <option value="#000000">Negro</option>
+        <option value="#ff0000">Rojo</option>
+        <option value="#0000ff">Azul</option>
+        <option value="#00ff00">Verde</option>
+        <option value="#ffff00">Amarillo</option>
+      </select>
+    </div>
 
     <div id="gallery"></div>
   </div>
@@ -61,21 +66,87 @@
     const btn = document.getElementById('downloadBtn');
     let drawing = false;
 
-    // Dibujo
-    canvas.addEventListener('mousedown', () => drawing = true);
-    canvas.addEventListener('mouseup', () => drawing = false);
-    canvas.addEventListener('mouseout', () => drawing = false);
-    canvas.addEventListener('mousemove', e => {
-      if (!drawing) return;
-      const rect = canvas.getBoundingClientRect();
-      ctx.beginPath();
-      ctx.arc(e.clientX - rect.left, e.clientY - rect.top, 2, 0, Math.PI * 2);
-      ctx.fillStyle = "#000";
-      ctx.fill();
-    });
-    canvas.addEventListener('dblclick', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
+    // ==== NUEVAS VARIABLES PARA COLOR Y BORRADOR ====
+    let currentColor = "#000";
+    let eraserMode = false;
+    const eraserBtn = document.getElementById('eraserBtn');
+    const eraserSizeInput = document.getElementById('eraserSize');
+    const colorPicker = document.getElementById('colorPicker');
 
-    // Galería y localStorage
+    colorPicker.addEventListener('change', e => {
+      currentColor = e.target.value;
+      eraserMode = false;
+      eraserBtn.textContent = "Borrador";
+    });
+
+    eraserBtn.addEventListener('click', () => {
+      eraserMode = !eraserMode;
+      eraserBtn.textContent = eraserMode ? "Borrador (ON)" : "Borrador";
+    });
+
+    // ==== DIBUJO MEJORADO + BORRADOR ====
+    let isPointerDown = false;
+    let lastPos = null;
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      if (e.touches && e.touches[0]) {
+        return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+      }
+      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    function drawLine(from, to, size, erase) {
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = size;
+      if (erase) {
+        ctx.globalCompositeOperation = 'destination-out';
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = currentColor;
+      }
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      ctx.stroke();
+      ctx.closePath();
+      if (erase) {
+        ctx.beginPath();
+        ctx.arc(to.x, to.y, size/2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      isPointerDown = true;
+      lastPos = getPos(e);
+      const size = eraserMode ? Number(eraserSizeInput.value) : 2;
+      drawLine(lastPos, lastPos, size, eraserMode);
+      canvas.setPointerCapture(e.pointerId);
+    });
+
+    canvas.addEventListener('pointermove', e => {
+      if (!isPointerDown) return;
+      const pos = getPos(e);
+      const size = eraserMode ? Number(eraserSizeInput.value) : 2;
+      drawLine(lastPos, pos, size, eraserMode);
+      lastPos = pos;
+    });
+
+    canvas.addEventListener('pointerup', e => {
+      isPointerDown = false;
+      lastPos = null;
+      try { canvas.releasePointerCapture(e.pointerId); } catch(_) {}
+    });
+
+    canvas.addEventListener('dblclick', () => {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // ==== GALERÍA Y ENVÍO ====
     const gallery = document.getElementById("gallery");
     const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
 
@@ -85,18 +156,15 @@
       gallery.appendChild(img);
     });
 
-    // Enviar dibujo por EmailJS y guardar en galería
     btn.addEventListener('click', async () => {
       const dataURL = canvas.toDataURL("image/png");
 
-      // Guardar en galería
       const img = document.createElement("img");
       img.src = dataURL;
       gallery.appendChild(img);
       savedImages.push(dataURL);
       localStorage.setItem("galleryImages", JSON.stringify(savedImages));
 
-      // Enviar EmailJS
       const params = {
         to_email: "casfemarta@gmail.com",
         message: "para descargar en .png primero guardar en Google Fotos y de ahí descargar",
@@ -117,29 +185,6 @@
         btn.textContent = "send another!";
       }
     });
-
-    // Herramientas: borrador y colores
-let currentColor = "#000";
-let erasing = false;
-
-document.getElementById('colorPicker').addEventListener('change', e => {
-  currentColor = e.target.value;
-  erasing = false;
-});
-
-document.getElementById('eraserBtn').addEventListener('click', () => {
-  erasing = !erasing;
-});
-
-canvas.addEventListener('mousemove', e => {
-  if (!drawing) return;
-  const rect = canvas.getBoundingClientRect();
-  ctx.beginPath();
-  ctx.arc(e.clientX - rect.left, e.clientY - rect.top, 2, 0, Math.PI * 2);
-  ctx.fillStyle = erasing ? "#fff" : currentColor;
-  ctx.fill();
-});
-
   </script>
 </body>
 </html>
