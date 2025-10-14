@@ -29,7 +29,7 @@
     <div class="container">
       <div class="text">
         <a href='index' id="home-link">*</a><br>
-        what's on your mind? ( double click to start again )
+       ✎ what's on your mind? ( double click to start again )
       </div>
     </div>
   </div>
@@ -37,6 +37,18 @@
   <div id="canvasContainer">
     <canvas id="drawCanvas" width="500" height="500"></canvas>
     <button id="downloadBtn">send! (I want to be a proud collector)</button>
+
+    <div style="margin-top:10px;">
+  <button id="eraserBtn">Eraser</button>
+  <select id="colorPicker">
+    <option value="#000000">Black</option>
+    <option value="#ff0000">Red</option>
+    <option value="#0000ff">Blue</option>
+    <option value="#00ff00">Green</option>
+    <option value="#ffff00">Yellow</option>
+  </select>
+</div>
+
     <div id="gallery"></div>
   </div>
 
@@ -105,6 +117,29 @@
         btn.textContent = "send another!";
       }
     });
+
+    // Herramientas: borrador y colores
+let currentColor = "#000";
+let erasing = false;
+
+document.getElementById('colorPicker').addEventListener('change', e => {
+  currentColor = e.target.value;
+  erasing = false;
+});
+
+document.getElementById('eraserBtn').addEventListener('click', () => {
+  erasing = !erasing;
+});
+
+canvas.addEventListener('mousemove', e => {
+  if (!drawing) return;
+  const rect = canvas.getBoundingClientRect();
+  ctx.beginPath();
+  ctx.arc(e.clientX - rect.left, e.clientY - rect.top, 2, 0, Math.PI * 2);
+  ctx.fillStyle = erasing ? "#fff" : currentColor;
+  ctx.fill();
+});
+
   </script>
 </body>
 </html>
