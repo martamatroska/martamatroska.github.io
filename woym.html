@@ -5,6 +5,20 @@
   <title>(˵ ͡° ͜ʖ ͡°˵)</title>
   <link rel="icon" href="assets/favicon.ico">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+  }
+  
+</style>
+
   <style>
     #canvasContainer { margin-top: 1rem; }
     canvas { border: 1px solid #000; background: #fff; display: block; }
@@ -37,7 +51,6 @@
   <div id="canvasContainer">
     <canvas id="drawCanvas" width="500" height="500"></canvas>
 
-    <!-- NUEVAS HERRAMIENTAS -->
     <div style="margin-top:10px; display:flex; gap:8px; align-items:right; flex-wrap:wrap;">
       <button id="eraserBtn">eraser size >> </button>
       <input id="eraserSize" type="range" min="4" max="60" value="20" />
@@ -52,7 +65,7 @@
       <button id="downloadBtn">send! (I want to be a proud collector)</button>
     </div>
 
-    <!-- 🔧 FALTABA ESTO -->
+  
     <div id="gallery"></div>
   </div>
 
@@ -83,7 +96,7 @@
       eraserBtn.textContent = eraserMode ? "(ON) eraser size >>" : "(OFF) eraser size >>";
     });
 
-    // ==== DIBUJO ====
+
     let isPointerDown = false;
     let lastPos = null;
 
@@ -140,7 +153,7 @@
       try { canvas.releasePointerCapture(e.pointerId); } catch(_) {}
     });
 
-    // ==== GALERÍA Y ENVÍO ====
+    
     const gallery = document.getElementById("gallery");
     const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
 
