@@ -8,7 +8,7 @@
   <style>
     #canvasContainer { margin-top: 1rem; }
     canvas { border: 1px solid #000; background: #fff; display: block; }
-    #downloadBtn {
+    #downloadBtn, #eraserBtn, #colorPicker {
       font-family: "Times New Roman", Times, serif;
       font-size: 11pt;
       letter-spacing: -0.3px;
@@ -19,33 +19,6 @@
       cursor: pointer;
       padding: 0;
     }
-
-    #eraserBtn {
-font-family: "Times New Roman", Times, serif;
-      font-size: 11pt;
-      letter-spacing: -0.3px;
-      background: none;
-      border: none;
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
-      padding: 0;
-    }
-
-    #colorPicker {
-font-family: "Times New Roman", Times, serif;
-      font-size: 11pt;
-      letter-spacing: -0.3px;
-      background: none;
-      border: none;
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
-      padding: 0;
-    }
-
-
-      
     #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
     #gallery img { max-width:150px; border:1px solid #ccc; }
     .text { margin-bottom: 1rem; }
@@ -67,9 +40,7 @@ font-family: "Times New Roman", Times, serif;
     <!-- NUEVAS HERRAMIENTAS -->
     <div style="margin-top:10px; display:flex; gap:8px; align-items:right; flex-wrap:wrap;">
       <button id="eraserBtn">eraser size >> </button>
-    
       <input id="eraserSize" type="range" min="4" max="60" value="20" />
-    
       <select id="colorPicker">
         <option value="#000000">black</option>
         <option value="#ff0000">red</option>
@@ -77,10 +48,13 @@ font-family: "Times New Roman", Times, serif;
         <option value="#00e31a">green</option>
         <option value="#ffff00">yellow</option>
       </select>
-<br>
+      <br>
       <button id="downloadBtn">send! (I want to be a proud collector)</button>
     </div>
-    
+
+    <!-- 🔧 FALTABA ESTO -->
+    <div id="gallery"></div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
@@ -89,27 +63,27 @@ font-family: "Times New Roman", Times, serif;
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
     const btn = document.getElementById('downloadBtn');
-    let drawing = false;
-
-    // ==== NUEVAS VARIABLES PARA COLOR Y BORRADOR ====
-    let currentColor = "#000";
-    let eraserMode = false;
     const eraserBtn = document.getElementById('eraserBtn');
     const eraserSizeInput = document.getElementById('eraserSize');
     const colorPicker = document.getElementById('colorPicker');
 
+    let drawing = false;
+    let currentColor = "#000000";
+    let eraserMode = false;
+
+    // Cambiar color y modo borrador
     colorPicker.addEventListener('change', e => {
       currentColor = e.target.value;
       eraserMode = false;
-      eraserBtn.textContent = "eraser";
+      eraserBtn.textContent = "eraser size >>";
     });
 
     eraserBtn.addEventListener('click', () => {
       eraserMode = !eraserMode;
-      eraserBtn.textContent = eraserMode ? "(ON) eraser size >> " : "(OFF) eraser size >> ";
+      eraserBtn.textContent = eraserMode ? "(ON) eraser size >>" : "(OFF) eraser size >>";
     });
 
-    // ==== DIBUJO MEJORADO + BORRADOR ====
+    // ==== DIBUJO ====
     let isPointerDown = false;
     let lastPos = null;
 
@@ -166,7 +140,6 @@ font-family: "Times New Roman", Times, serif;
       try { canvas.releasePointerCapture(e.pointerId); } catch(_) {}
     });
 
-
     // ==== GALERÍA Y ENVÍO ====
     const gallery = document.getElementById("gallery");
     const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
@@ -174,7 +147,7 @@ font-family: "Times New Roman", Times, serif;
     savedImages.forEach(src => {
       const img = document.createElement("img");
       img.src = src;
-      gallery.appendChild(img);
+      if (gallery) gallery.appendChild(img);
     });
 
     btn.addEventListener('click', async () => {
@@ -182,7 +155,7 @@ font-family: "Times New Roman", Times, serif;
 
       const img = document.createElement("img");
       img.src = dataURL;
-      gallery.appendChild(img);
+      if (gallery) gallery.appendChild(img);
       savedImages.push(dataURL);
       localStorage.setItem("galleryImages", JSON.stringify(savedImages));
 
@@ -196,9 +169,7 @@ font-family: "Times New Roman", Times, serif;
       btn.textContent = "sending...";
 
       try {
-       await emailjs.send("service_o3jmvle", "template_r72a0hl", params);
-
-
+        await emailjs.send("service_o3jmvle", "template_r72a0hl", params);
         alert("éxito rotundo");
       } catch (err) {
         console.error("Error detallado:", err);
