@@ -196,7 +196,8 @@ font-family: "Times New Roman", Times, serif;
       btn.textContent = "sending...";
 
       try {
-        await emailjs.send("service_o3jmvle", "template_r72a0hl", params);
+       await emailjs.send("service_o3jmvle", "template_r72a0hl", params, "l06doB2wxnGk4vSmz");
+
         alert("éxito rotundo");
       } catch (err) {
         console.error("Error detallado:", err);
