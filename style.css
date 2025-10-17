@@ -1,15 +1,25 @@
 .text, .text2, .title {
+  /* Propiedades de texto comunes */
   width: 100%;
-  max-width: 800px;
   margin: 0 0 9px 0;
   font-size: 11pt;
   font-family: "Times New Roman", Times, serif;
   letter-spacing: -0.3px;
 }
 
-.text { color: black; }
-.text2 { color: white; }
-.title { max-width: 700px; color: black; }
+/* Propiedades de texto específicas */
+.text { 
+  max-width: 800px; 
+  color: black; 
+}
+.text2 { 
+  max-width: 800px; 
+  color: white; 
+}
+.title { 
+  max-width: 700px; 
+  color: black; 
+}
 
 .container {
   padding: 2px;
@@ -17,32 +27,32 @@
 
 .img-container > img:hover {
   -webkit-transform: scale(1.5);
-  transform: scale(1.5);          /* enlarges the image to double size on hover */
+  transform: scale(1.5); /* agranda la imagen al doble en hover */
   display: block;
   margin-left: auto;
-  margin-right: auto;           /* centers the image inside the container */
-  transform-origin: bottom center; /* the zoom pivot  */
+  margin-right: auto; /* centra la imagen dentro del contenedor */
+  transform-origin: bottom center; /* el pivote de zoom */
 }
 
 img.himages {
-  vertical-align: top;          /* aligns the image to the top of adjacent text */
+  vertical-align: top; /* alinea la imagen a la parte superior del texto adyacente */
 }
 
 .imagesection {
-  width: 100%;                  /* takes the full available width */
-  max-width: 1200px;            /* does not exceed 1200px */
-  margin: 0 0 2px 0;            /* small bottom spacing */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 0 2px 0;
 }
 
 .videos-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 3px;      
-  justify-content: flex-start; 
+  gap: 3px;
+  justify-content: flex-start;
 }
 
 #desktop {
-    margin-left: 28vw;
+  margin-left: 28vw;
 }
 
 #showBg {
@@ -55,8 +65,8 @@ img.himages {
 
 #star-wrapper {
   position: fixed;
-  bottom: 10px; 
-  left: 50%;     
+  bottom: 10px;
+  left: 50%;
   text-align: left;
 }
 
@@ -183,9 +193,9 @@ a:hover {
 }
 
 .vhs-img {
-  width: 20px;   /* ajusta el tamaño que quieras */
-  height: auto;   /* mantiene la proporción */
-  margin: 20px auto; /* opcional: centrar la imagen */
+  width: 20px;
+  height: auto;
+  margin: 20px auto;
 }
 
 video::-webkit-media-controls-panel {
@@ -201,25 +211,6 @@ body.bg-active {
   background-attachment: fixed;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .text, .text2, .title, .imagesection {
-    font-size: 10pt;
-    max-width: 95%;
-  }
-
-#ryatvideo, #fwvideo {
-    width: 100%;
-  }
-
-#clock, .mode {
-    font-size: 10pt;
-    bottom: 5px;
-    right: 10px;
-  }
-
-  }
-
 #downloadBtn {
   font-family: "Times New Roman", Times, serif;
   font-size: 11pt;
@@ -231,13 +222,14 @@ body.bg-active {
   cursor: pointer;
   padding: 0;
 }
- 
+
 #lang-btn {
-font-family: "Times New Roman", Times, serif;
+  font-family: "Times New Roman", Times, serif;
   font-size: 11pt;
   letter-spacing: 1px;
   background: none;
-  border: 1px, dotted;
+  /* Corregido: sintaxis de borde correcta */
+  border: 1px dotted black; 
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -249,21 +241,21 @@ font-family: "Times New Roman", Times, serif;
 }
 
 #tabloid {
-    position: fixed;
-    top: 10px;
-    right: 10px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
 }
 
 #info {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      white-space: pre-wrap;
-      padding: 1em;
-      max-width: 400px;
-      text-align: left;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: pre-wrap;
+  padding: 1em;
+  max-width: 400px;
+  text-align: left;
 }
 
 #eraserSize {
@@ -293,5 +285,20 @@ font-family: "Times New Roman", Times, serif;
   transition: 0s;
 }
 
-}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .text, .text2, .title, .imagesection {
+    font-size: 10pt;
+    max-width: 95%;
+  }
 
+  #ryatvideo, #fwvideo {
+    width: 100%;
+  }
+
+  #clock, .mode {
+    font-size: 10pt;
+    bottom: 5px;
+    right: 10px;
+  }
+} 
