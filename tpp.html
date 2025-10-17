@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>@vhssoise</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <style>
+        body {
+            margin: 10px;
+            position: relative;
+            min-height: 100vh;
+            font-family: 'Times New Roman', serif;
+            overflow-x: hidden;
+            color: black;
+        }
+
+        #lang-btn {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 11pt;
+            letter-spacing: 1px;
+            background: none;
+            border: 2px dotted;
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        #clock {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-family: 'Times New Roman', serif;
+            font-size: 11pt;
+            color: black;
+            z-index: 2;
+        }
+
+        .text {
+            max-width: 90%;
+            margin: 0 auto;
+            font-size: 11pt;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .mail-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20pt;
+        }
+
+        .vhs-img {
+            width: 120px;
+            height: auto;
+        }
+
+        /* ================================== */
+        /* ESTILOS PARA LA TABLA DE TARIFAS (NUEVOS) */
+        /* ================================== */
+
+        #plans-grid {
+            display: grid;
+            /* En móvil, los planes estarán apilados (una columna) */
+            grid-template-columns: 1fr;
+            gap: 20px; /* Espacio entre las "tarjetas" */
+            margin-top: 20px;
+        }
+
+        @media (min-width: 768px) {
+            #plans-grid {
+                /* En escritorio, los planes estarán en tres columnas */
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .plan-card {
+            border: 1px solid #ccc; /* Borde sutil para definir la tarjeta */
+            padding: 15px;
+            text-align: center;
+            line-height: 1.6;
+            transition: background-color 0.3s;
+        }
+
+        .plan-card:hover {
+            background-color: #f0f0f0; /* Un efecto simple al pasar el ratón */
+        }
+
+        .plan-card h4 {
+            font-size: 14pt;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .plan-price {
+            display: block;
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333; /* Un color un poco más oscuro para el precio */
+        }
+
+        /* ================================== */
+        /* MEDIA QUERIES EXISTENTES (MODIFICADAS) */
+        /* ================================== */
+
+        @media (max-width: 600px) {
+            .text {
+                font-size: 22pt;
+                padding: 10px;
+            }
+            .mail-container {
+                font-size: 22pt;
+            }
+            /* Adaptamos el tamaño de fuente para los planes en móvil */
+            .plan-card h4 {
+                font-size: 24pt;
+            }
+            .plan-include, .plan-price {
+                font-size: 18pt !important; 
+            }
+        }
+    </style>
+    <script>
+        let currentLang = "en";
+
+        const texts = {
+            en: {
+                tape: "Hi, I’m Marta (a post-production and artificial intelligence professional), and I digitize Betamax, VHS, HDV, miniDV, and 8/Hi8; allowing you to get rid of your tapes (if you want) while preserving your material in a quality you’ve never seen before.",
+                quality: "HD, 2k, UHD (4k)",
+                desc: "Remove noise and fix compression artifacts, footage restoration, stabilization, upscaling without sacrificing quality",
+                contact: "Contact via telegram or e-mail:",
+                delivery: "Ready on your e-mail in format >>> .mp4 / .mov",
+                tableTitle: "Digitization Pricing",
+                plans: [
+                    { name: "Basic", include: "HD (1080p)", price: "12€ (up to 120min) +5€/extra hour" },
+                    { name: "Standard", include: "Full HD / 2K | Noise reduction | Stabilization", price: "20€ (up to 120min) +7€/extra hour" },
+                    { name: "Advanced", include: "4K UHD | Deep restoration | Upscale to maximum quality", price: "35€ (up to 120min) +10€/extra hour" }
+                ]
+            },
+            es: {
+                tape: "Hola, soy Marta (profesional de la postproducción e inteligencia artificial) y digitalizo Betamax, VHS, HDV, miniDV y 8/Hi8; permitiéndote deshacerte de tus cintas (si lo deseas) mientras conservas tu material con una calidad que nunca habías visto.",
+                quality: "HD, 2k, UHD (4k)",
+                desc: "Elimino ruido y artefactos de compresión, restauro material, estabilizo, y escalo sin sacrificar calidad",
+                contact: "Contáctame por telegram o correo electrónico:",
+                delivery: "Listo en tu correo electrónico en formato >>> .mp4 / .mov",
+                tableTitle: "Tarifas de digitalización",
+                plans: [
+                    { name: "Basic", include: "HD (1080p)", price: "12€ (hasta 120min) +5€/hora extra" },
+                    { name: "Standard", include: "Full HD / 2K | Reducción de ruido | Estabilización", price: "20€ (hasta 120min) +7€/hora extra" },
+                    { name: "Advanced", include: "4K UHD | Restauración avanzada | Escalado máxima calidad", price: "35€ (hasta 120min) +10€/hora extra" }
+                ]
+            }
+        };
+
+        function startTime() {
+            const today = new Date();
+            let h = today.getHours();
+            let m = today.getMinutes();
+            let s = today.getSeconds();
+            m = checkTime(m); s = checkTime(s);
+            document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+            setTimeout(startTime, 500);
+        }
+
+        function checkTime(i) { return i < 10 ? "0" + i : i; }
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById("tape").textContent = texts[currentLang].tape;
+            document.getElementById("quality").textContent = texts[currentLang].quality;
+            document.getElementById("desc").textContent = texts[currentLang].desc;
+            document.getElementById("contact").textContent = texts[currentLang].contact;
+            document.getElementById("delivery").textContent = texts[currentLang].delivery;
+            document.getElementById("lang-btn").textContent = currentLang === "en" ? "ESPAÑOL" : "ENGLISH";
+
+            document.getElementById("table-title").textContent = texts[currentLang].tableTitle;
+            
+            // Lógica de traducción adaptada a la nueva estructura de tarjetas
+            texts[currentLang].plans.forEach((plan, i) => {
+                document.getElementById(`plan-name-${i}`).textContent = plan.name;
+                document.getElementById(`plan-include-${i}`).textContent = plan.include;
+                document.getElementById(`plan-price-${i}`).textContent = plan.price;
+            });
+        }
+
+        function toggleLang() { setLang(currentLang === "en" ? "es" : "en"); }
+
+        window.onload = function() {
+            startTime();
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith("es")) setLang("es"); else setLang("en");
+            
+            // Añadimos el evento al botón después de que se cargue la página
+            document.getElementById("lang-btn").onclick = toggleLang;
+        }
+    </script>
+</head>
+
+<body>
+    <div id="content">
+        <div class="container">
+            <div class="text">
+                <br>
+                <button id="lang-btn">ENGLISH</button>
+                <br><br>
+                <span id="tape"></span>
+                <br>
+                <span id="quality"></span>
+                <br>
+                <span id="desc"></span>
+                <br>
+                <span id="contact"></span>
+                <br><br>
+
+                <div class="mail-container">
+                    <span class="mail">casfemarta@gmail.com</span>
+                    <img src="assets/vhssoise.png" class="vhs-img">
+                </div>
+
+                <br>
+                <span id="delivery"></span>
+                <br>
+
+                <div class="text">
+                    <h3 id="table-title">Tarifas de digitalización</h3>
+                    <div id="plans-grid">
+                        
+                        <div class="plan-card">
+                            <h4 id="plan-name-0">Basic</h4>
+                            <span id="plan-include-0" class="plan-include">HD (1080p)</span>
+                            <span id="plan-price-0" class="plan-price">12€ (hasta 120min) +5€/hora extra</span>
+                        </div>
+
+                        <div class="plan-card">
+                            <h4 id="plan-name-1">Standard</h4>
+                            <span id="plan-include-1" class="plan-include">Full HD / 2K | Reducción de ruido | Estabilización</span>
+                            <span id="plan-price-1" class="plan-price">20€ (hasta 120min) +7€/hora extra</span>
+                        </div>
+
+                        <div class="plan-card">
+                            <h4 id="plan-name-2">Advanced</h4>
+                            <span id="plan-include-2" class="plan-include">4K UHD | Restauración avanzada | Escalado máxima calidad</span>
+                            <span id="plan-price-2" class="plan-price">35€ (hasta 120min) +10€/hora extra</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="clock"></div>
+
+                <img src="assets/VHS Tape.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 0; left: 0; z-index: 999;">
+                <img src="assets/Sony_TRV_99.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 50px; left: 50px; z-index: 999;">
+                <img src="assets/iMac DV Lime.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 100px; left: 100px; z-index: 999;">
+
+                <script>
+                    let icons = document.querySelectorAll(".floating-ico");
+                    let positions = [];
+                    let velocities = [];
+
+                    icons.forEach((ico, i) => {
+                        positions.push({ x: parseInt(ico.style.left), y: parseInt(ico.style.top) });
+                        velocities.push({ dx: 0.5 + i * 0.1, dy: 0.4 + i * 0.1 });
+                    });
+
+                    function moveIcons() {
+                        icons.forEach((ico, i) => {
+                            positions[i].x += velocities[i].dx;
+                            positions[i].y += velocities[i].dy;
+
+                            if (positions[i].x + ico.offsetWidth > window.innerWidth || positions[i].x < 0) {
+                                velocities[i].dx = -velocities[i].dx;
+                            }
+                            if (positions[i].y + ico.offsetHeight > window.innerHeight || positions[i].y < 0) {
+                                velocities[i].dy = -velocities[i].dy;
+                            }
+
+                            ico.style.left = positions[i].x + "px";
+                            ico.style.top = positions[i].y + "px";
+                        });
+
+                        requestAnimationFrame(moveIcons);
+                    }
+
+                    moveIcons();
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
