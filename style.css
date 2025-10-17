@@ -43,8 +43,8 @@ img.himages {
 
 .konami-wrapper {
     position: absolute;
-    bottom: 60%;
-    right: 10%;
+    bottom: 40vh;
+    right: 5vw;
 }
 
 .konami-wrapper a {
