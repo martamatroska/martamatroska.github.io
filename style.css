@@ -229,16 +229,7 @@ body.bg-active {
     right: 10px;
   }
 
-  #clock {
-  bottom: 2vh;
-  right: 2vw;
-  font-size: 2.5vw;
-}
 
-.konami-wrapper {
-  bottom: 20vh;
-  right: 5vw;
-}
 
 #downloadBtn {
   font-family: "Times New Roman", Times, serif;
