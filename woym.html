@@ -5,19 +5,7 @@
   <title>(˵ ͡° ͜ʖ ͡°˵)</title>
   <link rel="icon" href="assets/favicon.ico">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-  <style>
-  html, body {
-    margin: 10;
-    padding: 0;
-    overflow: hidden;
-    width: 100vw;             
-    height: 100dvh; 
-  }
-  
-</style>
-
+ 
   <style>
     #canvasContainer { margin-top: 1rem; }
     canvas { border: 1px solid #000; background: #fff; display: block; }
@@ -74,6 +62,16 @@
 
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
+    
+    // Evita scroll táctil dentro del canvas mientras se dibuja
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault(); // bloquea scroll solo al tocar el canvas
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault(); 
+}, { passive: false });
+
     const btn = document.getElementById('downloadBtn');
     const eraserBtn = document.getElementById('eraserBtn');
     const eraserSizeInput = document.getElementById('eraserSize');
