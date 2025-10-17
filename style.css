@@ -41,20 +41,10 @@ img.himages {
   justify-content: flex-start; 
 }
 
-.konami-wrapper {
+#desktop {
     position: fixed;
     bottom: 40vh;
     right: 5vw;
-}
-
-.konami-wrapper a {
-    font-size: 1.5vw;
-    color: white;
-    text-decoration: none;
-}
-
-.konami-wrapper a:hover {
-    color: black;
 }
 
 #showBg {
