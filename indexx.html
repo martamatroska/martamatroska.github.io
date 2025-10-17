@@ -50,7 +50,7 @@
         gtag('config', 'G-F9YHR26YNQ');
     </script>
 
-    </head>
+</head>
 
 <body onload="startTime()">
     <div id="content">
@@ -58,38 +58,62 @@
             <div class="text">
                 <a href="#" class="styleone" id="egg">*</a>
                 <div id="info"></div>
-                <p style="margin-top: 2em;">
-                    <img src="assets/AE-logo-old.png" alt="AE Logo" class="logo-img"> My name is Marta, and I'm a Postproduction Artist at
-                    <a href="https://www.canadacanada.com/" target="_blank">CANADA</a>, a production company based in
-                    <a href="https://maps.app.goo.gl/8Jax9VNqDX4G4gpo7" target="_blank">Barcelona</a>;
-                </p>
-                <p>
-                    𓇢𓇢 𓇢𓇢 𓇢𓇢𓇢𓇢 𓇢 feel free to <u class="wavy-underline">explore.</u>
-                </p>
-
-                <p style="margin-top: 3em;">
-                    <a href="works">Work</a>
-                </p>
-
+                <br>
+                <img src="assets/AE-logo-old.png" alt="AE Logo" class="logo-img"> My name is Marta, and I'm a Postproduction Artist at
+                <a href="https://www.canadacanada.com/" target="_blank">CANADA</a>
+                , a production company based in
+                <a href="https://maps.app.goo.gl/8Jax9VNqDX4G4gpo7" target="_blank">Barcelona</a>;
+                <br>
+                𓇢𓇢 𓇢𓇢 𓇢𓇢𓇢𓇢 𓇢 feel free to <u class="wavy-underline">explore.</u>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <a href="works">Work</a>
+                <br>
                 <div id="btn">Contact --></div>
-
-                <p style="margin-top: 4em;">
-                    <a href="woym.html" id="desktop">only for desktop</a>
-                </p>
-
-                <div style="margin-top: 6em;">
-                    <a href="#" class="styleone" id="showBg">𓆏</a>
-                </div>
-
-                <div id="star-wrapper" style="margin-top: 10em;">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <a href="woym.html" id="desktop">only for desktop</a>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <a href="#" class="styleone" id="showBg">𓆏</a>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div id="star-wrapper">
                     <a href="#" class="styleone" id="star">*</a>
                     <span id="counter" style="display:none;">0</span>
                 </div>
-
-                <div style="margin-top: 10em;">
-                    <a href="#" class="styleone" id="tabloid">*</a>
-                </div>
-
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <a href="#" class="styleone" id="tabloid">*</a>
             </div>
             <div id="clock"></div>
         </div>
@@ -97,7 +121,7 @@
 
 
     <script>
-        // Función del reloj (se cambiaron 'var' por 'let/const' cuando fue apropiado)
+        // Función del reloj
         function checkTime(i) {
             if (i < 10) {i = "0" + i;}
             return i;
@@ -111,7 +135,6 @@
             m = checkTime(m);
             s = checkTime(s);
             document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
-            // Se usó 'const' para el timeout
             const t = setTimeout(startTime, 500);
         }
 
