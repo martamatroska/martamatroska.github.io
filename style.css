@@ -303,30 +303,5 @@ font-family: "Times New Roman", Times, serif;
   transition: 0s;
 }
 
-/* ------------------------- */
-/* Ajustes móviles (responsive) */
-@media (max-width: 768px) {
-  #clock, .mode {
-    font-size: 9pt;
-    bottom: 5px;
-    right: 5px;
-  }
-
-  .konami-wrapper {
-    bottom: 10%;
-    right: 5%;
-  }
-
-  #tabloid {
-    top: 5px;
-    right: 5px;
-    font-size: 10pt;
-  }
-
-  #showBg {
-    font-size: 16pt;
-    bottom: 5px;
-    left: 5px;
-  }
 }
 
