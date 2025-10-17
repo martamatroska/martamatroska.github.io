@@ -41,11 +41,6 @@ img.himages {
   justify-content: flex-start; 
 }
 
-#desktop {
-    position: fixed;
-    top: 40vh;
-    left: 5vw;
-}
 
 #showBg {
   color: #00e31a;
