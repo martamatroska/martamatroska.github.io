@@ -41,6 +41,9 @@ img.himages {
   justify-content: flex-start; 
 }
 
+#desktop {
+    margin-left: 50px;
+}
 
 #showBg {
   color: #00e31a;
