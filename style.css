@@ -43,8 +43,8 @@ img.himages {
 
 #desktop {
     position: fixed;
-    bottom: 40vh;
-    right: 5vw;
+    top: 40vh;
+    left: 5vw;
 }
 
 #showBg {
