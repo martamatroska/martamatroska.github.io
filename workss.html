@@ -548,7 +548,7 @@
         });
 
         // ==============================================
-        // LÓGICA DE FILTROS Y HOVER-TO-PLAY (CORREGIDA)
+        // LÓGICA DE FILTROS Y HOVER/TOUCH-TO-PLAY (CORREGIDA)
         // ==============================================
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -556,7 +556,7 @@
             const videoBlocks = document.querySelectorAll('.video-block');
             const videosToControl = document.querySelectorAll('.lazy-video'); 
 
-            // Lógica de los filtros (Mantenida)
+            // Lógica de los filtros
             filterLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -574,32 +574,51 @@
                     });
                 });
             });
+            
+            // Funciones helper para manejo de reproducción
+            const playVideo = (videoElement) => {
+                // Se añade un catch para evitar errores si el navegador bloquea el autoplay
+                videoElement.play().catch(e => {
+                    console.log("Error al intentar reproducir:", e);
+                });
+            };
+
+            const pauseVideo = (videoElement) => {
+                videoElement.pause();
+            };
 
             // 1. Asegurar la pausa inicial en todos los videos
             videosToControl.forEach(video => {
-                // Esto garantiza que el video se muestre con el primer fotograma estático
                 video.pause(); 
             });
 
-            // 2. Asignar los eventos de hover
+            // 2. Asignar los eventos de interacción (escritorio y móvil)
             videosToControl.forEach(video => {
                 
-                // Evento 1: Reproducir al pasar el ratón (hover in)
+                // Eventos de ESCRITORIO (Hover)
                 video.addEventListener('mouseover', function() {
-                    this.play().catch(e => {
-                        // Captura el error de autoplay, si ocurre (esto es algo que el navegador puede bloquear)
-                        console.log("Error al intentar reproducir:", e);
-                    });
+                    playVideo(this);
                 });
 
-                // Evento 2: Pausar al retirar el ratón (hover out)
                 video.addEventListener('mouseout', function() {
-                    this.pause();
-                    // ¡CORRECCIÓN APLICADA AQUÍ!
-                    // Hemos ELIMINADO la línea 'this.currentTime = 0;'
-                    // Ahora el video se detiene en el punto donde se quedó.
+                    pauseVideo(this);
                 });
                 
+                // Eventos de MÓVIL (Tocar para reproducir, levantar para pausar)
+                // Usamos touchstart para reproducir
+                video.addEventListener('touchstart', function() {
+                    playVideo(this);
+                });
+
+                // Usamos touchend y touchcancel para pausar
+                video.addEventListener('touchend', function() {
+                    pauseVideo(this);
+                });
+                
+                // Esto asegura la pausa si el toque es interrumpido (ej. notificación, salir de la ventana)
+                video.addEventListener('touchcancel', function() {
+                    pauseVideo(this);
+                });
             });
         });
     </script>
