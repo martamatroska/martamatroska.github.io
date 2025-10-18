@@ -551,7 +551,7 @@
         // LÓGICA DE FILTROS Y HOVER/TOUCH-TO-PLAY (CORREGIDA)
         // ==============================================
 
-        document.addEventListener('DOMContentLoaded', function() {
+       document.addEventListener('DOMContentLoaded', function() {
             const filterLinks = document.querySelectorAll('.filter-link');
             const videoBlocks = document.querySelectorAll('.video-block');
             const videosToControl = document.querySelectorAll('.lazy-video'); 
@@ -577,9 +577,9 @@
             
             // Funciones helper para manejo de reproducción
             const playVideo = (videoElement) => {
-                // Se añade un catch para evitar errores si el navegador bloquea el autoplay
+                // Intenta reproducir. El navegador puede requerir un gesto de usuario.
                 videoElement.play().catch(e => {
-                    console.log("Error al intentar reproducir:", e);
+                    // console.log("Error al intentar reproducir:", e); 
                 });
             };
 
@@ -587,14 +587,35 @@
                 videoElement.pause();
             };
 
-            // 1. Asegurar la pausa inicial en todos los videos
-            videosToControl.forEach(video => {
-                video.pause(); 
-            });
+            // Función para forzar la visualización del primer fotograma en móvil
+            const displayFirstFrame = (videoElement) => {
+                // Solo ejecutar si el video está listo
+                if (videoElement.readyState >= 2) { // readyState 2: Enough data to play current frame
+                     // Intenta forzar la reproducción para cargar el fotograma
+                    videoElement.play().then(() => {
+                        // Si la reproducción inicia, pausarla inmediatamente
+                        videoElement.pause();
+                    }).catch(e => {
+                        // El navegador bloqueó la reproducción sin un gesto, pero intentamos
+                        // asegurar que el fotograma se renderice si es posible.
+                        // console.log("Bloqueo de Autoplay al intentar cargar fotograma:", e);
+                    });
+                }
+            };
 
-            // 2. Asignar los eventos de interacción (escritorio y móvil)
+            // 1. Asignar eventos de interacción y forzar la carga
             videosToControl.forEach(video => {
                 
+                // Asegura que el video se muestre al cargar los datos
+                video.addEventListener('loadeddata', function() {
+                    displayFirstFrame(this);
+                });
+
+                // Si el video ya está cargado cuando se ejecuta el script (navegadores de escritorio)
+                if (video.readyState >= 2) {
+                    displayFirstFrame(video);
+                }
+
                 // Eventos de ESCRITORIO (Hover)
                 video.addEventListener('mouseover', function() {
                     playVideo(this);
@@ -605,17 +626,14 @@
                 });
                 
                 // Eventos de MÓVIL (Tocar para reproducir, levantar para pausar)
-                // Usamos touchstart para reproducir
                 video.addEventListener('touchstart', function() {
                     playVideo(this);
                 });
 
-                // Usamos touchend y touchcancel para pausar
                 video.addEventListener('touchend', function() {
                     pauseVideo(this);
                 });
                 
-                // Esto asegura la pausa si el toque es interrumpido (ej. notificación, salir de la ventana)
                 video.addEventListener('touchcancel', function() {
                     pauseVideo(this);
                 });
