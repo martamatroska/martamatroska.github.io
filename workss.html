@@ -194,21 +194,7 @@
             text-decoration: none !important;
         }
 
-        /* ============================================== */
-        /* ESTILOS DE OPTIMIZACIÓN (ANTES LAZY LOAD)      */
-        /* ============================================== */
-        /* Estos estilos ya no son estrictamente necesarios ya que los videos 
-           cargan el fotograma, pero los mantengo por si acaso. */
-        .video-container .lazy-video:not([src]) {
-            /* Muestra un fondo gris claro mientras el video está vacío */
-            background-color: #eee; 
-        }
-
-        .dark .video-container .lazy-video:not([src]) {
-            background-color: #1a1a1a;
-        }
-
-        /* Asegura que los videos y sus placeholders ocupen el espacio definido */
+        /* Estilos para el video que ya no necesita lazy load, pero mantiene la clase */
         .lazy-video {
             display: block;
         }
@@ -528,7 +514,7 @@
     </div> 
     
     <script>
-        // Función del reloj (se cambiaron 'var' por 'let/const' y se movió el código al final del body)
+        // Función del reloj
         function checkTime(i) {
             if (i < 10) {i = "0" + i};
             return i;
@@ -562,13 +548,12 @@
         });
 
         // ==============================================
-        // LÓGICA DE FILTROS Y HOVER-TO-PLAY (MODIFICADA)
+        // LÓGICA DE FILTROS Y HOVER-TO-PLAY (CORREGIDA)
         // ==============================================
 
         document.addEventListener('DOMContentLoaded', function() {
             const filterLinks = document.querySelectorAll('.filter-link');
             const videoBlocks = document.querySelectorAll('.video-block');
-            // Seleccionamos todos los elementos de video con la clase '.lazy-video'
             const videosToControl = document.querySelectorAll('.lazy-video'); 
 
             // Lógica de los filtros (Mantenida)
@@ -590,13 +575,9 @@
                 });
             });
 
-            // NUEVA LÓGICA: Carga Inmediata Pausada y Reproducción al Pasar el Ratón
-            
             // 1. Asegurar la pausa inicial en todos los videos
             videosToControl.forEach(video => {
-                // Al usar el atributo 'src' en el HTML junto con 'preload="auto"', 
-                // el video intenta cargar el primer fotograma al inicio.
-                // Llamamos a pause() para asegurar que no empiece a reproducirse.
+                // Esto garantiza que el video se muestre con el primer fotograma estático
                 video.pause(); 
             });
 
@@ -606,7 +587,7 @@
                 // Evento 1: Reproducir al pasar el ratón (hover in)
                 video.addEventListener('mouseover', function() {
                     this.play().catch(e => {
-                        // Captura el error de autoplay, si ocurre (raro si tiene 'muted')
+                        // Captura el error de autoplay, si ocurre (esto es algo que el navegador puede bloquear)
                         console.log("Error al intentar reproducir:", e);
                     });
                 });
@@ -614,8 +595,9 @@
                 // Evento 2: Pausar al retirar el ratón (hover out)
                 video.addEventListener('mouseout', function() {
                     this.pause();
-                    // Volver al inicio al pausar
-                    this.currentTime = 0; 
+                    // ¡CORRECCIÓN APLICADA AQUÍ!
+                    // Hemos ELIMINADO la línea 'this.currentTime = 0;'
+                    // Ahora el video se detiene en el punto donde se quedó.
                 });
                 
             });
