@@ -198,6 +198,40 @@
         .lazy-video {
             display: block;
         }
+
+        /* ============================================== */
+        /* ESTILOS AÑADIDOS PARA EL MENSAJE DE REPRODUCCIÓN */
+        /* ============================================== */
+        .video-container {
+            position: relative; /* Clave: necesario para posicionar el mensaje absoluto */
+        }
+        
+        .play-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            pointer-events: none; /* Permite que el toque pase a la capa inferior si es necesario */
+            opacity: 1; /* Visible por defecto */
+            transition: opacity 0.3s ease;
+            z-index: 10; /* Asegura que esté sobre el video */
+        }
+        
+        /* Estilo para ocultar el mensaje al interactuar */
+        .play-message.hidden {
+            opacity: 0;
+            /* Se puede añadir display: none; después de la transición si es necesario, pero opacity: 0 ya lo hace invisible */
+        }
+
     </style>
 
 </head>
@@ -240,7 +274,7 @@
                 <div class="text">Directed by Alex Gargot<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="356" src="https://attachments.are.na/38956481/6c481b8e90a867ecad7acf4aa1a51d90.mp4?1755854577"></video>
-                    <div class="text"><a href="https://youtu.be/nVJXUAcT-OA?si=HzAZKQmgO3bXuAWx" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/nVJXUAcT-OA?si=HzAZKQmgO3bXuAWx" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -249,8 +283,8 @@
                 <div class="text">ROSALÍA - MOTOMAMI <i>(TikTok LIVE Performance)</i><br> 28 mins 47 seconds, 1080x1920</div>
                 <div class="text">Directed by STILLZ<br></div>
                 <div class="video-container">
-                    <video class="lazy-video" loop muted playsinline preload="auto" width="382" height="680" src="https://attachments.are.na/38956476/4f4ab1b0625cff362e57e4638aa045dc.mp4?1755854572"></video>
-                    <div class="text"><a href="https://youtu.be/y51P8HNpwaM?si=wplt-Xjci438Zolv&t=28" target="_blank">[watch]</a><br> </div>
+                    <video class="lazy-video" loop muted playsinline preload="auto" width="382" height="680" src="https://attachments.are.na/40414332/a525ddb0153a29d59c2ae26b2ec562a8.mp4?1760797870"></video>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/y51P8HNpwaM?si=wplt-Xjci438Zolv&t=28" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -260,7 +294,7 @@
                 <div class="text">Designed by @viktorhstudios<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/39117866/0216b957f080baf65c199a36f2d185cb.mp4?1756379361"></video>
-                    <div class="img-container">
+                    <span class="play-message">Tocar para reproducir</span> <div class="img-container">
                         <img class="himages" src="assets/LAX.jpg" height="480" alt="Tour Motomami Rosalía 2022">
                     </div>
                 </div>
@@ -272,7 +306,7 @@
                 <div class="text">Directed by Rory Alexander Stewart<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38955958/748cc2bcbaf4ebe10a1fcf69967b7dcb.mp4"></video>
-                    <div class="text"><a href="https://youtu.be/Eb3zur0WewU?si=7VpN0ezsDPHI-qxk" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/Eb3zur0WewU?si=7VpN0ezsDPHI-qxk" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -283,13 +317,13 @@
                 <div class="videos-wrapper">
                     <div class="video-container">
                         <video class="lazy-video" loop muted playsinline preload="auto" width="478" height="478" src="https://attachments.are.na/39199891/6c476eed6a5182e1421e0eae7c2a455d.mp4?1756716715"></video>
-                    </div>
+                        <span class="play-message">Tocar para reproducir</span> </div>
                     <div class="video-container">
                         <video class="lazy-video" loop muted playsinline preload="auto" height="478" src="https://attachments.are.na/39203101/731aff0d6b3dc28f8b3927bbb0b1f215.mp4?1756729937"></video>
-                    </div>
+                        <span class="play-message">Tocar para reproducir</span> </div>
                     <div class="video-container">
                         <video class="lazy-video" loop muted playsinline preload="auto" height="478" src="https://attachments.are.na/39203098/6ad155fc81a38272922627f8c4867ab4.mp4?1756729937"></video>
-                    </div>
+                        <span class="play-message">Tocar para reproducir</span> </div>
                 </div>
             </div>
 
@@ -299,7 +333,7 @@
                 <div class="text">Directed by Bàrbara Farré<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38956471/b6b340e646d1d867e246db075a1a94b3.mp4?1755854566"></video>
-                    <div class="text"><a href="https://youtu.be/uA_lWK3VecE?si=EV4uQuxjbrExIJXa" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/uA_lWK3VecE?si=EV4uQuxjbrExIJXa" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -309,7 +343,7 @@
                 <div class="text">Directed by Billy King<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38956480/a28d35104d63b8c40ed8c7899b52ee01.mp4?1755854577"></video>
-                    <div class="text"><a href="https://youtu.be/dNjHfgGHlKQ?si=mnovlJoe3J_xD0mB" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/dNjHfgGHlKQ?si=mnovlJoe3J_xD0mB" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -319,7 +353,7 @@
                 <div class="text">Directed by STILLZ<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="932" height="698" src="https://attachments.are.na/38956477/66103277e90ee6437c8f8cb2dddf45df.mp4?1755854571"></video>
-                    <div class="text"><a href="https://youtu.be/21xNk2eD77o?si=N_yNGhXIHa-2HeZ-" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/21xNk2eD77o?si=N_yNGhXIHa-2HeZ-" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -329,7 +363,7 @@
                 <div class="text">Directed by Roger Guàrdia<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="932" height="693" src="https://attachments.are.na/38956487/f5bd44478c71d3d713f739ef7e26eb44.mp4?1755854584"></video>
-                    <div class="text"><a href="https://youtu.be/sWGJd26kUOY?si=6cV2wf6tvpdKF_i2" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/sWGJd26kUOY?si=6cV2wf6tvpdKF_i2" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -339,7 +373,7 @@
                 <div class="text">Directed by STILLZ<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="932" height="698" src="https://attachments.are.na/38957709/932ec3e8626761e94331a6b8701fa106.mp4?1755860806"></video>
-                    <div class="text"><a href="https://youtu.be/jNTMfto5g3M?si=hRYwL9tg3Q6hXqBm" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/jNTMfto5g3M?si=hRYwL9tg3Q6hXqBm" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -349,7 +383,7 @@
                 <div class="text">Directed by MANSON<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38956474/9d9b4c83b5807329cebd05825cae31fc.mp4?1755854570"></video>
-                    <div class="text"><a href="https://youtu.be/K9mTSekTktw?si=NdYmTQKFGlMTjtsV" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/K9mTSekTktw?si=NdYmTQKFGlMTjtsV" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -359,7 +393,7 @@
                 <div class="text">Directed by STILLZ<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="932" height="698" src="https://attachments.are.na/38956490/d6a7d3c7722d6dd36854760bcd06d44f.mp4?1755854587"></video>
-                    <div class="text"><a href="https://youtu.be/fhsfy-nLapA?si=r4SpeXydOZrtbldq" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/fhsfy-nLapA?si=r4SpeXydOZrtbldq" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -369,7 +403,7 @@
                 <div class="text">Directed by STILLZ<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="932" height="698" src="https://attachments.are.na/38956475/f8a7c58ca261b3924c4495cb3fba2cdb.mp4?1755854571"></video>
-                    <div class="text"><a href="https://youtu.be/nu6ZPvFvcVo?si=TfE5Jp7_jpEDOtXU" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/nu6ZPvFvcVo?si=TfE5Jp7_jpEDOtXU" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -378,8 +412,8 @@
                 <div class="text">Tutto Passa - A Tribute to Napoli by Coldplay <i>(Music Video)</i><br> 11 mins 13 seconds, 1440x1080</div>
                 <div class="text">Directed by STILLZ<br></div>
                 <div class="video-container">
-                    <video class="lazy-video" loop muted playsinline preload="auto" width="932" height="698" src="https://attachments.are.na/38956488/c547fdd6b68934b952b5a39ddc1d1be4.mp4?1755854585"></video>
-                    <div class="text"><a href="https://youtu.be/ZFD85d5aJBo?si=1QLp8pHgU2j_40Wd" target="_blank">[watch]</a><br> </div>
+                    <video class="lazy-video" loop muted playsinline preload="auto" width="932" height="698" src="https://attachments.are.na/40414471/7f09084d651c2fc54739dadd325c9913.mp4?1760798658"></video>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/ZFD85d5aJBo?si=1QLp8pHgU2j_40Wd" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -389,7 +423,7 @@
                 <div class="text">Directed by ESTEBAN<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="970" height="698" src="https://attachments.are.na/38956484/e79ef45afa86a4630adcb13c51397d35.mp4?1755854582"></video>
-                    <div class="text"><a href="https://youtu.be/ydBQz3SecaE?si=zvVoSE4_PHVq1qF3" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/ydBQz3SecaE?si=zvVoSE4_PHVq1qF3" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -399,7 +433,7 @@
                 <div class="text">Directed by MANSON<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38956483/ac322fa62a3211090f58dcdf64fc5abc.mp4?1755854581"></video>
-                    <div class="text"><a href="https://youtu.be/dMGh801b0Mw?si=mUZ7OA1m2Us6P__1" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/dMGh801b0Mw?si=mUZ7OA1m2Us6P__1" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -409,7 +443,7 @@
                 <div class="text">Directed by Marc Oller<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="842" height="648" src="https://attachments.are.na/38956489/3974e72504664c3ad30201d68336f505.mp4?1755854586"></video>
-                    <div class="text"><a href="https://youtu.be/3zb9X_unuqo?si=xAwztrokSrRWNOJQ" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/3zb9X_unuqo?si=xAwztrokSrRWNOJQ" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -419,7 +453,7 @@
                 <div class="text">Creative direction by TERRIVLE STUDIO, AI generations by Álvaro Posadas & Marta Ferrero @CANADA <br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38956494/6b1a8b8bc6cf15a1003cfd811b513e48.mp4?1755854604"></video>
-                    <div class="text"><a href="https://youtu.be/tPggy-f6cVo?si=IVZnzgtxP18Ye9lU" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/tPggy-f6cVo?si=IVZnzgtxP18Ye9lU" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -429,7 +463,7 @@
                 <div class="text">Directed by Pau Carreté<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38957694/73a2b4a6a924c05d8e4e07b603d21b57.mp4?1755860746"></video>
-                    <div class="text"><a href="https://youtu.be/NSCa4KbG1rQ?si=K9lFXSyibtFbWKL4" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/NSCa4KbG1rQ?si=K9lFXSyibtFbWKL4" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -439,7 +473,7 @@
                 <div class="text">Directed by Pau Carreté<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38957689/e40715c14b1959659871a3b2779b2c83.mp4?1755860738"></video>
-                    <div class="text"><a href="https://youtu.be/rAAZfBkzWa8?si=0xw6QZso5pHo7sM4" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/rAAZfBkzWa8?si=0xw6QZso5pHo7sM4" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -449,7 +483,7 @@
                 <div class="text">Directed by Ryan Doubiago<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="478" src="https://attachments.are.na/38957686/1a3014883d7815212f41c8d7960f913f.mp4?1755860730"></video>
-                    <div class="text"><a href="#" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="#" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -459,7 +493,7 @@
                 <div class="text">Directed by BYNT<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="849" height="356" src="https://attachments.are.na/38957693/b4b9446abbe8c20e2c850aabfbcb82cf.mp4?1755860747"></video>
-                </div>
+                    <span class="play-message">Tocar para reproducir</span> </div>
             </div>
 
             <HR>
@@ -468,7 +502,7 @@
                 <div class="text">Directed by Luo Jian<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="761" height="478" src="https://attachments.are.na/38957692/85fd8877115bb738ae7161575cfc1d0c.mp4?1755860745"></video>
-                    <div class="text"><a href="https://youtu.be/g8xMXd5nnCM?si=VGF4iOrKYKkJUla1" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/g8xMXd5nnCM?si=VGF4iOrKYKkJUla1" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -478,7 +512,7 @@
                 <div class="text">Directed by Alex Gargot<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="842" height="632" src="https://attachments.are.na/38957687/a2720606944361cdd34176da15d8c302.mp4?1755860732"></video>
-                    <div class="text"><a href="https://youtu.be/5uLjkEgKTF8?si=DJTQ_p-1ya48hYho" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/5uLjkEgKTF8?si=DJTQ_p-1ya48hYho" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -488,7 +522,7 @@
                 <div class="text">Directed by ESTEBAN<br></div>
                 <div class="video-container">
                     <video class="lazy-video" loop muted playsinline preload="auto" width="864" height="648" src="https://attachments.are.na/39013063/78be59c3a35a21fb1cfff1394c3583b7.mp4?1756110504"></video>
-                    <div class="text"><a href="https://youtu.be/oD-SLUBfcI0?si=U9v313bgaxOwTw90" target="_blank">[watch]</a><br> </div>
+                    <span class="play-message">Tocar para reproducir</span> <div class="text"><a href="https://youtu.be/oD-SLUBfcI0?si=U9v313bgaxOwTw90" target="_blank">[watch]</a><br> </div>
                 </div>
             </div>
 
@@ -506,7 +540,7 @@
                 <div class="text"> In Bocca Al Lupo <i>(Documentary)</i><br> 25 mins, 1920x1080</div>
                 <div class="text">Directed by Adriana Roslin<br></div>
                 <div class="img-container">
-                   <img class="himages" src="assets/IBAL01.png" width="480" alt="Poster In Bocca Al Lupo, Ignasi Monreal">
+                    <img class="himages" src="assets/IBAL01.png" width="480" alt="Poster In Bocca Al Lupo, Ignasi Monreal">
                 </div>
             </div>
             
@@ -514,7 +548,7 @@
     </div> 
     
     <script>
-        // Función del reloj
+        // Función del reloj (SIN CAMBIOS)
         function checkTime(i) {
             if (i < 10) {i = "0" + i};
             return i;
@@ -531,7 +565,7 @@
             const t = setTimeout(startTime, 500);
         }
 
-        // Script del modo oscuro
+        // Script del modo oscuro (SIN CAMBIOS)
         document.getElementById('lavalamp').addEventListener('click', function(e) {
             e.preventDefault();
 
@@ -548,15 +582,16 @@
         });
 
         // ==============================================
-        // LÓGICA DE FILTROS Y HOVER/TOUCH-TO-PLAY (CORREGIDA)
+        // LÓGICA DE FILTROS Y HOVER/TOUCH-TO-PLAY (ACTUALIZADA)
         // ==============================================
 
-       document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const filterLinks = document.querySelectorAll('.filter-link');
             const videoBlocks = document.querySelectorAll('.video-block');
+            // Obtener todos los videos para control
             const videosToControl = document.querySelectorAll('.lazy-video'); 
 
-            // Lógica de los filtros
+            // Lógica de los filtros (SIN CAMBIOS)
             filterLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -575,9 +610,8 @@
                 });
             });
             
-            // Funciones helper para manejo de reproducción
+            // Funciones helper para manejo de reproducción (SIN CAMBIOS)
             const playVideo = (videoElement) => {
-                // Intenta reproducir. El navegador puede requerir un gesto de usuario.
                 videoElement.play().catch(e => {
                     // console.log("Error al intentar reproducir:", e); 
                 });
@@ -586,18 +620,26 @@
             const pauseVideo = (videoElement) => {
                 videoElement.pause();
             };
+            
+            // Función AÑADIDA: Oculta el mensaje "Tocar para reproducir"
+            const hidePlayMessage = (videoElement) => {
+                // El mensaje se encuentra como hermano del video, dentro de .video-container
+                const message = videoElement.parentNode.querySelector('.play-message');
+                if (message) {
+                    message.classList.add('hidden');
+                }
+            };
 
-            // Función para forzar la visualización del primer fotograma en móvil
+            // Función para forzar la visualización del primer fotograma en móvil (MODIFICADA para ocultar mensaje)
             const displayFirstFrame = (videoElement) => {
-                // Solo ejecutar si el video está listo
                 if (videoElement.readyState >= 2) { // readyState 2: Enough data to play current frame
                      // Intenta forzar la reproducción para cargar el fotograma
                     videoElement.play().then(() => {
-                        // Si la reproducción inicia, pausarla inmediatamente
+                         // Si la reproducción inicia, pausarla inmediatamente
                         videoElement.pause();
+                        hidePlayMessage(videoElement); // Ocultar si el fotograma carga
                     }).catch(e => {
-                        // El navegador bloqueó la reproducción sin un gesto, pero intentamos
-                        // asegurar que el fotograma se renderice si es posible.
+                        // Si falla el autoplay, se mantiene el mensaje visible para el toque.
                         // console.log("Bloqueo de Autoplay al intentar cargar fotograma:", e);
                     });
                 }
@@ -619,6 +661,7 @@
                 // Eventos de ESCRITORIO (Hover)
                 video.addEventListener('mouseover', function() {
                     playVideo(this);
+                    hidePlayMessage(this); // Ocultar mensaje al hacer hover
                 });
 
                 video.addEventListener('mouseout', function() {
@@ -628,12 +671,13 @@
                 // Eventos de MÓVIL (Tocar para reproducir, levantar para pausar)
                 video.addEventListener('touchstart', function() {
                     playVideo(this);
+                    hidePlayMessage(this); // CLAVE: Ocultar el mensaje en el primer toque
                 });
 
                 video.addEventListener('touchend', function() {
                     pauseVideo(this);
                 });
-                
+
                 video.addEventListener('touchcancel', function() {
                     pauseVideo(this);
                 });
