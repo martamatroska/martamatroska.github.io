@@ -98,7 +98,7 @@
             text-shadow: 1px 1px 1px black, 1px -1px 1px black, -1px 1px 1px black, -1px -1px 1px black;
         }
 
-        /* Limpieza de clases redundantes */
+        
         .dark.mode {
             color: #00e31a;
         }
@@ -118,7 +118,7 @@
             letter-spacing: -.3px;
         }
 
-        /* .dark .text - limpieza de propiedades duplicadas (width y margin-bottom) */
+        
         .dark .text {
             margin: 0 0 9px 0;
             width: 800px;
@@ -128,7 +128,7 @@
             letter-spacing: -.3px;
         }
 
-        /* .dark .text2 - manteniendo como estaba para respetar la diferencia de color */
+       
         .dark .text2 {
             margin: 0 0 9px 0;
             width: 800px;
@@ -138,7 +138,6 @@
             letter-spacing: -.3px;
         }
 
-        /* .dark .title - manteniendo como estaba para respetar la diferencia de width */
         .dark .title {
             margin: 0 0 9px 0;
             width: 700px;
@@ -158,7 +157,6 @@
             letter-spacing: -.3px;
         }
 
-        /* Estilos movidos de inline */
         .logo-img {
             height: 1em;
             vertical-align: baseline;
@@ -179,29 +177,24 @@
             align-items: center;
         }
         
-        /* Estilo para ocultar los bloques de video por defecto, si el filtro no es 'all' */
         .video-block {
-            display: block; /* Por defecto visible, el JS lo ocultará si es necesario */
+            display: block;
         }
 
         .video-block.hidden {
             display: none;
         }
 
-        /* Estilo para los filtros activos */
         .filter-link.active {
             font-weight: bold;
             text-decoration: none !important;
         }
 
-        /* Estilos para el video que ya no necesita lazy load, pero mantiene la clase */
         .lazy-video {
             display: block;
         }
 
-        /* ============================================== */
-        /* ESTILOS AÑADIDOS PARA EL MENSAJE DE REPRODUCCIÓN */
-        /* ============================================== */
+     
         .video-container {
             position: relative; /* Clave: necesario para posicionar el mensaje absoluto */
         }
@@ -222,15 +215,15 @@
             text-align: left;
             font-family: "Times New Roman", Times, serif;
             letter-spacing: -0.3px;
-            pointer-events: none; /* Permite que el toque pase a la capa inferior si es necesario */
-            opacity: 1; /* Visible por defecto */
-            z-index: 10; /* Asegura que esté sobre el video */
+            pointer-events: none; 
+            opacity: 1; 
+            z-index: 10; 
         }
         
-        /* Estilo para ocultar el mensaje al interactuar */
+       
         .play-message.hidden {
             opacity: 0;
-            /* Se puede añadir display: none; después de la transición si es necesario, pero opacity: 0 ya lo hace invisible */
+            
         }
 
     </style>
@@ -582,7 +575,7 @@
         });
 
         // ==============================================
-        // LÓGICA DE FILTROS Y HOVER/TOUCH-TO-PLAY (ACTUALIZADA)
+        // LÓGICA DE FILTROS Y HOVER/TOUCH-TO-PLAY 
         // ==============================================
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -610,7 +603,7 @@
                 });
             });
             
-            // Funciones helper para manejo de reproducción (SIN CAMBIOS)
+            
             const playVideo = (videoElement) => {
                 videoElement.play().catch(e => {
                     // console.log("Error al intentar reproducir:", e); 
@@ -621,9 +614,9 @@
                 videoElement.pause();
             };
             
-            // Función AÑADIDA: Oculta el mensaje "tap to play"
+            
             const hidePlayMessage = (videoElement) => {
-                // El mensaje se encuentra como hermano del video, dentro de .video-container
+                
                 const message = videoElement.parentNode.querySelector('.play-message');
                 if (message) {
                     message.classList.add('hidden');
