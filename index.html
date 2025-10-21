@@ -61,7 +61,7 @@
                 <div id="info"></div>
                 <br>
                 <img src="assets/AE-logo-old.png" alt="AE Logo" class="logo-img"> My name is Marta, and I'm a Postproduction Artist at
-                <a href="https://www.canadacanada.com/" target="_blank">CANADA</a>
+                <a href="https://www.canadacanada.com/" target="_blank" id="click_external_canada">CANADA</a>
                 , a production company based in
                 <a href="https://maps.app.goo.gl/8Jax9VNqDX4G4gpo7" target="_blank">Barcelona</a>;
                 <br>
@@ -73,7 +73,8 @@
                 <br>
                 <br>
                 <br>
-                <a href="works">Work</a>
+                <br>
+                <a href="works" id="click_work_page">Work</a>
                 <br>
                 <div id="btn">Contact --></div>
                 <br>
@@ -139,8 +140,8 @@
             const t = setTimeout(startTime, 500);
         }
 
-        // botón Contacto
         document.addEventListener('DOMContentLoaded', () => {
+            // botón Contacto
             const btn = document.getElementById('btn');
             const originalText = btn.textContent;
 
@@ -152,22 +153,74 @@
                     btn.textContent = originalText;
                 }
 
+                // Seguimiento GA4: Botón Contact (Ya existía)
                 gtag('event', 'click', {
                     'event_category': 'interacción',
                     'event_label': 'Botón Contact'
                 });
             });
-        });
 
-        // Tabloid
-        document.getElementById('tabloid').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.body.style.backgroundImage = "url('assets/tabloid02.png')";
-            document.body.style.backgroundSize = "cover";
-            document.body.style.backgroundPosition = "center";
-        });
+            // --- Seguimiento de Nuevos Eventos GA4 ---
 
-        // Script estrella
+            // 1. click_work_page
+            document.getElementById('click_work_page').addEventListener('click', function() {
+                gtag('event', 'click_work_page');
+                // No hay necesidad de e.preventDefault() aquí, queremos que el enlace funcione
+            });
+
+            // 2. click_external_canada
+            document.getElementById('click_external_canada').addEventListener('click', function() {
+                gtag('event', 'click_external_canada', {
+                    'link_url': this.href // Captura la URL del enlace
+                });
+                // No hay necesidad de e.preventDefault() aquí, queremos que el enlace funcione
+            });
+
+            // 3. tabloid_background_switch
+            document.getElementById('tabloid').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.body.style.backgroundImage = "url('assets/tabloid02.png')";
+                document.body.style.backgroundSize = "cover";
+                document.body.style.backgroundPosition = "center";
+
+                // Seguimiento GA4: Cambio de Fondo Tabloide
+                gtag('event', 'tabloid_background_switch');
+            });
+
+            // 4. egginfo_view (Clic en el primer asterisco para mostrar IP/Info)
+            document.getElementById('egg').addEventListener('click', async (e) => {
+                const infoBox = document.getElementById('info');
+                // La lógica de alternar la visibilidad de la caja de información ya existe
+
+                if (infoBox.style.display !== "block") {
+                    // Si el estado es "oculto" o inicial, se mostrará, así que es el momento de enviar el evento.
+                    // Si ya está visible y se va a ocultar, no enviamos el evento.
+                    gtag('event', 'egginfo_view');
+                }
+                
+                // Lógica de mostrar la IP
+                if (infoBox.style.display === "block") {
+                    infoBox.style.display = "none";
+                    return;
+                }
+
+                const ip = await getIP();
+                const ua = navigator.userAgent;
+                const lang = navigator.language;
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                infoBox.textContent =
+                    `IP Address: ${ip}\n` +
+                    `Browser / OS: ${ua}\n` +
+                    `Language: ${lang}\n` +
+                    `Time Zone: ${tz}`;
+
+                infoBox.style.display = "block";
+            });
+
+        }); // Fin DOMContentLoaded
+
+        // Script estrella (star_click_counter)
         let count = 0;
         const counter = document.getElementById("counter");
         let recordTarget = getRandomTarget();
@@ -192,6 +245,11 @@
             counter.textContent = count;
             counter.style.display = "inline";
 
+            // Seguimiento GA4: Contador de Estrellas (star_click_counter)
+            gtag('event', 'star_click_counter', {
+                'star_count': count // Envía el número de clics como parámetro
+            });
+
             if (count === recordTarget && currentMessageIndex < messages.length) {
                 alert(messages[currentMessageIndex]);
                 currentMessageIndex++;
@@ -199,7 +257,7 @@
             }
         });
 
-        // Script  (Rana)
+        // Script (Rana) - frog_easter_egg
         let frogClickCount = 0;
         const showBg = document.getElementById('showBg');
         const fotos = [
@@ -234,6 +292,12 @@
         showBg.addEventListener('click', function(e) {
             e.preventDefault();
 
+            // Seguimiento GA4: Easter Egg de la Rana (frog_easter_egg)
+            // Se envía antes de incrementar la cuenta para enviar el clic actual (0-3)
+            gtag('event', 'frog_easter_egg', {
+                'frog_click_num': frogClickCount + 1 // Envía el número de clic actual (1-4)
+            });
+
             // Change bg
             document.body.style.backgroundImage = `url('${fotos[frogClickCount]}')`;
             document.body.style.backgroundSize = 'cover';
@@ -252,7 +316,7 @@
             frogClickCount = (frogClickCount + 1) % fotos.length;
         });
 
-        // Script  (IP/Info)
+        // Script (IP/Info) - Función getIP separada para ser utilizada por el manejador de eventos
         async function getIP() {
             try {
                 const res = await fetch('https://api.ipify.org?format=json');
@@ -262,28 +326,6 @@
                 return 'Unavailable';
             }
         }
-
-        document.getElementById('egg').addEventListener('click', async () => {
-            const infoBox = document.getElementById('info');
-
-            if (infoBox.style.display === "block") {
-                infoBox.style.display = "none";
-                return;
-            }
-
-            const ip = await getIP();
-            const ua = navigator.userAgent;
-            const lang = navigator.language;
-            const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-            infoBox.textContent =
-                `IP Address: ${ip}\n` +
-                `Browser / OS: ${ua}\n` +
-                `Language: ${lang}\n` +
-                `Time Zone: ${tz}`;
-
-            infoBox.style.display = "block";
-        });
     </script>
 
 
