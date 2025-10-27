@@ -9,6 +9,7 @@
  
   <style>
     #canvasContainer { margin-top: 1rem; }
+    /* Mantenemos el tamaño y diseño original de tu canvas */
     canvas { border: 1px solid #000; background: #fff; display: block; }
     #downloadBtn, #eraserBtn, #colorPicker {
       font-family: "Times New Roman", Times, serif;
@@ -42,7 +43,7 @@
         <a href='index' id="home-link">*</a><br>
         ✎ what's on your mind?
       </div>
-    </div>
+          </div>
   </div>
 
   <div id="canvasContainer">
@@ -170,9 +171,12 @@
       if (gallery) gallery.appendChild(img);
     });
 
+    // ----------------------------------------------------------------------------------
+    // >> LÓGICA DE COMPRESIÓN (SIN AFECTAR EL DISEÑO VISIBLE)
+    // ----------------------------------------------------------------------------------
     
     /**
-     * Comprime y redimensiona el Data URL del canvas a un tamaño más manejable.
+     * Comprime y redimensiona el Data URL del canvas a un tamaño más manejable para el envío.
      * @param {string} dataURL - La cadena Base64 de la imagen original.
      * @param {number} maxWidth - El ancho máximo deseado.
      * @param {number} maxHeight - El alto máximo deseado.
@@ -190,7 +194,7 @@
                 let width = img.width;
                 let height = img.height;
 
-                // Calcula nuevas dimensiones manteniendo la relación de aspecto
+                // Calcula nuevas dimensiones manteniendo la relación de aspecto para reducir el tamaño
                 if (width > height) {
                     if (width > maxWidth) {
                         height *= maxWidth / width;
@@ -203,7 +207,8 @@
                     }
                 }
                 
-                // Si la imagen ya es más pequeña, simplemente se usa el tamaño original
+                // Si la imagen es más grande que los límites, se redimensiona.
+                // Si es más pequeña, se usa su tamaño original para evitar agrandarla.
                 if (width > img.width && height > img.height) {
                     width = img.width;
                     height = img.height;
@@ -212,10 +217,10 @@
                 tempCanvas.width = width;
                 tempCanvas.height = height;
 
-                // Dibuja la imagen redimensionada
+                // Dibuja la imagen redimensionada o a tamaño original si es pequeña
                 tempCtx.drawImage(img, 0, 0, width, height);
 
-                // Resuelve con el Data URL comprimido (JPEG con calidad 0.8)
+                // Exporta como JPEG con compresión 0.8 para reducir el peso
                 resolve(tempCanvas.toDataURL(format, quality)); 
             };
             img.src = dataURL;
@@ -223,13 +228,13 @@
     }
 
     btn.addEventListener('click', async () => {
-        // 1. Obtener el Data URL del canvas original (para guardar en la galería con buena calidad)
+        // 1. Obtener el Data URL del canvas original (Mantenemos el tamaño 500x500 para la galería local)
         const originalDataURL = canvas.toDataURL("image/png");
 
-        // 2. Comprimir la imagen antes de enviarla (a 300x300 JPEG @ 0.8)
+        // 2. Comprimir la imagen antes de enviarla (Reducción a 300x300 JPEG @ 0.8 para el envío)
         const compressedDataURL = await compressCanvasDataURL(originalDataURL, 300, 300, "image/jpeg", 0.8);
         
-        // Mostrar la imagen original en la galería local
+        // Guardar la imagen original en la galería local
         const img = document.createElement("img");
         img.src = originalDataURL; 
         if (gallery) gallery.appendChild(img);
@@ -239,7 +244,7 @@
         const params = {
             to_email: "casfemarta@gmail.com",
             message: "para descargar en .png primero guardar en Google Fotos y de ahí descargar",
-            // Usamos el Data URL COMPRIMIDO para el adjunto, que es más seguro para el envío.
+            // ¡Usamos el Data URL COMPRIMIDO aquí!
             attachment: compressedDataURL 
         };
 
@@ -251,15 +256,13 @@
             alert("éxito rotundo");
         } catch (err) {
             console.error("Error detallado:", err);
-            // Mensaje de error más descriptivo en caso de que falle de nuevo
             alert(" E R R O R. Revisa la consola para detalles. Puede que la imagen aún sea demasiado grande."); 
         } finally {
             btn.disabled = false;
             btn.textContent = "send another!";
         }
     });
-
-   
+    // ----------------------------------------------------------------------------------
   </script>
 </body>
 </html>
