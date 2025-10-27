@@ -9,7 +9,8 @@
  
   <style>
     #canvasContainer { margin-top: 1rem; }
-    canvas { border: 1px solid #000; background: #fff; display: block; }
+    /* >> CAMBIO 1: AÑADIMOS UN MARCO ROJO DE 2 PÍXELES (puedes cambiar 'red' por 'black' si lo prefieres) */
+    canvas { border: 2px solid red; background: #fff; display: block; } 
     #downloadBtn, #eraserBtn, #colorPicker {
       font-family: "Times New Roman", Times, serif;
       font-size: 11pt;
@@ -171,18 +172,22 @@
     });
 
     // ----------------------------------------------------------------------------------
-    // >> LÓGICA DE COMPRESIÓN PARA EL ENVÍO (MANTENIENDO EL DISEÑO VISIBLE)
+    // >> LÓGICA DE COMPRESIÓN PARA EL ENVÍO (Mantenemos formato PNG y bajamos el tamaño)
     // ----------------------------------------------------------------------------------
     
     /**
      * Comprime y redimensiona el Data URL para reducir su peso de envío.
-     * Esto no afecta el canvas visible de 500x500.
+     * Ahora utiliza el formato PNG.
+     * @param {string} dataURL - La cadena Base64 de la imagen original.
+     * @param {number} maxWidth - El ancho máximo deseado.
+     * @param {number} maxHeight - El alto máximo deseado.
+     * @param {string} format - Formato de salida ("image/png").
+     * @returns {Promise<string>} El Data URL comprimido.
      */
-    function compressCanvasDataURL(dataURL, maxWidth, maxHeight, format = "image/jpeg", quality = 0.8) {
+    function compressCanvasDataURL(dataURL, maxWidth, maxHeight, format = "image/png") {
         return new Promise(resolve => {
             const img = new Image();
             img.onload = () => {
-                // Creamos un canvas temporal solo para la compresión
                 const tempCanvas = document.createElement('canvas');
                 const tempCtx = tempCanvas.getContext('2d');
                 
@@ -209,19 +214,20 @@
                 // Dibujar la imagen redimensionada
                 tempCtx.drawImage(img, 0, 0, width, height);
 
-                // Exportar como JPEG con compresión 0.8
-                resolve(tempCanvas.toDataURL(format, quality)); 
+                // Exportar como PNG. La única compresión real aquí es la reducción de dimensiones.
+                resolve(tempCanvas.toDataURL(format)); 
             };
             img.src = dataURL;
         });
     }
 
     btn.addEventListener('click', async () => {
-        // 1. Obtener Data URL original (500x500) para la galería local (máxima calidad)
+        // 1. Obtener Data URL original (500x500) para la galería local
         const originalDataURL = canvas.toDataURL("image/png");
 
-        // 2. Comprimir la imagen a un máximo de 300x300 JPEG para el envío (tamaño de archivo pequeño)
-        const compressedDataURL = await compressCanvasDataURL(originalDataURL, 300, 300, "image/jpeg", 0.8);
+        // 2. Comprimir la imagen a un máximo de 350x350 PNG para el envío
+        // El formato PNG se especifica ahora en la función.
+        const compressedDataURL = await compressCanvasDataURL(originalDataURL, 350, 350);
         
         // Mostrar la imagen original en la galería local
         const img = document.createElement("img");
@@ -233,7 +239,7 @@
         const params = {
             to_email: "casfemarta@gmail.com",
             message: "para descargar en .png primero guardar en Google Fotos y de ahí descargar",
-            // Usamos el Data URL COMPRIMIDO para el adjunto de EmailJS
+            // Usamos el Data URL COMPRIMIDO (reducido en tamaño, pero aún PNG)
             attachment: compressedDataURL 
         };
 
@@ -246,7 +252,7 @@
         } catch (err) {
             console.error("Error detallado:", err);
             // Mensaje de error ajustado para el móvil
-            alert(" E R R O R. El envío falló. Revisa la consola en el escritorio para más detalles."); 
+            alert(" E R R O R "); 
         } finally {
             btn.disabled = false;
             btn.textContent = "send another!";
