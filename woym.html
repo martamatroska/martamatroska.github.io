@@ -1,204 +1,265 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=0.7">
-  <title>(˵ ͡° ͜ʖ ͡°˵)</title>
-  <link rel="icon" href="assets/favicon.ico">
-  <link rel="stylesheet" type="text/css" href="style.css">
- 
-  <style>
-    #canvasContainer { margin-top: 1rem; }
-    canvas { border: 1px solid #000; background: #fff; display: block; }
-    #downloadBtn, #eraserBtn, #colorPicker {
-      font-family: "Times New Roman", Times, serif;
-      font-size: 11pt;
-      letter-spacing: -0.3px;
-      background: none;
-      border: none;
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
-      padding: 0;
-    }
-    #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
-    #gallery img { max-width:150px; border:1px solid #ccc; }
-    .text { margin-bottom: 1rem; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.7">
+  <title>(˵ ͡° ͜ʖ ͡°˵)</title>
+  <link rel="icon" href="assets/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="style.css">
+ 
+  <style>
+    #canvasContainer { margin-top: 1rem; }
+    canvas { border: 1px solid #000; background: #fff; display: block; }
+    #downloadBtn, #eraserBtn, #colorPicker {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 11pt;
+      letter-spacing: -0.3px;
+      background: none;
+      border: none;
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+    }
+    #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
+    #gallery img { max-width:150px; border:1px solid #ccc; }
+    .text { margin-bottom: 1rem; }
+  </style>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-F9YHR26YNQ');
-    </script>
-  
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-F9YHR26YNQ');
+    </script>
+  
 </head>
 <body>
-  <div id="content">
-    <div class="container">
-      <div class="text">
-        <a href='index' id="home-link">*</a><br>
-        ✎ what's on your mind?
-      </div>
-    </div>
-  </div>
+  <div id="content">
+    <div class="container">
+      <div class="text">
+        <a href='index' id="home-link">*</a><br>
+        ✎ what's on your mind?
+      </div>
+    </div>
+  </div>
 
-  <div id="canvasContainer">
-    <canvas id="drawCanvas" width="500" height="500"></canvas>
+  <div id="canvasContainer">
+    <canvas id="drawCanvas" width="500" height="500"></canvas>
 
-    <div style="margin-top:10px; display:flex; gap:8px; align-items:right; flex-wrap:wrap;">
-      <button id="eraserBtn">eraser size >> </button>
-      <input id="eraserSize" type="range" min="4" max="60" value="20" />
-      <select id="colorPicker">
-        <option value="#000000">black</option>
-        <option value="#ff0000">red</option>
-        <option value="#0000ff">blue</option>
-        <option value="#00e31a">green</option>
-        <option value="#ffff00">yellow</option>
-      </select>
-      <br>
-      <button id="downloadBtn">send! (I want to be a proud collector)</button>
-    </div>
+    <div style="margin-top:10px; display:flex; gap:8px; align-items:right; flex-wrap:wrap;">
+      <button id="eraserBtn">eraser size >> </button>
+      <input id="eraserSize" type="range" min="4" max="60" value="20" />
+      <select id="colorPicker">
+        <option value="#000000">black</option>
+        <option value="#ff0000">red</option>
+        <option value="#0000ff">blue</option>
+        <option value="#00e31a">green</option>
+        <option value="#ffff00">yellow</option>
+      </select>
+      <br>
+      <button id="downloadBtn">send! (I want to be a proud collector)</button>
+    </div>
 
-  
-    <div id="gallery"></div>
-  </div>
+  
+    <div id="gallery"></div>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>
-    emailjs.init({ publicKey: "l06doB2wxnGk4vSmz" });
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init({ publicKey: "l06doB2wxnGk4vSmz" });
 
-    const canvas = document.getElementById('drawCanvas');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('drawCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Evita scroll táctil dentro del canvas mientras se dibuja
+    canvas.addEventListener('touchstart', e => {
+      e.preventDefault(); // bloquea scroll solo al tocar el canvas
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', e => {
+      e.preventDefault(); 
+    }, { passive: false });
+
+    const btn = document.getElementById('downloadBtn');
+    const eraserBtn = document.getElementById('eraserBtn');
+    const eraserSizeInput = document.getElementById('eraserSize');
+    const colorPicker = document.getElementById('colorPicker');
+
+    let drawing = false;
+    let currentColor = "#000000";
+    let eraserMode = false;
+
+    // Cambiar color y modo borrador
+    colorPicker.addEventListener('change', e => {
+      currentColor = e.target.value;
+      eraserMode = false;
+      eraserBtn.textContent = "eraser size >>";
+    });
+
+    eraserBtn.addEventListener('click', () => {
+      eraserMode = !eraserMode;
+      eraserBtn.textContent = eraserMode ? "(ON) eraser size >>" : "(OFF) eraser size >>";
+    });
+
+
+    let isPointerDown = false;
+    let lastPos = null;
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      if (e.touches && e.touches[0]) {
+        return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+      }
+      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    function drawLine(from, to, size, erase) {
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = size;
+      if (erase) {
+        ctx.globalCompositeOperation = 'destination-out';
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = currentColor;
+      }
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      ctx.stroke();
+      ctx.closePath();
+      if (erase) {
+        ctx.beginPath();
+        ctx.arc(to.x, to.y, size/2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      isPointerDown = true;
+      lastPos = getPos(e);
+      const size = eraserMode ? Number(eraserSizeInput.value) : 2;
+      drawLine(lastPos, lastPos, size, eraserMode);
+      canvas.setPointerCapture(e.pointerId);
+    });
+
+    canvas.addEventListener('pointermove', e => {
+      if (!isPointerDown) return;
+      const pos = getPos(e);
+      const size = eraserMode ? Number(eraserSizeInput.value) : 2;
+      drawLine(lastPos, pos, size, eraserMode);
+      lastPos = pos;
+    });
+
+    canvas.addEventListener('pointerup', e => {
+      isPointerDown = false;
+      lastPos = null;
+      try { canvas.releasePointerCapture(e.pointerId); } catch(_) {}
+    });
+
+    
+    const gallery = document.getElementById("gallery");
+    const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
+
+    savedImages.forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      if (gallery) gallery.appendChild(img);
+    });
+
     
-    // Evita scroll táctil dentro del canvas mientras se dibuja
-canvas.addEventListener('touchstart', e => {
-  e.preventDefault(); // bloquea scroll solo al tocar el canvas
-}, { passive: false });
+    /**
+     * Comprime y redimensiona el Data URL del canvas a un tamaño más manejable.
+     * @param {string} dataURL - La cadena Base64 de la imagen original.
+     * @param {number} maxWidth - El ancho máximo deseado.
+     * @param {number} maxHeight - El alto máximo deseado.
+     * @param {string} format - Formato de salida (ej. "image/jpeg").
+     * @param {number} quality - Calidad de salida (0.0 a 1.0, solo para JPEG/WebP).
+     * @returns {Promise<string>} El Data URL comprimido.
+     */
+    function compressCanvasDataURL(dataURL, maxWidth, maxHeight, format = "image/jpeg", quality = 0.8) {
+        return new Promise(resolve => {
+            const img = new Image();
+            img.onload = () => {
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                let width = img.width;
+                let height = img.height;
 
-canvas.addEventListener('touchmove', e => {
-  e.preventDefault(); 
-}, { passive: false });
+                // Calcula nuevas dimensiones manteniendo la relación de aspecto
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height *= maxWidth / width;
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width *= maxHeight / height;
+                        height = maxHeight;
+                    }
+                }
+                
+                // Si la imagen ya es más pequeña, simplemente se usa el tamaño original
+                if (width > img.width && height > img.height) {
+                    width = img.width;
+                    height = img.height;
+                }
 
-    const btn = document.getElementById('downloadBtn');
-    const eraserBtn = document.getElementById('eraserBtn');
-    const eraserSizeInput = document.getElementById('eraserSize');
-    const colorPicker = document.getElementById('colorPicker');
+                tempCanvas.width = width;
+                tempCanvas.height = height;
 
-    let drawing = false;
-    let currentColor = "#000000";
-    let eraserMode = false;
+                // Dibuja la imagen redimensionada
+                tempCtx.drawImage(img, 0, 0, width, height);
 
-    // Cambiar color y modo borrador
-    colorPicker.addEventListener('change', e => {
-      currentColor = e.target.value;
-      eraserMode = false;
-      eraserBtn.textContent = "eraser size >>";
-    });
-
-    eraserBtn.addEventListener('click', () => {
-      eraserMode = !eraserMode;
-      eraserBtn.textContent = eraserMode ? "(ON) eraser size >>" : "(OFF) eraser size >>";
-    });
-
-
-    let isPointerDown = false;
-    let lastPos = null;
-
-    function getPos(e) {
-      const rect = canvas.getBoundingClientRect();
-      if (e.touches && e.touches[0]) {
-        return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-      }
-      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+                // Resuelve con el Data URL comprimido (JPEG con calidad 0.8)
+                resolve(tempCanvas.toDataURL(format, quality)); 
+            };
+            img.src = dataURL;
+        });
     }
-
-    function drawLine(from, to, size, erase) {
-      ctx.lineJoin = 'round';
-      ctx.lineCap = 'round';
-      ctx.lineWidth = size;
-      if (erase) {
-        ctx.globalCompositeOperation = 'destination-out';
-      } else {
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.strokeStyle = currentColor;
-      }
-      ctx.beginPath();
-      ctx.moveTo(from.x, from.y);
-      ctx.lineTo(to.x, to.y);
-      ctx.stroke();
-      ctx.closePath();
-      if (erase) {
-        ctx.beginPath();
-        ctx.arc(to.x, to.y, size/2, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-      }
-    }
-
-    canvas.addEventListener('pointerdown', e => {
-      isPointerDown = true;
-      lastPos = getPos(e);
-      const size = eraserMode ? Number(eraserSizeInput.value) : 2;
-      drawLine(lastPos, lastPos, size, eraserMode);
-      canvas.setPointerCapture(e.pointerId);
-    });
-
-    canvas.addEventListener('pointermove', e => {
-      if (!isPointerDown) return;
-      const pos = getPos(e);
-      const size = eraserMode ? Number(eraserSizeInput.value) : 2;
-      drawLine(lastPos, pos, size, eraserMode);
-      lastPos = pos;
-    });
-
-    canvas.addEventListener('pointerup', e => {
-      isPointerDown = false;
-      lastPos = null;
-      try { canvas.releasePointerCapture(e.pointerId); } catch(_) {}
-    });
-
-    
-    const gallery = document.getElementById("gallery");
-    const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
-
-    savedImages.forEach(src => {
-      const img = document.createElement("img");
-      img.src = src;
-      if (gallery) gallery.appendChild(img);
-    });
 
     btn.addEventListener('click', async () => {
-      const dataURL = canvas.toDataURL("image/png");
+        // 1. Obtener el Data URL del canvas original (para guardar en la galería con buena calidad)
+        const originalDataURL = canvas.toDataURL("image/png");
 
-      const img = document.createElement("img");
-      img.src = dataURL;
-      if (gallery) gallery.appendChild(img);
-      savedImages.push(dataURL);
-      localStorage.setItem("galleryImages", JSON.stringify(savedImages));
+        // 2. Comprimir la imagen antes de enviarla (a 300x300 JPEG @ 0.8)
+        const compressedDataURL = await compressCanvasDataURL(originalDataURL, 300, 300, "image/jpeg", 0.8);
+        
+        // Mostrar la imagen original en la galería local
+        const img = document.createElement("img");
+        img.src = originalDataURL; 
+        if (gallery) gallery.appendChild(img);
+        savedImages.push(originalDataURL);
+        localStorage.setItem("galleryImages", JSON.stringify(savedImages));
 
-      const params = {
-        to_email: "casfemarta@gmail.com",
-        message: "para descargar en .png primero guardar en Google Fotos y de ahí descargar",
-        attachment: dataURL
-      };
+        const params = {
+            to_email: "casfemarta@gmail.com",
+            message: "para descargar en .png primero guardar en Google Fotos y de ahí descargar",
+            // Usamos el Data URL COMPRIMIDO para el adjunto, que es más seguro para el envío.
+            attachment: compressedDataURL 
+        };
 
-      btn.disabled = true;
-      btn.textContent = "sending...";
+        btn.disabled = true;
+        btn.textContent = "sending...";
 
-      try {
-        await emailjs.send("service_o3jmvle", "template_r72a0hl", params);
-        alert("éxito rotundo");
-      } catch (err) {
-        console.error("Error detallado:", err);
-        alert(" E R R O R ");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "send another!";
-      }
+        try {
+            await emailjs.send("service_o3jmvle", "template_r72a0hl", params); 
+            alert("éxito rotundo");
+        } catch (err) {
+            console.error("Error detallado:", err);
+            // Mensaje de error más descriptivo en caso de que falle de nuevo
+            alert(" E R R O R. Revisa la consola para detalles. Puede que la imagen aún sea demasiado grande."); 
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "send another!";
+        }
     });
-  </script>
+
+   
+  </script>
 </body>
 </html>
