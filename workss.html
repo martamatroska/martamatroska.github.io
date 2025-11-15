@@ -275,7 +275,11 @@
     </div>	
     
     <script>
-        // Función del reloj (SIN CAMBIOS)
+        // ==============================================
+        // 1. FUNCIONES ESTÁTICAS (RELOJ Y MODO OSCURO)
+        // ==============================================
+
+        // Función del reloj
         function checkTime(i) {
             if (i < 10) {i = "0" + i};
             return i;
@@ -292,7 +296,7 @@
             const t = setTimeout(startTime, 500);
         }
 
-        // Script del modo oscuro (SIN CAMBIOS)
+        // Script del modo oscuro
         document.getElementById('lavalamp').addEventListener('click', function(e) {
             e.preventDefault();
 
@@ -310,24 +314,23 @@
 
 
         // ==============================================
-        // SCRIPT DE SINCRONIZACIÓN CON ARE.NA (NUEVO CÓDIGO)
+        // 2. SCRIPT DE SINCRONIZACIÓN CON ARE.NA
         // ==============================================
 
         const ARENA_CHANNEL_SLUG = "marta-mkv/prvw-msc";
-        const ARENA_API_URL = `https://api.are.na/v2/channels/${ARENA_CHANNEL_SLUG}/blocks?per=100`;
+
+        // **USO DE PROXY CORS:** Solución para evitar el "SyntaxError: JSON.parse" en GitHub Pages.
+        const ARENA_API_URL = `https://api.allorigins.win/raw?url=https://api.are.na/v2/channels/${ARENA_CHANNEL_SLUG}/blocks?per=100`;
+
         // Emojis rotativos para el mensaje "tap to play"
         const EMOJIS = ['(˶◡‿◡)(´❥`)₊♪𝄞𝄢ཐི⋆♱', '☆..:*ヽ༼ ♥ ل͜ ♥ ༽ﾉ..:*☆', '¯\\_( ͡❛ ͜ʖ ͡❛)_/¯', 'εїз Ƹ̴Ӂ̴Ʒ Ƹ̵̡Ӝ̵̨̄Ʒ'];
         let emojiIndex = 0;
         
-        // Variables de control de videos y filtros
         let videosToControl = [];
         let filterLinks = [];
 
         /**
          * Función para extraer la etiqueta de categoría de la descripción del bloque.
-         * Busca [music], [commercial], o [film] de forma insensible a mayúsculas.
-         * @param {string} description - La descripción del bloque de Are.na (HTML).
-         * @returns {string} La etiqueta de categoría ('music', 'commercial', 'film') o 'other'.
          */
         function parseArenaTag(description) {
             if (!description) return 'other';
@@ -337,12 +340,10 @@
 
         /**
          * Genera el HTML completo para un bloque de Are.na (Video o Imagen).
-         * @param {object} block - Objeto de datos del bloque de Are.na.
-         * @returns {string} HTML generado.
          */
         function generateBlockHtml(block) {
             const title = block.title || block.base_class;
-            // Usamos description_html para mantener formatos, si existe
+            // Usamos description_html para mantener formatos y descripción para el etiquetado
             const descriptionHtml = block.description_html || block.description || '';
             const descriptionText = block.description || '';
             
@@ -368,7 +369,6 @@
                     emojiIndex++; 
                     
                     // Buscar un enlace [watch] en la descripción. 
-                    // Asume que el enlace está en la descripción como un <a> tag.
                     const watchLinkMatch = cleanDescription.match(/href="([^"]+)"/);
                     const watchLink = watchLinkMatch ? watchLinkMatch[1] : '#';
                     
@@ -402,7 +402,7 @@
                     return ''; // Ignorar otros archivos adjuntos
                 }
             }
-            // 3. Manejo de Bloques de Imagen (no archivos adjuntos directos, como imágenes de web)
+            // 3. Manejo de Bloques de Imagen (imágenes de web)
             else if (block.base_class === 'Image' && block.image) {
                 const imageUrl = block.image.display.url;
                 const width = block.image.display.original_dimensions.width || 800;
@@ -432,13 +432,9 @@
             `;
         }
 
-        /**
-         * Funciones auxiliares para controlar la reproducción de video
-         */
+        // Funciones auxiliares para controlar la reproducción de video
         const playVideo = (videoElement) => {
-            videoElement.play().catch(e => {
-                // Autoplay puede ser bloqueado, el catch evita errores en consola
-            });
+            videoElement.play().catch(e => {});
         };
 
         const pauseVideo = (videoElement) => {
@@ -457,9 +453,7 @@
                 videoElement.play().then(() => {
                     videoElement.pause();
                     hidePlayMessage(videoElement);
-                }).catch(e => {
-                    // Si falla el autoplay, se mantiene el mensaje visible para el toque.
-                });
+                }).catch(e => {});
             }
         };
 
@@ -467,15 +461,13 @@
          * Re-conecta los eventos de Hover/Tap-to-play y filtros a los nuevos elementos inyectados.
          */
         function reconnectVideoEvents() {
-            // Aseguramos que solo seleccionamos los videos dentro del contenedor de Are.na
             videosToControl = document.querySelectorAll('#arena-portfolio-container .lazy-video');
             const currentVideoBlocks = document.querySelectorAll('#arena-portfolio-container .video-block');
             filterLinks = document.querySelectorAll('.filter-link');
 
-
             // 1. Lógica de filtros
             filterLinks.forEach(link => {
-                // Primero, removemos el listener si ya existía (protección contra re-ejecución)
+                // Elimina y vuelve a añadir el listener para evitar duplicados
                 link.removeEventListener('click', handleFilterClick);
                 link.addEventListener('click', handleFilterClick);
             });
@@ -487,7 +479,6 @@
                 filterLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Iterar sobre los bloques dinámicos
                 currentVideoBlocks.forEach(block => {
                     if (filterType === 'all' || block.getAttribute('data-type') === filterType) {
                         block.classList.remove('hidden');
@@ -496,7 +487,6 @@
                     }
                 });
             }
-
 
             // 2. Asignar eventos de interacción a los nuevos videos
             videosToControl.forEach(video => {
@@ -543,17 +533,23 @@
          */
         async function fetchArenaBlocks() {
             try {
-                const response = await fetch(ARENA_API_URL);
-                const data = await response.json();
-
                 const container = document.getElementById('arena-portfolio-container');
                 if (!container) {
                     console.error('El contenedor #arena-portfolio-container no fue encontrado.');
                     return;
                 }
 
+                const response = await fetch(ARENA_API_URL);
+
+                // Verificamos si la respuesta HTTP fue exitosa
+                if (!response.ok) {
+                     throw new Error(`Fallo de red (${response.status} - ${response.statusText}).`);
+                }
+
+                // Obtenemos el JSON de la respuesta del proxy
+                const data = await response.json();
+
                 let fullHtml = '';
-                // Are.na devuelve del más nuevo al más antiguo
                 data.contents.forEach(block => {
                     fullHtml += generateBlockHtml(block);
                 });
@@ -561,14 +557,16 @@
                 // Inyectar todo el HTML de una sola vez
                 container.innerHTML = fullHtml;
 
-                // Después de inyectar el nuevo contenido, reconectamos los eventos de video y filtros
+                // Después de inyectar el nuevo contenido, reconectamos los eventos
                 reconnectVideoEvents();
+                console.log(`✅ Sincronización con Are.na completada. ${data.contents.length} bloques cargados.`);
 
             } catch (error) {
                 console.error("Error al obtener datos de Are.na:", error);
-                // Muestra un mensaje amigable si la sincronización falla
                 document.getElementById('arena-portfolio-container').innerHTML = `
-                    <HR><div class="text">Error al cargar el portafolio de Are.na. Por favor, revisa la conexión o el slug del canal.</div>
+                    <HR><div class="text">
+                        Error al cargar el portafolio (Detalles: ${error.message}). Revisa la consola y el etiquetado de Are.na.
+                    </div>
                 `;
             }
         }
