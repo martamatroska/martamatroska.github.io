@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.6">
+    <title>MARTA.MKV [WORKS]</title>
+
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-F9YHR26YNQ');
+    </script>
+
+    <style>
+        /* Estilos base */
+        .change {
+            cursor: pointer;
+        }
+
+        /* Estilos del modo oscuro */
+        .dark {
+            background-color: #030303;
+            color: #00e31a;
+        }
+
+        .dark.change {
+            color: #00e31a
+        }
+
+        /* Estilos para todos los enlaces en modo oscuro (base) */
+        .dark a {
+            color: #00e31a;
+            letter-spacing: -.3px;
+        }
+
+        .dark a:visited {
+            color: #00e31a;
+        }
+
+        .dark a:hover {
+            color: #00e31a;
+        }
+
+        .dark hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, #00e31a, #00ff55, #00e31a);
+            box-shadow: 0 0 8px #00e31a, 0 0 12px #00ff55, 0 0 16px #00e31a;
+        }
+
+        /* Estilos específicos para styleone (manteniendo la excepción de color: black;) */
+        .dark .styleone:link,
+        .dark .styleone:visited {
+            color: black;
+            text-decoration: none;
+            letter-spacing: -.3px;
+        }
+
+        .dark .styleone:hover {
+            color: #00e31a;
+            text-decoration: none;
+        }
+
+        /* Estilos específicos para styletwo (manteniendo la excepción de color: black;) */
+        .dark .styletwo:link,
+        .dark .styletwo:visited {
+            color: black;
+            letter-spacing: -.3px;
+        }
+
+        .dark .styletwo:hover {
+            color: #00e31a;
+        }
+
+        /* Estilos específicos para stylethree (manteniendo la excepción de color: black;) */
+        .dark .stylethree:link,
+        .dark .stylethree:visited {
+            color: black;
+            text-decoration: none;
+            letter-spacing: -.3px;
+        }
+
+        .dark .stylethree:hover {
+            color: #00e31a;
+            text-decoration: none;
+        }
+
+        /* Estilo de selección */
+        .dark ::selection {
+            background: black;
+            color: black;
+            text-shadow: 1px 1px 1px black, 1px -1px 1px black, -1px 1px 1px black, -1px -1px 1px black;
+        }
+
+        
+        .dark.mode {
+            color: #00e31a;
+        }
+
+        .dark button {
+            border: none;
+            color: #00e31a;
+            text-decoration: none;
+            cursor: default;
+            background-color: rgba(0, 0, 0, 0.0);
+            font-family: "serif";
+            font-size: 11pt;
+            display: block;
+            padding: 0px;
+            margin: 0;
+            text-decoration: underline;
+            letter-spacing: -.3px;
+        }
+
+        
+        .dark .text {
+            margin: 0 0 9px 0;
+            width: 800px;
+            color: #00e31a;
+            font-size: 11pt;
+            font-family: "Times New Roman", Times, serif;
+            letter-spacing: -.3px;
+        }
+
+        
+        .dark .text2 {
+            margin: 0 0 9px 0;
+            width: 800px;
+            color: black;
+            font-size: 11pt;
+            font-family: "Times New Roman", Times, serif;
+            letter-spacing: -.3px;
+        }
+
+        .dark .title {
+            margin: 0 0 9px 0;
+            width: 700px;
+            color: #00e31a;
+            font-size: 11pt;
+            font-family: "Times New Roman", Times, serif;
+            letter-spacing: -.3px;
+        }
+
+        .dark #clock {
+            position: fixed;
+            color: #00e31a;
+            bottom: 8px;
+            right: 16px;
+            font-size: 11pt;
+            font-family: "Times New Roman", Times, serif;
+            letter-spacing: -.3px;
+        }
+
+        .logo-img {
+            height: 1em;
+            vertical-align: baseline;
+        }
+
+        .lava-lamp {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 180px;
+            z-index: -1;
+        }
+
+        .filter-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .video-block {
+            display: block;
+        }
+
+        .video-block.hidden {
+            display: none;
+        }
+
+        .filter-link.active {
+            font-weight: bold;
+            text-decoration: none !important;
+        }
+
+        .lazy-video {
+            display: block;
+        }
+
+      
+        .video-container {
+            position: relative; /* Clave: necesario para posicionar el mensaje absoluto */
+        }
+        
+        .play-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0); /* transparencia */
+            color: #00e31a;
+            font-size: 11pt;
+            font-weight: regular;
+            text-align: left;
+            font-family: "Times New Roman", Times, serif;
+            letter-spacing: -0.3px;
+            pointer-events: none;	
+            opacity: 1;	
+            z-index: 10;	
+        }
+        
+        
+        .play-message.hidden {
+            opacity: 0;
+            
+        }
+        
+        /* Aseguramos que las imágenes tengan el mismo estilo que tus videos */
+        .img-container img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+    </style>
+
+</head>
+
+<body onload="startTime()">
+    <div id="content">
+        <div class="container">
+            <div class="text">
+                <a href="#" class="styleone" id="lavalamp">*</a>
+                <br>
+                <img src="assets/AE-logo-old.png" alt="AE Logo" class="logo-img"> My name is Marta, and I'm a Postproduction Artist at
+                <a href="https://www.canadacanada.com/" target="_blank">CANADA</a>, a production company based in
+                <a href="https://maps.app.goo.gl/8Jax9VNqDX4G4gpo7" target="_blank">Barcelona</a>; Specializing in digital and analog workflows. Focused on motion graphics, animation,
+                clean plates, rotoscoping, beauty VFX, 2D compositing, chroma keying, Artificial Intelligence imagery, sky/screen integration, set extension, wire removal,
+                offline/online editing, and social media adaptations. Skilled in Adobe Premiere and postproduction pipelines.
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="text filter-options">
+                    <div><a href='index' style="text-decoration:underline;">Back</a></div>
+                    <div id="filters">
+                        <a href="#" class="filter-link active" data-type="all" style="text-decoration:underline;">All</a>   |  
+                        <a href="#" class="filter-link" data-type="music" style="text-decoration:underline;">Music Video</a>   |  
+                        <a href="#" class="filter-link" data-type="commercial" style="text-decoration:underline;">Commercial</a>   |  
+                        <a href="#" class="filter-link" data-type="film" style="text-decoration:underline;">Film</a>
+                    </div>
+                </div>
+
+                <img id="lava" src="assets/lavalamp.gif" class="lava-lamp" alt="Lámpara de lava animada">
+
+            </div>
+
+            <div id="arena-portfolio-container">
+                </div>
+            </div> 
+        <div id="clock"></div>
+    </div>	
+    
+    <script>
+        // Función del reloj (SIN CAMBIOS)
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};
+            return i;
+        }
+
+        function startTime() {
+            const today = new Date();
+            let h = today.getHours();
+            let m = today.getMinutes();
+            let s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+            const t = setTimeout(startTime, 500);
+        }
+
+        // Script del modo oscuro (SIN CAMBIOS)
+        document.getElementById('lavalamp').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            let lava = document.getElementById('lava');
+            let isDark = document.body.classList.contains("dark");
+
+            if (isDark) {
+                document.body.classList.remove("dark");
+                lava.style.display = "none";
+            } else {
+                document.body.classList.add("dark");
+                lava.style.display = "block";
+            }
+        });
+
+
+        // ==============================================
+        // SCRIPT DE SINCRONIZACIÓN CON ARE.NA (NUEVO CÓDIGO)
+        // ==============================================
+
+        const ARENA_CHANNEL_SLUG = "marta-mkv/prvw-msc";
+        const ARENA_API_URL = `https://api.are.na/v2/channels/${ARENA_CHANNEL_SLUG}/blocks?per=100`;
+        // Emojis rotativos para el mensaje "tap to play"
+        const EMOJIS = ['(˶◡‿◡)(´❥`)₊♪𝄞𝄢ཐི⋆♱', '☆..:*ヽ༼ ♥ ل͜ ♥ ༽ﾉ..:*☆', '¯\\_( ͡❛ ͜ʖ ͡❛)_/¯', 'εїз Ƹ̴Ӂ̴Ʒ Ƹ̵̡Ӝ̵̨̄Ʒ'];
+        let emojiIndex = 0;
+        
+        // Variables de control de videos y filtros
+        let videosToControl = [];
+        let filterLinks = [];
+
+        /**
+         * Función para extraer la etiqueta de categoría de la descripción del bloque.
+         * Busca [music], [commercial], o [film] de forma insensible a mayúsculas.
+         * @param {string} description - La descripción del bloque de Are.na (HTML).
+         * @returns {string} La etiqueta de categoría ('music', 'commercial', 'film') o 'other'.
+         */
+        function parseArenaTag(description) {
+            if (!description) return 'other';
+            const match = description.match(/\[(music|commercial|film)\]/i);
+            return match ? match[1].toLowerCase() : 'other';
+        }
+
+        /**
+         * Genera el HTML completo para un bloque de Are.na (Video o Imagen).
+         * @param {object} block - Objeto de datos del bloque de Are.na.
+         * @returns {string} HTML generado.
+         */
+        function generateBlockHtml(block) {
+            const title = block.title || block.base_class;
+            // Usamos description_html para mantener formatos, si existe
+            const descriptionHtml = block.description_html || block.description || '';
+            const descriptionText = block.description || '';
+            
+            const category = parseArenaTag(descriptionText);
+            
+            let contentHtml = '';
+            let itemClass = '';
+            
+            // Si el bloque es un archivo adjunto (video o imagen)
+            if (block.base_class === 'Attachment' && block.attachment) {
+                const url = block.attachment.url;
+                const extension = block.attachment.file_extension.toLowerCase();
+                const width = block.attachment.width || 800;
+                const height = block.attachment.height || 450;
+                const dimensions = `${width}x${height}`; 
+                
+                // Limpiar la descripción de la etiqueta para la visualización
+                const cleanDescription = descriptionHtml.replace(/\[(music|commercial|film)\]/gi, '').trim();
+
+                // 1. Manejo de Videos (.mp4)
+                if (extension === 'mp4') {
+                    const playMessageEmoji = EMOJIS[emojiIndex % EMOJIS.length];
+                    emojiIndex++; 
+                    
+                    // Buscar un enlace [watch] en la descripción. 
+                    // Asume que el enlace está en la descripción como un <a> tag.
+                    const watchLinkMatch = cleanDescription.match(/href="([^"]+)"/);
+                    const watchLink = watchLinkMatch ? watchLinkMatch[1] : '#';
+                    
+                    // Quitar el <a> tag de la descripción para evitar duplicidad
+                    const finalDescription = cleanDescription.replace(/<a[^>]*>[^<]*<\/a>/gi, '').trim();
+                    
+                    itemClass = category; 
+                    
+                    contentHtml = `
+                        <div class="text">${title} <i>(Video)</i><br> ${dimensions}</div>
+                        <div class="text">${finalDescription}<br></div>
+                        <div class="video-container">
+                            <video class="lazy-video" loop muted playsinline preload="auto" width="${width}" height="${height}" src="${url}"></video>
+                            <span class="play-message">tap to play ${playMessageEmoji}</span> 
+                            <div class="text"><a href="${watchLink}" target="_blank">[watch]</a><br> </div>
+                        </div>
+                    `;
+                }
+                // 2. Manejo de Imágenes (.png, .jpg, .gif)
+                else if (['png', 'jpg', 'jpeg', 'gif'].includes(extension)) {
+                    itemClass = category; 
+                    
+                    contentHtml = `
+                        <div class="text">${title} <i>(Image)</i><br> ${dimensions}</div>
+                        <div class="text">${cleanDescription}<br></div>
+                        <div class="img-container">
+                            <img class="himages" src="${url}" alt="${title}" width="${width}" height="${height}">
+                        </div>
+                    `;
+                } else {
+                    return ''; // Ignorar otros archivos adjuntos
+                }
+            }
+            // 3. Manejo de Bloques de Imagen (no archivos adjuntos directos, como imágenes de web)
+            else if (block.base_class === 'Image' && block.image) {
+                const imageUrl = block.image.display.url;
+                const width = block.image.display.original_dimensions.width || 800;
+                const height = block.image.display.original_dimensions.height || 450;
+                const dimensions = `${width}x${height}`; 
+
+                const cleanDescription = descriptionHtml.replace(/\[(music|commercial|film)\]/gi, '').trim();
+                itemClass = category; 
+                
+                contentHtml = `
+                    <div class="text">${title} <i>(Image)</i><br> ${dimensions}</div>
+                    <div class="text">${cleanDescription}<br></div>
+                    <div class="img-container">
+                        <img class="himages" src="${imageUrl}" alt="${title}" width="${width}" height="${height}">
+                    </div>
+                `;
+            }
+            else {
+                return ''; // Ignorar otros tipos de bloque (Text, Link, etc.)
+            }
+
+            return `
+                <HR>
+                <div class="video-block ${itemClass}" data-type="${itemClass}">
+                    ${contentHtml}
+                </div>
+            `;
+        }
+
+        /**
+         * Funciones auxiliares para controlar la reproducción de video
+         */
+        const playVideo = (videoElement) => {
+            videoElement.play().catch(e => {
+                // Autoplay puede ser bloqueado, el catch evita errores en consola
+            });
+        };
+
+        const pauseVideo = (videoElement) => {
+            videoElement.pause();
+        };
+
+        const hidePlayMessage = (videoElement) => {
+            const message = videoElement.parentNode.querySelector('.play-message');
+            if (message) {
+                message.classList.add('hidden');
+            }
+        };
+
+        const displayFirstFrame = (videoElement) => {
+            if (videoElement.readyState >= 2) { 
+                videoElement.play().then(() => {
+                    videoElement.pause();
+                    hidePlayMessage(videoElement);
+                }).catch(e => {
+                    // Si falla el autoplay, se mantiene el mensaje visible para el toque.
+                });
+            }
+        };
+
+        /**
+         * Re-conecta los eventos de Hover/Tap-to-play y filtros a los nuevos elementos inyectados.
+         */
+        function reconnectVideoEvents() {
+            // Aseguramos que solo seleccionamos los videos dentro del contenedor de Are.na
+            videosToControl = document.querySelectorAll('#arena-portfolio-container .lazy-video');
+            const currentVideoBlocks = document.querySelectorAll('#arena-portfolio-container .video-block');
+            filterLinks = document.querySelectorAll('.filter-link');
+
+
+            // 1. Lógica de filtros
+            filterLinks.forEach(link => {
+                // Primero, removemos el listener si ya existía (protección contra re-ejecución)
+                link.removeEventListener('click', handleFilterClick);
+                link.addEventListener('click', handleFilterClick);
+            });
+            
+            function handleFilterClick(e) {
+                e.preventDefault();
+                const filterType = this.getAttribute('data-type');
+                
+                filterLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Iterar sobre los bloques dinámicos
+                currentVideoBlocks.forEach(block => {
+                    if (filterType === 'all' || block.getAttribute('data-type') === filterType) {
+                        block.classList.remove('hidden');
+                    } else {
+                        block.classList.add('hidden');
+                    }
+                });
+            }
+
+
+            // 2. Asignar eventos de interacción a los nuevos videos
+            videosToControl.forEach(video => {
+                
+                // Evento de carga de datos para forzar el primer frame
+                video.addEventListener('loadeddata', function() {
+                    displayFirstFrame(this);
+                });
+
+                // Forzar si ya está cargado (para navegadores rápidos)
+                if (video.readyState >= 2) {
+                    displayFirstFrame(video);
+                }
+
+                // Eventos de ESCRITORIO (Hover)
+                video.addEventListener('mouseover', function() {
+                    playVideo(this);
+                    hidePlayMessage(this); 
+                });
+
+                video.addEventListener('mouseout', function() {
+                    pauseVideo(this);
+                });
+                
+                // Eventos de MÓVIL (tap to play, levantar para pausar)
+                video.addEventListener('touchstart', function() {
+                    playVideo(this);
+                    hidePlayMessage(this);
+                });
+
+                video.addEventListener('touchend', function() {
+                    pauseVideo(this);
+                });
+
+                video.addEventListener('touchcancel', function() {
+                    pauseVideo(this);
+                });
+            });
+        }
+
+
+        /**
+         * Inicia la sincronización, obtiene los bloques y actualiza el DOM.
+         */
+        async function fetchArenaBlocks() {
+            try {
+                const response = await fetch(ARENA_API_URL);
+                const data = await response.json();
+
+                const container = document.getElementById('arena-portfolio-container');
+                if (!container) {
+                    console.error('El contenedor #arena-portfolio-container no fue encontrado.');
+                    return;
+                }
+
+                let fullHtml = '';
+                // Are.na devuelve del más nuevo al más antiguo
+                data.contents.forEach(block => {
+                    fullHtml += generateBlockHtml(block);
+                });
+
+                // Inyectar todo el HTML de una sola vez
+                container.innerHTML = fullHtml;
+
+                // Después de inyectar el nuevo contenido, reconectamos los eventos de video y filtros
+                reconnectVideoEvents();
+
+            } catch (error) {
+                console.error("Error al obtener datos de Are.na:", error);
+                // Muestra un mensaje amigable si la sincronización falla
+                document.getElementById('arena-portfolio-container').innerHTML = `
+                    <HR><div class="text">Error al cargar el portafolio de Are.na. Por favor, revisa la conexión o el slug del canal.</div>
+                `;
+            }
+        }
+
+
+        // Ejecutar la sincronización cuando el DOM esté listo.
+        document.addEventListener('DOMContentLoaded', fetchArenaBlocks);
+
+    </script>
+
+</html>
