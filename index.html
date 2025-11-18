@@ -179,15 +179,20 @@
             });
 
             // 3. tabloid_background_switch
-            document.getElementById('tabloid').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.body.style.backgroundImage = "url('assets/tabloid02.png')";
-                document.body.style.backgroundSize = "cover";
-                document.body.style.backgroundPosition = "center";
+document.getElementById('tabloid').addEventListener('click', function(e) {
+    e.preventDefault();
 
-                // Seguimiento GA4: Cambio de Fondo Tabloide
-                gtag('event', 'tabloid_background_switch');
-            });
+    // Comprueba si el fondo ya está activo para permitir alternar (opcional)
+    if (document.body.classList.contains('tabloid-bg')) {
+        document.body.classList.remove('tabloid-bg');
+    } else {
+        // Añade la clase que aplica el fondo de pantalla completa
+        document.body.classList.add('tabloid-bg');
+    }
+
+    // Seguimiento GA4: Cambio de Fondo Tabloide
+    gtag('event', 'tabloid_background_switch');
+});
 
             // 4. egginfo_view (Clic en el primer asterisco para mostrar IP/Info)
             document.getElementById('egg').addEventListener('click', async (e) => {
