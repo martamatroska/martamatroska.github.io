@@ -285,6 +285,14 @@ body.bg-active {
   transition: 0s;
 }
 
+.tabloid-bg {
+    background-image: url('assets/tabloid02.png');
+    background-size: cover; /* Asegura que la imagen cubra todo el viewport */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: center center; /* Centra la imagen */
+    /* overflow: hidden; */
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .text, .text2, .title, .imagesection {
