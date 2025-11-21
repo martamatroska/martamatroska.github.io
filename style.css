@@ -319,8 +319,10 @@ body.bg-active {
   }
   /* --- Estilos para el Watermark (Independiente) --- */
 .watermark {
-    font-size: 10px;   
-    position: fixed;
-    bottom: 15px;
-} 
+  color: #00e31a;
+  position: fixed;
+  font-size: 10pt;
+  bottom: 10px;
+  left: 30px;
+}
 } 
