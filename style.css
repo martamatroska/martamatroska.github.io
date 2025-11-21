@@ -63,6 +63,14 @@ img.himages {
   left: 10px;
 }
 
+#showBg {
+  color: #00e31a;
+  position: fixed;
+  font-size: 10pt;
+  bottom: 10px;
+  left: 30px;
+}
+
 #star-wrapper {
   position: fixed;
   bottom: 10px;
