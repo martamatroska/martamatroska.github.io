@@ -8,30 +8,30 @@
   
   <style>
     /* --------------------------------------
-     * >> CSS EMBEBIDO CON MEJORAS RESPONSIVE
+     * >> CSS: FIJO POR DEFECTO (Escritorio)
      * -------------------------------------- */
     
-    /* Añadir un poco de margen al cuerpo para que el contenido no pegue a los bordes del móvil */
     body {
-      padding: 10px; 
-      /* Establecer una fuente base simple, aunque los botones la sobrescriban */
-      font-family: Arial, sans-serif;
+      padding: 10px;
+      font-family: "Times New Roman", Times, serif;
     }
 
-    #canvasContainer { margin-top: 1rem; }
+    #canvasContainer { 
+      margin-top: 1rem; 
+      /* Limitar el ancho máximo para el contenido, centrarlo, si no quieres que ocupe todo el ancho */
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
     
     canvas { 
-      /* --- CLAVE PARA LA ADAPTABILIDAD --- */
-      /* El canvas ocupará el 95% del ancho de su contenedor */
-      width: 95%;        
-      height: auto;      
-      /* ---------------------------------- */
+      /* Por defecto, NO tiene width: 95% aquí. Mantiene los atributos width="500" height="500" del HTML */
       border: 1px solid #000; 
       background: #fff; 
       display: block; 
       cursor: crosshair; 
       user-select: none;
-      touch-action: none; /* Mejor manejo táctil en el canvas */
+      touch-action: none; 
     }
 
     /* Contenedor de controles */
@@ -40,10 +40,10 @@
       display: flex;
       gap: 8px;
       align-items: center; 
-      flex-wrap: wrap; /* Permite que los controles salten de línea en pantallas pequeñas */
+      flex-wrap: wrap; 
     }
     
-    /* Estilos unificados para los controles */
+    /* Estilos unificados para los controles (se mantienen) */
     #downloadBtn, #eraserBtn, #colorPicker {
       font-family: "Times New Roman", Times, serif;
       font-size: 11pt;
@@ -58,7 +58,6 @@
       -webkit-appearance: none;
       text-decoration: none; 
       line-height: 1.5; 
-      /* Ajuste extra para botones y select */
       white-space: nowrap;
     }
 
@@ -70,16 +69,34 @@
     #gallery { 
       margin-top:1rem; 
       display:grid; 
-      /* Las imágenes se llenan y se ajustan al tamaño de pantalla */
       grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); 
       gap:10px; 
     }
     #gallery img { 
-      max-width: 100%; /* Asegura que la imagen no se desborde */
+      max-width: 100%; 
       height: auto;
       border:1px solid #ccc; 
     }
     .text { margin-bottom: 1rem; }
+
+    /* --------------------------------------
+     * >> MEDIA QUERY: SOLO ADAPTAR EN MÓVILES
+     * -------------------------------------- */
+    @media (max-width: 520px) {
+      /* Cuando la pantalla es pequeña (ej: ancho de móvil), aplicamos la adaptabilidad */
+      
+      #canvasContainer {
+        /* Desactivar el max-width para que el canvas pueda expandirse al 95% */
+        max-width: 95%;
+      }
+
+      canvas { 
+        /* El canvas visible (CSS) se reduce al 95% del contenedor */
+        width: 95%;        
+        height: auto;
+        /* IMPORTANTE: El JavaScript luego ajustará la resolución interna (width/height) a este 95% */
+      }
+    }
   </style>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
@@ -122,17 +139,14 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     /* --------------------------------------
-     * >> JAVASCRIPT REFACTORIZADO Y RESPONSIVE
+     * >> JAVASCRIPT: LÓGICA DE DIBUJO Y RESPONSIVE
      * -------------------------------------- */
     emailjs.init({ publicKey: "l06doB2wxnGk4vSmz" }); 
 
     const canvas = document.getElementById('drawCanvas');
     const ctx = canvas.getContext('2d');
     
-    // Evitar scroll táctil dentro del canvas mientras se dibuja
-    canvas.addEventListener('touchstart', e => {
-      e.preventDefault(); 
-    }, { passive: false });
+    canvas.addEventListener('touchstart', e => { e.preventDefault(); }, { passive: false });
 
     // Referencias a elementos
     const btn = document.getElementById('downloadBtn');
@@ -152,23 +166,23 @@
     // ----------------------------------------------------------------------------------
 
     /**
-     * Ajusta los atributos de resolución (width/height) del canvas
-     * a su tamaño de visualización real (calculado por CSS).
+     * Ajusta los atributos de resolución interna (width/height) del canvas.
+     * Esto solo es necesario cuando el canvas ha sido reducido por CSS (en móvil).
      */
     function resizeCanvas() {
-      const container = canvas.parentElement;
+      // 1. Obtener el tamaño visible (CSS) del canvas.
+      const rect = canvas.getBoundingClientRect();
       
-      // Obtener el ancho de visualización real que el CSS ha asignado al canvas
-      // Usamos clientWidth para obtener el tamaño renderizado actual
-      const displayWidth = container.clientWidth * 0.95; 
-      
-      // El canvas original es 500x500. Limitamos el tamaño máximo para que no exceda 500px,
-      // pero se reduce en móviles.
-      const finalSize = Math.min(displayWidth, 500); 
-      
-      // Ajustar la resolución interna del canvas (que borra el contenido)
-      canvas.width = finalSize;
-      canvas.height = finalSize;
+      // 2. Determinar la resolución interna:
+      if (rect.width < 500) {
+        // Estamos en móvil: aplicamos la resolución del CSS.
+        canvas.width = rect.width;
+        canvas.height = rect.height; 
+      } else {
+        // Estamos en escritorio: volvemos a la resolución fija.
+        canvas.width = 500;
+        canvas.height = 500;
+      }
     }
 
     // Inicializar y escuchar eventos de redimensionamiento
@@ -177,16 +191,17 @@
 
 
     // ----------------------------------------------------------------------------------
-    // >> LÓGICA DE DIBUJO Y CONTROLES
+    // >> LÓGICA DE DIBUJO
     // ----------------------------------------------------------------------------------
 
     function updateEraserButtonText() {
       eraserBtn.textContent = eraserMode ? "Eraser: (ON) " : "Eraser: (OFF) ";
     }
 
+    updateEraserButtonText();
+
     /**
-     * Calcula la posición X/Y dentro del canvas a partir de un evento de puntero.
-     * Es crucial para que el dibujo se alinee correctamente cuando el canvas se ha redimensionado.
+     * Calcula la posición X/Y escalada para que el dibujo se alinee con el puntero.
      */
     function getPos(e) {
       const rect = canvas.getBoundingClientRect();
@@ -196,11 +211,8 @@
       const x = clientX - rect.left;
       const y = clientY - rect.top;
       
-      /*
-       * ESCALADO DE COORDENADAS:
-       * Mapear las coordenadas de la pantalla (rect.width) a la resolución interna del canvas (canvas.width)
-       * Esto asegura que el trazo se dibuje correctamente, incluso si el canvas está escalado.
-       */
+      // Escalado de coordenadas: Mapear la posición del ratón/dedo (rect.width) 
+      // a la resolución interna del canvas (canvas.width).
       return { 
         x: x * (canvas.width / rect.width), 
         y: y * (canvas.height / rect.height) 
@@ -227,6 +239,7 @@
       ctx.globalCompositeOperation = 'source-over'; 
     }
 
+    // Manejadores de Pointer Events (unificados)
     canvas.addEventListener('pointerdown', e => {
       isPointerDown = true;
       lastPos = getPos(e);
@@ -248,11 +261,10 @@
     canvas.addEventListener('pointerup', e => {
       isPointerDown = false;
       lastPos = null;
-      try { 
-        canvas.releasePointerCapture(e.pointerId); 
-      } catch(_) {}
+      try { canvas.releasePointerCapture(e.pointerId); } catch(_) {}
     });
 
+    // Manejo de Controles
     colorPicker.addEventListener('change', e => {
       currentColor = e.target.value;
       eraserMode = false; 
@@ -306,17 +318,14 @@
     }
 
     btn.addEventListener('click', async () => {
-      // 1. Obtener Data URL original. Usamos la resolución INTERNA actual del canvas.
       const originalDataURL = canvas.toDataURL("image/png");
 
-      // 2. Mostrar y guardar localmente (usando el DataURL generado con la resolución actual)
       const img = document.createElement("img");
       img.src = originalDataURL; 
       if (gallery) gallery.appendChild(img);
       savedImages.push(originalDataURL);
       localStorage.setItem("galleryImages", JSON.stringify(savedImages));
 
-      // 3. Comprimir para el envío (350x350 max)
       const compressedDataURL = await compressCanvasDataURL(originalDataURL, 350, 350);
       
       const params = {
