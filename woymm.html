@@ -12,20 +12,18 @@
      * -------------------------------------- */
     
     body {
-      padding: 10px;
+      padding: 10px; /* Margen general para evitar que pegue a los bordes */
       font-family: "Times New Roman", Times, serif;
     }
 
     #canvasContainer { 
       margin-top: 1rem; 
-      /* Limitar el ancho máximo para el contenido, centrarlo, si no quieres que ocupe todo el ancho */
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
+      /* Restablecido a su flujo normal */
+      max-width: 500px; /* Máximo 500px, pero sin centrar */
     }
     
     canvas { 
-      /* Por defecto, NO tiene width: 95% aquí. Mantiene los atributos width="500" height="500" del HTML */
+      /* Por defecto: mantiene el tamaño fijo del HTML (500x500px) */
       border: 1px solid #000; 
       background: #fff; 
       display: block; 
@@ -80,21 +78,19 @@
     .text { margin-bottom: 1rem; }
 
     /* --------------------------------------
-     * >> MEDIA QUERY: SOLO ADAPTAR EN MÓVILES
+     * >> MEDIA QUERY: ADAPTACIÓN PARA MÓVILES (Pantallas < 520px)
      * -------------------------------------- */
     @media (max-width: 520px) {
-      /* Cuando la pantalla es pequeña (ej: ancho de móvil), aplicamos la adaptabilidad */
       
       #canvasContainer {
-        /* Desactivar el max-width para que el canvas pueda expandirse al 95% */
-        max-width: 95%;
+        /* Permitir que el contenedor ocupe casi todo el ancho disponible */
+        max-width: 98%; 
       }
 
       canvas { 
         /* El canvas visible (CSS) se reduce al 95% del contenedor */
         width: 95%;        
         height: auto;
-        /* IMPORTANTE: El JavaScript luego ajustará la resolución interna (width/height) a este 95% */
       }
     }
   </style>
@@ -167,19 +163,20 @@
 
     /**
      * Ajusta los atributos de resolución interna (width/height) del canvas.
-     * Esto solo es necesario cuando el canvas ha sido reducido por CSS (en móvil).
      */
     function resizeCanvas() {
       // 1. Obtener el tamaño visible (CSS) del canvas.
       const rect = canvas.getBoundingClientRect();
       
       // 2. Determinar la resolución interna:
+      // Si el ancho visible (rect.width) es menor que el tamaño fijo de escritorio (500px), 
+      // aplicamos la adaptación.
       if (rect.width < 500) {
         // Estamos en móvil: aplicamos la resolución del CSS.
         canvas.width = rect.width;
         canvas.height = rect.height; 
       } else {
-        // Estamos en escritorio: volvemos a la resolución fija.
+        // Estamos en escritorio: volvemos a la resolución fija de 500x500.
         canvas.width = 500;
         canvas.height = 500;
       }
@@ -211,8 +208,7 @@
       const x = clientX - rect.left;
       const y = clientY - rect.top;
       
-      // Escalado de coordenadas: Mapear la posición del ratón/dedo (rect.width) 
-      // a la resolución interna del canvas (canvas.width).
+      // Escalado de coordenadas
       return { 
         x: x * (canvas.width / rect.width), 
         y: y * (canvas.height / rect.height) 
