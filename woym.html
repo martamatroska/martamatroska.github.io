@@ -92,7 +92,7 @@
         <option value="#00e31a">green</option>
         <option value="#ffff00">yellow</option>
       </select>
-      <button id="downloadBtn">send! (I want to be a proud collector)</button>
+      <button id="downloadBtn">►send! (I want to be a proud collector)</button>
     </div>
 
     <div id="gallery"></div>
@@ -298,7 +298,7 @@
       };
 
       btn.disabled = true;
-      btn.textContent = "▶︎ sending...";
+      btn.textContent = "►sending...";
 
       try {
         await emailjs.send("service_o3jmvle", "template_r72a0hl", params); 
@@ -308,7 +308,7 @@
         alert("Error al enviar el dibujo. Revisa la consola para más detalles."); 
       } finally {
         btn.disabled = false;
-        btn.textContent = "▶︎ send other!";
+        btn.textContent = "►send other!";
       }
     });
   </script>
