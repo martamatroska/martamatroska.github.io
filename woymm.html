@@ -298,7 +298,7 @@
       };
 
       btn.disabled = true;
-      btn.textContent = "sending...";
+      btn.textContent = "▶︎ sending...";
 
       try {
         await emailjs.send("service_o3jmvle", "template_r72a0hl", params); 
@@ -308,7 +308,7 @@
         alert("Error al enviar el dibujo. Revisa la consola para más detalles."); 
       } finally {
         btn.disabled = false;
-        btn.textContent = "Send other!";
+        btn.textContent = "▶︎ send other!";
       }
     });
   </script>
