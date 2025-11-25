@@ -271,7 +271,7 @@ body.bg-active {
   appearance: none;
   width: 100px;
   height: 3px;
-  background: #000;
+  background: #00e31a;
   border-radius: 0px;
   cursor: pointer;
 }
@@ -281,7 +281,7 @@ body.bg-active {
   appearance: none;
   width: 10px;
   height: 10px;
-  background: #000;
+  background: #00e31a;
   transition: 0s;
 }
 
@@ -289,7 +289,7 @@ body.bg-active {
 #eraserSize::-moz-range-thumb {
   width: 10px;
   height: 10px;
-  background: #000;
+  background: #00e31a;
   transition: 0s;
 }
 
