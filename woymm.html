@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>(˵ ͡° ͜ʖ ͡°˵)</title>
+  <link rel="icon" href="assets/favicon.ico">
+  <style>
+    /* --------------------------------------
+     * >> CSS EMBEBIDO CON MEJORAS
+     * -------------------------------------- */
+    #canvasContainer { margin-top: 1rem; }
+    canvas { 
+      border: 1px solid #000; 
+      background: #fff; 
+      display: block; 
+      /* Añadido para mejor experiencia de dibujo */
+      cursor: crosshair; 
+      /* Evitar que se seleccione el texto del canvas al arrastrar */
+      user-select: none;
+      touch-action: none; /* Mejor manejo táctil */
+    }
+
+    /* Contenedor de controles más genérico */
+    .controls-container {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      align-items: center; /* Alineación vertical centrada */
+      flex-wrap: wrap;
+    }
+    
+    /* Estilos unificados para los controles */
+    #downloadBtn, #eraserBtn, #colorPicker {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 11pt;
+      letter-spacing: -0.3px;
+      background: none;
+      border: none;
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+      appearance: none; 
+      -webkit-appearance: none;
+      /* Asegurarse de que el color picker se vea bien */
+      text-decoration: none; 
+      line-height: 1.5; /* Mejorar el espaciado del texto en los botones */
+    }
+
+    /* Estilos específicos para las opciones del selector (si el navegador lo permite) */
+    #colorPicker option { 
+        font-family: "Times New Roman", Times, serif;
+        font-size: 11pt;
+    } 
+
+    #gallery { margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,150px); gap:10px; }
+    #gallery img { max-width:150px; border:1px solid #ccc; }
+    .text { margin-bottom: 1rem; }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-F9YHR26YNQ');
+  </script>
+</head>
+<body>
+  <div id="content">
+    <div class="container">
+      <div class="text">
+        <a href='index' id="home-link">*</a><br>
+        ✎ what's on your mind?
+      </div>
+    </div>
+  </div>
+
+  <div id="canvasContainer">
+    <canvas id="drawCanvas" width="500" height="500"></canvas>
+
+    <div class="controls-container"> 
+      <button id="eraserBtn">Tamaño Borrador</button>
+      <input id="eraserSize" type="range" min="4" max="60" value="20" />
+      <select id="colorPicker">
+        <option value="#000000">black</option>
+        <option value="#ff0000">red</option>
+        <option value="#0000ff">blue</option>
+        <option value="#00e31a">green</option>
+        <option value="#ffff00">yellow</option>
+      </select>
+      <button id="downloadBtn">send! (I want to be a proud collector)</button>
+    </div>
+
+    <div id="gallery"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    /* --------------------------------------
+     * >> JAVASCRIPT REFACTORIZADO Y UNIFICADO
+     * -------------------------------------- */
+    emailjs.init({ publicKey: "l06doB2wxnGk4vSmz" }); // ¡Recuerda esta clave!
+
+    const canvas = document.getElementById('drawCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Evitar scroll táctil dentro del canvas mientras se dibuja (mantenido por si acaso)
+    canvas.addEventListener('touchstart', e => {
+      e.preventDefault(); 
+    }, { passive: false });
+
+    // Referencias a elementos
+    const btn = document.getElementById('downloadBtn');
+    const eraserBtn = document.getElementById('eraserBtn');
+    const eraserSizeInput = document.getElementById('eraserSize');
+    const colorPicker = document.getElementById('colorPicker');
+    const gallery = document.getElementById("gallery");
+
+    // Estado
+    let isPointerDown = false;
+    let lastPos = null;
+    let currentColor = colorPicker.value;
+    let eraserMode = false;
+
+    /**
+     * Actualiza el texto del botón del borrador basado en el modo actual.
+     */
+    function updateEraserButtonText() {
+      eraserBtn.textContent = eraserMode ? "Borrador: (ON) " : "Borrador: (OFF) ";
+    }
+
+    // Inicializar texto del botón al cargar
+    updateEraserButtonText();
+
+    // ----------------------------------------------------------------------------------
+    // >> LÓGICA DE DIBUJO
+    // ----------------------------------------------------------------------------------
+
+    /**
+     * Calcula la posición X/Y dentro del canvas a partir de un evento de puntero.
+     * @param {Event} e - Evento de puntero (pointer, touch, mouse).
+     * @returns {{x: number, y: number}} Posición.
+     */
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+      const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+      
+      return { 
+        x: clientX - rect.left, 
+        y: clientY - rect.top 
+      };
+    }
+
+    /**
+     * Dibuja una línea o punto.
+     */
+    function drawLine(from, to, size, erase) {
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = size;
+
+      if (erase) {
+        // Modo Borrador: Dibuja 'transparente' sobre el fondo, borrando el contenido.
+        ctx.globalCompositeOperation = 'destination-out';
+      } else {
+        // Modo Dibujo: Dibuja normalmente.
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = currentColor;
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      ctx.stroke();
+      
+      // Restablecer la operación global al modo normal inmediatamente después de dibujar
+      ctx.globalCompositeOperation = 'source-over'; 
+    }
+
+    // Manejadores de Pointer Events (unificados para ratón y táctil)
+    canvas.addEventListener('pointerdown', e => {
+      isPointerDown = true;
+      lastPos = getPos(e);
+      const penSize = 2; // Grosor por defecto para el pincel
+      const size = eraserMode ? Number(eraserSizeInput.value) : penSize;
+      drawLine(lastPos, lastPos, size, eraserMode);
+      // Capturar el puntero para seguir dibujando aunque se salga brevemente del canvas
+      canvas.setPointerCapture(e.pointerId);
+    });
+
+    canvas.addEventListener('pointermove', e => {
+      if (!isPointerDown) return;
+      const pos = getPos(e);
+      const penSize = 2;
+      const size = eraserMode ? Number(eraserSizeInput.value) : penSize;
+      drawLine(lastPos, pos, size, eraserMode);
+      lastPos = pos;
+    });
+
+    canvas.addEventListener('pointerup', e => {
+      isPointerDown = false;
+      lastPos = null;
+      try { 
+        canvas.releasePointerCapture(e.pointerId); 
+      } catch(_) {
+        // Ignorar error si la captura ya fue liberada o no existía
+      }
+    });
+
+    // ----------------------------------------------------------------------------------
+    // >> MANEJO DE CONTROLES
+    // ----------------------------------------------------------------------------------
+
+    colorPicker.addEventListener('change', e => {
+      currentColor = e.target.value;
+      // Al cambiar el color, se asume que el usuario quiere volver a dibujar
+      eraserMode = false; 
+      updateEraserButtonText();
+    });
+
+    eraserBtn.addEventListener('click', () => {
+      eraserMode = !eraserMode;
+      updateEraserButtonText();
+    });
+
+    // ----------------------------------------------------------------------------------
+    // >> LÓGICA DE GALERÍA Y ENVÍO
+    // ----------------------------------------------------------------------------------
+
+    const savedImages = JSON.parse(localStorage.getItem("galleryImages") || "[]");
+
+    /**
+     * Carga las imágenes guardadas del LocalStorage en la galería.
+     */
+    function loadGallery() {
+      savedImages.forEach(src => {
+        const img = document.createElement("img");
+        img.src = src;
+        if (gallery) gallery.appendChild(img); 
+      });
+    }
+    loadGallery(); 
+
+    /**
+     * Comprime y redimensiona el Data URL para reducir su peso de envío.
+     * Utiliza un cálculo de ratio simplificado.
+     */
+    function compressCanvasDataURL(dataURL, maxWidth, maxHeight, format = "image/png") {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          const tempCanvas = document.createElement('canvas');
+          const tempCtx = tempCanvas.getContext('2d');
+          
+          let width = img.width;
+          let height = img.height;
+
+          // Calcular ratio para mantener proporciones sin exceder límites
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          
+          width *= ratio;
+          height *= ratio;
+
+          tempCanvas.width = width;
+          tempCanvas.height = height;
+
+          tempCtx.drawImage(img, 0, 0, width, height);
+
+          resolve(tempCanvas.toDataURL(format)); 
+        };
+        img.src = dataURL;
+      });
+    }
+
+    btn.addEventListener('click', async () => {
+      // 1. Obtener Data URL original para la galería local
+      const originalDataURL = canvas.toDataURL("image/png");
+
+      // 2. Mostrar y guardar localmente la imagen original
+      const img = document.createElement("img");
+      img.src = originalDataURL; 
+      if (gallery) gallery.appendChild(img);
+      savedImages.push(originalDataURL);
+      localStorage.setItem("galleryImages", JSON.stringify(savedImages));
+
+      // 3. Comprimir la imagen para el envío (350x350 max)
+      const compressedDataURL = await compressCanvasDataURL(originalDataURL, 350, 350);
+      
+      const params = {
+        to_email: "casfemarta@gmail.com",
+        message: "para descargar en .png primero guardar en Google Fotos y de ahí descargar",
+        attachment: compressedDataURL 
+      };
+
+      btn.disabled = true;
+      btn.textContent = "enviando...";
+
+      try {
+        await emailjs.send("service_o3jmvle", "template_r72a0hl", params); 
+        alert("¡Éxito rotundo! El dibujo ha sido enviado.");
+      } catch (err) {
+        console.error("Error al enviar el correo:", err);
+        alert("Error al enviar el dibujo. Revisa la consola para más detalles."); 
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "¡Enviar otro!";
+      }
+    });
+  </script>
+</body>
+</html>
