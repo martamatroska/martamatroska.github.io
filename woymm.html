@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <title>(˵ ͡° ͜ʖ ͡°˵)</title>
   <link rel="icon" href="assets/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  
   <style>
     /* --------------------------------------
      * >> CSS EMBEBIDO CON MEJORAS
@@ -128,7 +130,7 @@
      * Actualiza el texto del botón del borrador basado en el modo actual.
      */
     function updateEraserButtonText() {
-      eraserBtn.textContent = eraserMode ? "Borrador: (ON) " : "Borrador: (OFF) ";
+      eraserBtn.textContent = eraserMode ? "Eraser: (ON) " : "Eraser: (OFF) ";
     }
 
     // Inicializar texto del botón al cargar
@@ -296,17 +298,17 @@
       };
 
       btn.disabled = true;
-      btn.textContent = "enviando...";
+      btn.textContent = "sending...";
 
       try {
         await emailjs.send("service_o3jmvle", "template_r72a0hl", params); 
-        alert("¡Éxito rotundo! El dibujo ha sido enviado.");
+        alert("¡Éxito rotundo!");
       } catch (err) {
-        console.error("Error al enviar el correo:", err);
+        console.error("E R R O R", err);
         alert("Error al enviar el dibujo. Revisa la consola para más detalles."); 
       } finally {
         btn.disabled = false;
-        btn.textContent = "¡Enviar otro!";
+        btn.textContent = "Send other!";
       }
     });
   </script>
