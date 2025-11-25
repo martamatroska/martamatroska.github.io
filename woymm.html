@@ -12,18 +12,17 @@
      * -------------------------------------- */
     
     body {
-      padding: 10px; /* Margen general para evitar que pegue a los bordes */
+      padding: 10px; 
       font-family: "Times New Roman", Times, serif;
     }
 
     #canvasContainer { 
       margin-top: 1rem; 
-      /* Restablecido a su flujo normal */
-      max-width: 500px; /* Máximo 500px, pero sin centrar */
+      /* IMPORTANTE: Eliminamos el max-width para no restringir el ancho del contenido de escritorio */
     }
     
     canvas { 
-      /* Por defecto: mantiene el tamaño fijo del HTML (500x500px) */
+      /* En escritorio, el canvas toma el tamaño de sus atributos HTML (500x500) */
       border: 1px solid #000; 
       background: #fff; 
       display: block; 
@@ -66,9 +65,10 @@
 
     #gallery { 
       margin-top:1rem; 
-      display:grid; 
-      grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); 
+      /* Usamos minmax(100px, 500px) para que las imágenes no se estiren demasiado en escritorio */
+      grid-template-columns:repeat(auto-fill, minmax(100px, 500px)); 
       gap:10px; 
+      display: grid;
     }
     #gallery img { 
       max-width: 100%; 
@@ -83,14 +83,19 @@
     @media (max-width: 520px) {
       
       #canvasContainer {
-        /* Permitir que el contenedor ocupe casi todo el ancho disponible */
+        /* En móvil, aplicamos un límite para que el canvas no se desborde */
         max-width: 98%; 
       }
 
       canvas { 
-        /* El canvas visible (CSS) se reduce al 95% del contenedor */
+        /* En móvil, forzamos al canvas a ocupar el 95% del espacio visible. */
         width: 95%;        
         height: auto;
+      }
+
+      #gallery {
+        /* En móvil, limitamos las columnas para que las imágenes se vean más grandes */
+        grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); 
       }
     }
   </style>
@@ -126,7 +131,7 @@
         <option value="#00e31a">green</option>
         <option value="#ffff00">yellow</option>
       </select>
-      <button id="downloadBtn">►send! (I want to be a proud collector)</button>
+      <button id="downloadBtn">► send! (I want to be a proud collector)</button>
     </div>
 
     <div id="gallery"></div>
@@ -165,20 +170,18 @@
      * Ajusta los atributos de resolución interna (width/height) del canvas.
      */
     function resizeCanvas() {
-      // 1. Obtener el tamaño visible (CSS) del canvas.
+      // Obtener el tamaño visible (CSS) del canvas.
       const rect = canvas.getBoundingClientRect();
       
-      // 2. Determinar la resolución interna:
-      // Si el ancho visible (rect.width) es menor que el tamaño fijo de escritorio (500px), 
-      // aplicamos la adaptación.
-      if (rect.width < 500) {
-        // Estamos en móvil: aplicamos la resolución del CSS.
-        canvas.width = rect.width;
-        canvas.height = rect.height; 
-      } else {
-        // Estamos en escritorio: volvemos a la resolución fija de 500x500.
+      // La clave está en esta lógica: si el ancho visible es cercano o mayor a 500px, 
+      // mantenemos la resolución interna a 500x500 (tamaño original de escritorio).
+      if (rect.width >= 490) { // Usamos 490px como umbral de seguridad para escritorio
         canvas.width = 500;
         canvas.height = 500;
+      } else {
+        // En móvil, la resolución interna se adapta al tamaño visible del CSS (width: 95%).
+        canvas.width = rect.width;
+        canvas.height = rect.height;
       }
     }
 
@@ -198,7 +201,7 @@
     updateEraserButtonText();
 
     /**
-     * Calcula la posición X/Y escalada para que el dibujo se alinee con el puntero.
+     * Calcula la posición X/Y escalada.
      */
     function getPos(e) {
       const rect = canvas.getBoundingClientRect();
@@ -331,7 +334,7 @@
       };
 
       btn.disabled = true;
-      btn.textContent = "►sending...";
+      btn.textContent = "► sending...";
 
       try {
         await emailjs.send("service_o3jmvle", "template_r72a0hl", params); 
@@ -341,7 +344,7 @@
         alert("Error al enviar el dibujo. Revisa la consola para más detalles."); 
       } finally {
         btn.disabled = false;
-        btn.textContent = "►send other!";
+        btn.textContent = "► send other!";
       }
     });
   </script>
