@@ -298,6 +298,7 @@ body.bg-active {
     background-size: cover; /* Asegura que la imagen cubra todo el viewport */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
     background-position: center center; /* Centra la imagen */
+    background-attachment: fixed; /* AÑADIR ESTO: Fija la imagen al viewport */
     /* overflow: hidden; */
 }
 
