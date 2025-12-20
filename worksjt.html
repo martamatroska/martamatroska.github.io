@@ -4,67 +4,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JTH</title>
+    
+    <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.16/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js"></script>
+
     <style>
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
-        }
-
-        body {
-            font-family: "Times New Roman", Times, serif;
-            font-size: 11pt;
-            line-height: 1.2;
-            color: #1a1a1a;
             background-color: #ffffff;
-            
-            /* Configuración para esquina inferior izquierda */
-            display: flex;
-            justify-content: flex-start; /* Alinea al inicio horizontal (izquierda) */
-            align-items: flex-end;      /* Alinea al final vertical (abajo) */
-            text-align: left;            /* Alinea el texto a la izquierda */
-            
-            /* Margen para que no toque los bordes de la ventana */
-            padding: 20px;
-            box-sizing: border-box;      /* Asegura que el padding no rompa el 100% de altura */
+            font-family: "Times New Roman", Times, serif;
+            overflow-x: hidden;
         }
 
-
-        nav {
-            margin-top: 3px; 
+        /* --- AJUSTE 1: Títulos grandes, negrita y Times --- */
+        #info {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 24pt;    /* Tamaño grande */
+            font-weight: 700;   /* Strong (Negrita) */
+            text-transform: lowercase; /* Opcional: para mantener estilo minimalista */
+            pointer-events: none;
+            color: #1a1a1a;
         }
 
-        nav li {
-            list-style: none; 
-            padding: 0;
+        header {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+        }
+
+        nav li { list-style: none; margin: 0; padding: 0; }
+        a { text-decoration: none; color: blue; }
+        a:hover { color: #ffffff; background-color: black; }
+
+        .container-chaos {
+            list-style: none;
             margin: 0;
+            padding: 0;
+            position: relative;
+            width: 100%;
+            height: 2000px; /* Reducido para que el scroll no sea infinito */
         }
 
-        a {
-            text-decoration: none; 
-            color: blue;        
+        /* --- AJUSTE 2: Imágenes que se pueden mover --- */
+        .work-item {
+            position: absolute;
+            cursor: grab; /* Indica que se puede agarrar */
+            width: 320px; /* Un poco más grandes */
+            transition: z-index 0s;
+        }
+        
+        .work-item:active {
+            cursor: grabbing;
         }
 
-        a:hover {
-            color: #ffffff; 
-            background-color: rgb(0, 0, 0);
+        .thumb {
+            width: 100%;
+            height: auto;
+            display: block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            /* Evita que el navegador intente arrastrar la imagen como archivo */
+            user-select: none;
+            -webkit-user-drag: none;
         }
     </style>
 </head>
 <body>
 
+    <div id="info"></div>
+
     <header>
-        
-        <nav>
-            <li>Juan Tribaldos</li>
-            <li><a href="#">works</a></li>
+         <nav>
+            <li><a href="indexjt.html" style="text-decoration: none; color: inherit; cursor: default;">Juan Tribaldos</a></li>
+            <li><a href="worksjt.html">works</a></li>
             <li><a href="aboutjt.html">about</a></li>
             <li><a href="mailto:juantribaldos@gmail.com">juantribaldos (at) gmail (dot) com</a></li>
         </nav>
     </header>
 
     <main>
-        </main>
+        <ul class="container-chaos">
+            <li class="work-item" id="pic1" data-hover="work on paper (2018)">
+                <a href="#">
+                    <img class="thumb" src="https://d2w9rnfcy7mm78.cloudfront.net/41486130/original_921965981dec1422e10fbd0a320d7b25.png?1764592970?bc=0" />
+                </a>
+            </li>
+            <li class="work-item" id="pic2" data-hover="Landscape (2020)">
+                <a href="#">
+                    <img class="thumb" src="https://d2w9rnfcy7mm78.cloudfront.net/41486070/original_c09eabaecadc85a353e61115e1c6faa6.png?1764592713?bc=0" />
+                </a>
+            </li>
+            <li class="work-item" id="pic3" data-hover="Street Photo (2021)">
+                <a href="#">
+                    <img class="thumb" src="https://d2w9rnfcy7mm78.cloudfront.net/41008348/original_6bb10a690c5a8dc9bf8e60f533634292.png?1762812035?bc=0" />
+                </a>
+            </li>
+        </ul>
+    </main>
+
+    <script>
+    $(function() {
+        $('.container-chaos li').each(function() {
+            var sign = Math.random() < 0.5 ? '-' : '+';
+            var docWidth = $(window).width();
+            
+            // --- AJUSTE 3: Menos espacio vertical (posy limitado a 600px) ---
+            var posx = (Math.random() * (docWidth - 350));
+            var posy = (Math.random() * 600); 
+            var rota = (Math.random() * 20); 
+
+            $(this).css({
+                'left': posx + 'px',
+                'top': posy + 'px',
+                'rotate': sign + rota + 'deg'
+            });
+        });
+
+        // Habilitar movimiento
+        $('.work-item').draggable({
+            start: function() {
+                // Traer al frente al empezar a mover
+                $(this).css('z-index', 1000).siblings().css('z-index', 1);
+            }
+        });
+
+        $('.work-item').hover(function() {
+            var txt = $(this).data('hover');
+            $('#info').text(txt);
+            $(this).css('z-index', 1000).siblings().css('z-index', 1);
+        }, function() {
+            $('#info').text('');
+        });
+    });
+    </script>
 
 </body>
 </html>

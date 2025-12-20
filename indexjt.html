@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JTH - B-Spline desde Centro</title>
+    <title>JTH</title>
     <style>
         html, body {
             height: 100%;
@@ -23,6 +23,7 @@
             align-items: center;
             text-align: right;
         }
+  
 
         header {
             position: relative;
@@ -50,7 +51,7 @@
         .list-clone {
             position: absolute;
             
-            opacity: 0.2; /* Bajamos un poco la opacidad para que se vea más elegante */
+            opacity: 0.2; 
             z-index: 1;
             white-space: nowrap;
             /* Centramos el clon respecto a su coordenada para que coincida con el original */
@@ -118,7 +119,7 @@
             return res;
         };
 
-        // --- LÓGICA DE ANIMACIÓN MODIFICADA ---
+       
         let w = window.innerWidth;
         let h = window.innerHeight;
         let list = document.getElementById('list');
@@ -149,7 +150,7 @@
         }
 
         let spline = new BSpline(points, 3);
-        let t = 0;
+        let t = 0.15;
 
         let interval = setInterval(() => {
             var p = spline.calcAt(t);
