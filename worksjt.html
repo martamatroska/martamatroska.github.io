@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JTH</title>
+    <title>HM</title>
     
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 
     <style>
@@ -19,9 +18,9 @@
             overflow-x: hidden;
         }
 
-        /* Clase para evitar el doble scroll al ampliar */
         body.lock-scroll {
-            overflow: hidden;
+            overflow: hidden !important;
+            height: 100vh !important; 
         }
 
         #info {
@@ -52,13 +51,7 @@
             z-index: 9999;
         }
 
-        nav li { 
-            list-style: none; 
-            margin: 0; 
-            padding: 0; 
-            font-weight: normal; /* Asegura que no haya negritas por defecto */
-        }
-        
+        nav li { list-style: none; margin: 0; padding: 0; }
         a { text-decoration: none; color: blue; }
 
         .container-chaos {
@@ -67,65 +60,65 @@
             padding: 0;
             position: relative;
             width: 100%;
-            min-height: 150vh; 
+            /* min-height inicial, se ajustará por JS */
+            min-height: 100vh; 
+            overflow: hidden !important;
         }
 
         .work-item {
             position: absolute;
             width: 320px;
-            display: block; 
             z-index: 10;
-            cursor: grab;
             opacity: 0;
-            transition: none !important;
-        }
-
-        /* Modo pantalla completa ajustable al ancho */
-        .work-item.is-fullscreen {
-            position: fixed !important; /* Cambiado a fixed para controlar mejor el scroll único */
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            z-index: 10000 !important;
-            cursor: zoom-out;
-            rotate: 0deg !important; 
-            transform: none !important;
-            overflow-y: auto; /* Permite scroll interno si la imagen es larga */
-            background: white; /* Evita ver el caos debajo si hay transparencias */
-        }
-
-        .work-item.is-fullscreen img {
-            width: 100%;
-            height: auto;
-            display: block;
         }
 
         .thumb {
             width: 100%;
             height: auto;
             display: block;
-            pointer-events: none; 
-            -webkit-user-drag: none;
-            box-shadow: none !important;
+            pointer-events: none;
+        }
+
+        #fullscreen-viewer {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            z-index: 10000;
+            overflow-y: scroll; 
+            cursor: zoom-out;
+        }
+
+        #home {
+            text-decoration: none;
+            color: black;
+        }
+
+        #fullscreen-viewer img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .ui-draggable-dragging {
             cursor: grabbing !important;
-            z-index: 9998 !important;
         }
     </style>
 </head>
 <body>
 
     <div id="info"></div>
+    <div id="fullscreen-viewer"></div>
 
     <header>
         <nav>
-            <li style="color: black;">Juan Tribaldos</li>
+            <li><a href="indexjt.html" id="home">Heura Murgui</a></li>
             <li><a href="worksjt.html">works</a></li>
             <li><a href="aboutjt.html">about</a></li>
-            <li><a href="mailto:juantribaldos@gmail.com">juantribaldos (at) gmail (dot) com</a></li>
+            <li><a href="mailto:heuramurgui@gmail.com">heuramurgui (at) gmail (dot) com</a></li>
         </nav>
     </header>
 
@@ -140,13 +133,11 @@
 
         async function fetchArenaBlocks() {
             try {
-                const response = await fetch(`${API_BASE}/channels/${CHANNEL_SLUG}/contents?per=50&direction=desc`, {
-                    headers: { 'Cache-Control': 'no-cache' }
-                });
+                const response = await fetch(`${API_BASE}/channels/${CHANNEL_SLUG}/contents?per=50&direction=desc`);
                 const data = await response.json();
                 return data.contents.filter(block => block.class === 'Image');
             } catch (error) {
-                console.error('Error fetching Arena:', error);
+                console.error('Error:', error);
                 return [];
             }
         }
@@ -155,106 +146,84 @@
             const $el = $(element);
             const sign = Math.random() < 0.5 ? '-' : '+';
             const posx = Math.random() * ($(window).width() - 350);
-            const posy = Math.random() * ($(window).height() + 500);
+            
+            // Esparcimiento vertical basado en el alto de la pantalla (*3)
+            const posy = Math.random() * ($(window).height() * 3);
+            
             const rota = (Math.random() * 20).toFixed(2);
-            const rotationString = sign + rota + 'deg';
 
             $el.css({
                 'left': posx + 'px',
                 'top': posy + 'px',
-                'rotate': rotationString,
+                'transform': `rotate(${sign}${rota}deg)`,
                 'opacity': 1
             });
 
-            $el.draggable({
-                stack: ".work-item",
-                start: function() {
-                    if ($(this).hasClass('is-fullscreen')) return false;
-                }
-            });
+            $el.draggable({ stack: ".work-item" });
 
             $el.hover(
                 function() { 
-                    if (!$(this).hasClass('is-fullscreen')) {
-                        const title = $(this).attr('data-title');
-                        const date = $(this).attr('data-date');
-                        const desc = $(this).attr('data-description');
-                        
-                        let infoHtml = `<div>${title} <span style="font-weight:400; font-size:18pt;">(${date})</span></div>`;
-                        if (desc && desc !== "null" && desc !== "") {
-                            infoHtml += `<div class="info-desc">${desc}</div>`;
-                        }
-
-                        $('#info').html(infoHtml);
-                        $(this).css('z-index', '9000');
-                    }
+                    const title = $(this).attr('data-title');
+                    const date = $(this).attr('data-date');
+                    const desc = $(this).attr('data-description');
+                    let infoHtml = `<div>${title} <span style="font-weight:400; font-size:18pt;">(${date})</span></div>`;
+                    if (desc && desc !== "null") infoHtml += `<div class="info-desc">${desc}</div>`;
+                    $('#info').html(infoHtml);
+                    $(this).css('z-index', '9000');
                 }, 
                 function() { 
                     $('#info').html('');
-                    if (!$(this).hasClass('is-fullscreen')) $(this).css('z-index', '10');
+                    $(this).css('z-index', '10');
                 }
             );
 
             $el.on('click', function(e) {
-                e.preventDefault();
                 if ($(this).hasClass('ui-draggable-dragging')) return;
-
-                const $this = $(this);
-
-                if (!$this.hasClass('is-fullscreen')) {
-                    $this.data('scroll-pos', $(window).scrollTop());
-                    $this.data('current-left', $this.css('left'));
-                    $this.data('current-top', $this.css('top'));
-                    $this.data('current-rotate', $this.css('rotate'));
-
-                    $this.addClass('is-fullscreen');
-                    $('body').addClass('lock-scroll'); // Bloqueamos el scroll del fondo
-                    $this.scrollTop(0); // Scroll al inicio de la imagen
-                    $('#info').hide();
-                } else {
-                    $this.removeClass('is-fullscreen');
-                    $('body').removeClass('lock-scroll'); // Liberamos el scroll
-                    
-                    $this.css({
-                        'left': $this.data('current-left'),
-                        'top': $this.data('current-top'),
-                        'rotate': $this.data('current-rotate')
-                    });
-                    
-                    $(window).scrollTop($this.data('scroll-pos'));
-                    $('#info').show();
-                }
+                const imgSrc = $(this).find('img').attr('src');
+                $('#fullscreen-viewer').html(`<img src="${imgSrc}">`).show();
+                $('body').addClass('lock-scroll');
+                $('#info').hide();
+                // Reset scroll del visor al abrir nueva imagen
+                $('#fullscreen-viewer').scrollTop(0);
             });
         }
+
+        $('#fullscreen-viewer').on('click', function() {
+            $(this).hide().empty();
+            $('body').removeClass('lock-scroll');
+            $('#info').show();
+        });
 
         async function init() {
             const blocks = await fetchArenaBlocks();
             const $container = $('#arena-container');
+            let maxBottom = 0; // Para rastrear la posición más baja
 
             blocks.forEach(block => {
                 const imageUrl = block.image.display.url;
                 const title = block.title || "untitled";
-                const date = new Date(block.created_at).toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'short'
-                });
+                const date = new Date(block.created_at).toLocaleDateString('en-EN', { year: 'numeric', month: 'numeric', day: 'numeric' });
                 const description = block.description || "";
                 
                 const html = `
-                    <li class="work-item" 
-                        data-title="${title}" 
-                        data-date="${date}" 
-                        data-description="${description}">
-                        <a href="#">
-                            <img class="thumb" src="${imageUrl}" />
-                        </a>
+                    <li class="work-item" data-title="${title}" data-date="${date}" data-description="${description}">
+                        <img class="thumb" src="${imageUrl}" />
                     </li>
                 `;
-                
                 const $newItem = $(html);
                 $container.append($newItem);
                 applyChaosLogic($newItem);
+
+                // Calculamos cuál es la posición más baja de entre todas las fotos
+                const currentTop = parseFloat($newItem.css('top'));
+                if (currentTop > maxBottom) {
+                    maxBottom = currentTop;
+                }
             });
+
+            // Ajustamos el alto del contenedor dinámicamente según la foto más baja
+            // Añadimos 600px extra de margen para que la última foto no quede pegada al borde inferior
+            $container.css('height', (maxBottom + 600) + 'px');
         }
 
         init();
