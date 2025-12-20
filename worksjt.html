@@ -3,34 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JTH</title>
+    <title>JTH + Are.na Fullwidth</title>
     
-    <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.8.16/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 
     <style>
         html, body {
-            height: 100%;
             margin: 0;
             padding: 0;
             background-color: #ffffff;
             font-family: "Times New Roman", Times, serif;
-            overflow-x: hidden;
         }
 
-        /* --- AJUSTE 1: Títulos grandes, negrita y Times --- */
         #info {
             position: fixed;
             top: 20px;
             left: 20px;
             z-index: 9999;
-            font-family: "Times New Roman", Times, serif;
-            font-size: 24pt;    /* Tamaño grande */
-            font-weight: 700;   /* Strong (Negrita) */
-            text-transform: lowercase; /* Opcional: para mantener estilo minimalista */
+            font-size: 24pt;
+            font-weight: 700;
             pointer-events: none;
             color: #1a1a1a;
+            text-transform: lowercase;
         }
 
         header {
@@ -38,11 +35,22 @@
             bottom: 20px;
             left: 20px;
             z-index: 9999;
+            
         }
 
         nav li { list-style: none; margin: 0; padding: 0; }
-        a { text-decoration: none; color: blue; }
-        a:hover { color: #ffffff; background-color: black; }
+        
+         a {
+            text-decoration: none; 
+            color: blue;   
+            white-space: nowrap;
+               
+        }
+
+        a:hover {
+            color: #ffffff; 
+            background-color: rgb(0, 0, 0);
+        }
 
         .container-chaos {
             list-style: none;
@@ -50,29 +58,50 @@
             padding: 0;
             position: relative;
             width: 100%;
-            height: 2000px; /* Reducido para que el scroll no sea infinito */
+            min-height: 100vh;
         }
 
-        /* --- AJUSTE 2: Imágenes que se pueden mover --- */
         .work-item {
             position: absolute;
-            cursor: grab; /* Indica que se puede agarrar */
-            width: 320px; /* Un poco más grandes */
-            transition: z-index 0s;
+            width: 320px;
+            display: block; 
+            z-index: 10;
+            cursor: grab;
+            opacity: 0;
+            /* Eliminamos transiciones para que el cambio sea instantáneo */
+            transition: none !important;
         }
-        
-        .work-item:active {
-            cursor: grabbing;
+
+        /* Clase para el modo pantalla completa ajustado al ANCHO */
+        .work-item.is-fullscreen {
+            position: absolute !important; /* Absolute para permitir scroll de la imagen larga */
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: auto !important;
+            z-index: 10000 !important;
+            cursor: zoom-out;
+            rotate: 0deg !important; 
+            transform: none !important;
+        }
+
+        .work-item.is-fullscreen img {
+            width: 100%;
+            height: auto; /* Ajuste al ancho, altura proporcional */
+            display: block;
         }
 
         .thumb {
             width: 100%;
             height: auto;
             display: block;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            /* Evita que el navegador intente arrastrar la imagen como archivo */
-            user-select: none;
+            pointer-events: none; 
             -webkit-user-drag: none;
+        }
+
+        .ui-draggable-dragging {
+            cursor: grabbing !important;
+            z-index: 9998 !important;
         }
     </style>
 </head>
@@ -82,7 +111,7 @@
 
     <header>
          <nav>
-            <li><a href="indexjt.html" style="text-decoration: none; color: inherit; cursor: default;">Juan Tribaldos</a></li>
+            <li><a href="indexjt.html" style="color: inherit;">Juan Tribaldos</a></li>
             <li><a href="worksjt.html">works</a></li>
             <li><a href="aboutjt.html">about</a></li>
             <li><a href="mailto:juantribaldos@gmail.com">juantribaldos (at) gmail (dot) com</a></li>
@@ -90,58 +119,119 @@
     </header>
 
     <main>
-        <ul class="container-chaos">
-            <li class="work-item" id="pic1" data-hover="work on paper (2018)">
-                <a href="#">
-                    <img class="thumb" src="https://d2w9rnfcy7mm78.cloudfront.net/41486130/original_921965981dec1422e10fbd0a320d7b25.png?1764592970?bc=0" />
-                </a>
-            </li>
-            <li class="work-item" id="pic2" data-hover="Landscape (2020)">
-                <a href="#">
-                    <img class="thumb" src="https://d2w9rnfcy7mm78.cloudfront.net/41486070/original_c09eabaecadc85a353e61115e1c6faa6.png?1764592713?bc=0" />
-                </a>
-            </li>
-            <li class="work-item" id="pic3" data-hover="Street Photo (2021)">
-                <a href="#">
-                    <img class="thumb" src="https://d2w9rnfcy7mm78.cloudfront.net/41008348/original_6bb10a690c5a8dc9bf8e60f533634292.png?1762812035?bc=0" />
-                </a>
-            </li>
-        </ul>
+        <ul class="container-chaos" id="arena-container"></ul>
     </main>
 
     <script>
     $(function() {
-        $('.container-chaos li').each(function() {
-            var sign = Math.random() < 0.5 ? '-' : '+';
-            var docWidth = $(window).width();
-            
-            // --- AJUSTE 3: Menos espacio vertical (posy limitado a 600px) ---
-            var posx = (Math.random() * (docWidth - 350));
-            var posy = (Math.random() * 600); 
-            var rota = (Math.random() * 20); 
+        const CHANNEL_SLUG = 'angela-test'; 
+        const API_BASE = 'https://api.are.na/v2';
 
-            $(this).css({
+        async function fetchArenaBlocks() {
+            try {
+                const response = await fetch(`${API_BASE}/channels/${CHANNEL_SLUG}/contents?per=50&direction=desc`, {
+                    headers: { 'Cache-Control': 'no-cache' }
+                });
+                const data = await response.json();
+                return data.contents.filter(block => block.class === 'Image');
+            } catch (error) {
+                console.error('Error fetching Arena:', error);
+                return [];
+            }
+        }
+
+        function applyChaosLogic(element) {
+            const $el = $(element);
+            const sign = Math.random() < 0.5 ? '-' : '+';
+            const posx = Math.random() * ($(window).width() - 350);
+            const posy = Math.random() * ($(window).height() + 500);
+            const rota = (Math.random() * 20).toFixed(2);
+            const rotationString = sign + rota + 'deg';
+
+            $el.css({
                 'left': posx + 'px',
                 'top': posy + 'px',
-                'rotate': sign + rota + 'deg'
+                'rotate': rotationString,
+                'opacity': 1
             });
-        });
 
-        // Habilitar movimiento
-        $('.work-item').draggable({
-            start: function() {
-                // Traer al frente al empezar a mover
-                $(this).css('z-index', 1000).siblings().css('z-index', 1);
-            }
-        });
+            $el.draggable({
+                stack: ".work-item",
+                start: function() {
+                    if ($(this).hasClass('is-fullscreen')) return false;
+                }
+            });
 
-        $('.work-item').hover(function() {
-            var txt = $(this).data('hover');
-            $('#info').text(txt);
-            $(this).css('z-index', 1000).siblings().css('z-index', 1);
-        }, function() {
-            $('#info').text('');
-        });
+            $el.hover(
+                function() { 
+                    if (!$(this).hasClass('is-fullscreen')) {
+                        $('#info').text($(this).attr('data-hover'));
+                        $(this).css('z-index', '9000');
+                    }
+                }, 
+                function() { 
+                    $('#info').text('');
+                    if (!$(this).hasClass('is-fullscreen')) $(this).css('z-index', '10');
+                }
+            );
+
+            $el.on('click', function(e) {
+                e.preventDefault();
+                if ($(this).hasClass('ui-draggable-dragging')) return;
+
+                const $this = $(this);
+
+                if (!$this.hasClass('is-fullscreen')) {
+                    // Guardamos la posición del scroll actual para volver a ella si fuera necesario
+                    $this.data('scroll-pos', $(window).scrollTop());
+                    
+                    $this.data('current-left', $this.css('left'));
+                    $this.data('current-top', $this.css('top'));
+                    $this.data('current-rotate', $this.css('rotate'));
+
+                    $this.addClass('is-fullscreen');
+                    // Al abrir, hacemos scroll al principio de la imagen
+                    $(window).scrollTop(0);
+                    $('#info').hide();
+                } else {
+                    $this.removeClass('is-fullscreen');
+                    
+                    $this.css({
+                        'left': $this.data('current-left'),
+                        'top': $this.data('current-top'),
+                        'rotate': $this.data('current-rotate')
+                    });
+                    
+                    // Al cerrar, devolvemos el scroll a donde estaba antes de ampliar
+                    $(window).scrollTop($this.data('scroll-pos'));
+                    $('#info').show();
+                }
+            });
+        }
+
+        async function init() {
+            const blocks = await fetchArenaBlocks();
+            const $container = $('#arena-container');
+
+            blocks.forEach(block => {
+                const imageUrl = block.image.display.url;
+                const title = block.title || "untitled";
+                
+                const html = `
+                    <li class="work-item" data-hover="${title}">
+                        <a href="#">
+                            <img class="thumb" src="${imageUrl}" />
+                        </a>
+                    </li>
+                `;
+                
+                const $newItem = $(html);
+                $container.append($newItem);
+                applyChaosLogic($newItem);
+            });
+        }
+
+        init();
     });
     </script>
 
