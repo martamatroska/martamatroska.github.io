@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JTH</title>
+    <title>JTH - B-Spline desde Centro</title>
     <style>
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Evita scrolls por los clones fuera de rango */
+            overflow: hidden;
         }
 
         body {
@@ -26,8 +26,9 @@
 
         header {
             position: relative;
-            z-index: 10; /* Mantener el menú original al frente */
+            z-index: 10;
             padding: 10px;
+        
         }
 
         nav li {
@@ -46,13 +47,14 @@
             background-color: rgb(0, 0, 0);
         }
 
-        /* Estilo para los clones generados por JS */
         .list-clone {
             position: absolute;
-            pointer-events: none; /* No interfieren con el mouse */
-            opacity: 0.3;         /* Un poco de transparencia para efecto estético */
+            
+            opacity: 0.2; /* Bajamos un poco la opacidad para que se vea más elegante */
             z-index: 1;
             white-space: nowrap;
+            /* Centramos el clon respecto a su coordenada para que coincida con el original */
+            transform: translate(-50%, -50%); 
         }
     </style>
 </head>
@@ -68,31 +70,13 @@
     </header>
 
     <script>
-        // --- CLASE BSPLINE (Lógica Matemática) ---
-        var BSpline = function(points, degree, copy) {
-            if (copy) {
-                this.points = [];
-                for (var i = 0; i < points.length; i++) {
-                    this.points.push(points[i]);
-                }
-            } else {
-                this.points = points;
-            }
+        // --- CLASE BSPLINE ---
+        var BSpline = function(points, degree) {
+            this.points = points;
             this.degree = degree;
             this.dimension = points[0].length;
-            if (degree == 2) {
-                this.baseFunc = this.basisDeg2;
-                this.baseFuncRangeInt = 2;
-            } else if (degree == 3) {
-                this.baseFunc = this.basisDeg3;
-                this.baseFuncRangeInt = 2;
-            } else if (degree == 4) {
-                this.baseFunc = this.basisDeg4;
-                this.baseFuncRangeInt = 3;
-            } else if (degree == 5) {
-                this.baseFunc = this.basisDeg5;
-                this.baseFuncRangeInt = 3;
-            }
+            this.baseFunc = this.basisDeg3;
+            this.baseFuncRangeInt = 2;
         };
 
         BSpline.prototype.seqAt = function(dim) {
@@ -133,7 +117,7 @@
             return res;
         };
 
-        // --- LÓGICA DE ANIMACIÓN ---
+        // --- LÓGICA DE ANIMACIÓN MODIFICADA ---
         let w = window.innerWidth;
         let h = window.innerHeight;
         let list = document.getElementById('list');
@@ -142,17 +126,26 @@
             let listClone = list.cloneNode(true);
             listClone.removeAttribute('id');
             listClone.classList.add('list-clone');
-            // p[0] es Y (top), p[1] es X (left) según tu definición de points
             listClone.style.top = p[0] + 'px';
             listClone.style.left = p[1] + 'px';
             document.body.appendChild(listClone);
         };
 
-        // Generar 4 o 5 puntos aleatorios [Y, X]
-        let points = Array.from({length: 4 + Math.floor(Math.random() * 2)}, () => [
-            Math.random() * (h - 100), // Alto
-            Math.random() * (w - 200)  // Ancho
-        ]);
+        // 1. Calculamos el centro exacto de la pantalla
+        const centroY = h / 2;
+        const centroX = w / 2;
+
+        // 2. Generamos puntos, pero el PRIMERO es siempre el centro
+        let points = [];
+        points.push([centroY, centroX]); // Punto inicial: centro
+
+        // Añadimos el resto de puntos aleatorios
+        for(let i = 0; i < 4; i++) {
+            points.push([
+                Math.random() * (h - 100) + 50, 
+                Math.random() * (w - 200) + 100
+            ]);
+        }
 
         let spline = new BSpline(points, 3);
         let t = 0;
@@ -160,9 +153,9 @@
         let interval = setInterval(() => {
             var p = spline.calcAt(t);
             drawClone(p);
-            t += 0.005; // Velocidad del trazo
+            t += 0.004; // Un poco más lento para apreciar el inicio
             if (t >= 1) clearInterval(interval);
-        }, 20);
+        }, 25);
     </script>
 </body>
 </html>
