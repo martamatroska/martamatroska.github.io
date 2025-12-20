@@ -16,6 +16,8 @@
             background-color: #ffffff;
             font-family: "Times New Roman", Times, serif;
             overflow-x: hidden;
+            scroll-behavior: smooth; /* Para que el salto al inicio sea fluido */
+            text-transform: uppercase;
         }
 
         body.lock-scroll {
@@ -37,6 +39,27 @@
             line-height: 1.1;
         }
 
+        /* BOTÓN BACK TO TOP */
+        #back-to-top {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            font-size: 11pt;
+            color: black;
+            cursor: pointer;
+            text-transform: uppercase;
+            background: red;
+            border: none;
+            padding: 5;
+            font-family: inherit;
+        }
+
+        #back-to-top:hover {
+            text-decoration: none;
+            color: white;
+        }
+
         .info-desc {
             font-size: 14pt;
             font-weight: 400;
@@ -52,7 +75,12 @@
         }
 
         nav li { list-style: none; margin: 0; padding: 0; }
-        a { text-decoration: none; color: blue; }
+        a { text-decoration: none; color: rgb(255, 0, 0); }
+
+         a:hover {
+            color: #ffffff; 
+            background-color: rgb(110, 108, 108);
+        }
 
         .container-chaos {
             list-style: none;
@@ -60,7 +88,6 @@
             padding: 0;
             position: relative;
             width: 100%;
-            /* min-height inicial, se ajustará por JS */
             min-height: 100vh; 
             overflow: hidden !important;
         }
@@ -111,6 +138,9 @@
 <body>
 
     <div id="info"></div>
+    
+    <button id="back-to-top">↑ back to top</button>
+
     <div id="fullscreen-viewer"></div>
 
     <header>
@@ -131,6 +161,11 @@
         const CHANNEL_SLUG = 'angela-test'; 
         const API_BASE = 'https://api.are.na/v2';
 
+        // Lógica del botón Back to Top
+        $('#back-to-top').on('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
         async function fetchArenaBlocks() {
             try {
                 const response = await fetch(`${API_BASE}/channels/${CHANNEL_SLUG}/contents?per=50&direction=desc`);
@@ -146,10 +181,7 @@
             const $el = $(element);
             const sign = Math.random() < 0.5 ? '-' : '+';
             const posx = Math.random() * ($(window).width() - 350);
-            
-            // Esparcimiento vertical basado en el alto de la pantalla (*3)
             const posy = Math.random() * ($(window).height() * 3);
-            
             const rota = (Math.random() * 20).toFixed(2);
 
             $el.css({
@@ -183,7 +215,7 @@
                 $('#fullscreen-viewer').html(`<img src="${imgSrc}">`).show();
                 $('body').addClass('lock-scroll');
                 $('#info').hide();
-                // Reset scroll del visor al abrir nueva imagen
+                $('#back-to-top').hide(); // Ocultamos el botón en modo fullscreen
                 $('#fullscreen-viewer').scrollTop(0);
             });
         }
@@ -192,12 +224,13 @@
             $(this).hide().empty();
             $('body').removeClass('lock-scroll');
             $('#info').show();
+            $('#back-to-top').show(); // Mostramos el botón al salir de fullscreen
         });
 
         async function init() {
             const blocks = await fetchArenaBlocks();
             const $container = $('#arena-container');
-            let maxBottom = 0; // Para rastrear la posición más baja
+            let maxBottom = 0;
 
             blocks.forEach(block => {
                 const imageUrl = block.image.display.url;
@@ -214,15 +247,12 @@
                 $container.append($newItem);
                 applyChaosLogic($newItem);
 
-                // Calculamos cuál es la posición más baja de entre todas las fotos
                 const currentTop = parseFloat($newItem.css('top'));
                 if (currentTop > maxBottom) {
                     maxBottom = currentTop;
                 }
             });
 
-            // Ajustamos el alto del contenedor dinámicamente según la foto más baja
-            // Añadimos 600px extra de margen para que la última foto no quede pegada al borde inferior
             $container.css('height', (maxBottom + 600) + 'px');
         }
 
