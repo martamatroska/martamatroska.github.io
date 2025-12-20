@@ -16,7 +16,7 @@
             background-color: #ffffff;
             font-family: "Times New Roman", Times, serif;
             overflow-x: hidden;
-            scroll-behavior: smooth; /* Para que el salto al inicio sea fluido */
+            scroll-behavior: smooth;
             text-transform: uppercase;
         }
 
@@ -25,11 +25,35 @@
             height: 100vh !important; 
         }
 
+        /* SISTEMA DE FILTROS A LA IZQUIERDA */
+        #filters {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            z-index: 9999;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #filters li {
+            margin: 10px 0;
+            font-size: 11pt;
+            cursor: pointer;
+            color: black;
+         
+        }
+
+        #filters li:hover, #filters li.active {
+            color: red;
+            padding-left: 5px;
+        }
+
         #info {
             position: fixed;
             top: 20px;
             left: 20px;
-            z-index: 9999;
+            z-index: 9998; /* Un nivel debajo de los filtros por si coinciden */
             font-size: 24pt;
             font-weight: 700;
             pointer-events: none;
@@ -39,7 +63,6 @@
             line-height: 1.1;
         }
 
-        /* BOTÓN BACK TO TOP */
         #back-to-top {
             position: fixed;
             top: 20px;
@@ -51,12 +74,11 @@
             text-transform: uppercase;
             background: red;
             border: none;
-            padding: 5;
+            padding: 5px 10px;
             font-family: inherit;
         }
 
         #back-to-top:hover {
-            text-decoration: none;
             color: white;
         }
 
@@ -76,11 +98,7 @@
 
         nav li { list-style: none; margin: 0; padding: 0; }
         a { text-decoration: none; color: rgb(255, 0, 0); }
-
-         a:hover {
-            color: #ffffff; 
-            background-color: rgb(110, 108, 108);
-        }
+        a:hover { color: #ffffff; background-color: rgb(110, 108, 108); }
 
         .container-chaos {
             list-style: none;
@@ -97,6 +115,7 @@
             width: 320px;
             z-index: 10;
             opacity: 0;
+            
         }
 
         .thumb {
@@ -119,26 +138,23 @@
             cursor: zoom-out;
         }
 
-        #home {
-            text-decoration: none;
-            color: black;
-        }
-
-        #fullscreen-viewer img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .ui-draggable-dragging {
-            cursor: grabbing !important;
-        }
+        #home { text-decoration: none; color: black; }
+        #fullscreen-viewer img { width: 100%; height: auto; display: block; }
+        .ui-draggable-dragging { cursor: grabbing !important; }
     </style>
 </head>
 <body>
 
     <div id="info"></div>
     
+    <ul id="filters">
+        <li class="active" data-filter="all">#all</li>
+        <li data-filter="#35mm">#35mm</li>
+        <li data-filter="#editorial">#editorial</li>
+        <li data-filter="#fashion">#fashion</li>
+        <li data-filter="#product">#product</li>
+    </ul>
+
     <button id="back-to-top">↑ back to top</button>
 
     <div id="fullscreen-viewer"></div>
@@ -161,9 +177,30 @@
         const CHANNEL_SLUG = 'angela-test'; 
         const API_BASE = 'https://api.are.na/v2';
 
-        // Lógica del botón Back to Top
         $('#back-to-top').on('click', function() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // LÓGICA DE FILTRADO
+        $('#filters li').on('click', function() {
+            const filter = $(this).attr('data-filter');
+            
+            // Estética de botones
+            $('#filters li').removeClass('active');
+            $(this).addClass('active');
+
+            if (filter === 'all') {
+                $('.work-item').fadeIn(400);
+            } else {
+                $('.work-item').each(function() {
+                    const itemTags = $(this).attr('data-tags') || "";
+                    if (itemTags.includes(filter)) {
+                        $(this).fadeIn(400);
+                    } else {
+                        $(this).fadeOut(400);
+                    }
+                });
+            }
         });
 
         async function fetchArenaBlocks() {
@@ -215,7 +252,8 @@
                 $('#fullscreen-viewer').html(`<img src="${imgSrc}">`).show();
                 $('body').addClass('lock-scroll');
                 $('#info').hide();
-                $('#back-to-top').hide(); // Ocultamos el botón en modo fullscreen
+                $('#filters').hide(); // Ocultar filtros en fullscreen
+                $('#back-to-top').hide();
                 $('#fullscreen-viewer').scrollTop(0);
             });
         }
@@ -224,7 +262,8 @@
             $(this).hide().empty();
             $('body').removeClass('lock-scroll');
             $('#info').show();
-            $('#back-to-top').show(); // Mostramos el botón al salir de fullscreen
+            $('#filters').show(); // Mostrar filtros al salir
+            $('#back-to-top').show();
         });
 
         async function init() {
@@ -236,10 +275,16 @@
                 const imageUrl = block.image.display.url;
                 const title = block.title || "untitled";
                 const date = new Date(block.created_at).toLocaleDateString('en-EN', { year: 'numeric', month: 'numeric', day: 'numeric' });
+                
+                // Extraemos la descripción para las tags
                 const description = block.description || "";
                 
                 const html = `
-                    <li class="work-item" data-title="${title}" data-date="${date}" data-description="${description}">
+                    <li class="work-item" 
+                        data-title="${title}" 
+                        data-date="${date}" 
+                        data-description="${description}"
+                        data-tags="${description}"> 
                         <img class="thumb" src="${imageUrl}" />
                     </li>
                 `;
