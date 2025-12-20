@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JTH</title>
     <style>
-        /* 1. Centrado de toda la página */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
+            overflow: hidden; /* Evita scrolls por los clones fuera de rango */
         }
 
         body {
@@ -18,40 +18,47 @@
             line-height: 1.2;
             color: #1a1a1a;
             background-color: #ffffff;
-            
-            /* Flexbox para centrar contenido */
             display: flex;
-            justify-content: center; /* Centrado horizontal */
-            align-items: center;     /* Centrado vertical */
-            text-align: right;      /* Centrado de texto */
+            justify-content: center;
+            align-items: center;
+            text-align: right;
         }
 
-        /* 2. Estilo del menú y limpieza de lista */
-        nav {
-            margin-top: 3px; /* Espacio sutil entre el nombre y el menú */
+        header {
+            position: relative;
+            z-index: 10; /* Mantener el menú original al frente */
+            padding: 10px;
         }
 
         nav li {
-            list-style: none; /* Quita los puntos */
+            list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        /* 3. Estilo de los enlaces */
         a {
-            text-decoration: none; /* Quita el subrayado */
-            color: blue;        /* Usa el color negro del body */
+            text-decoration: none;
+            color: blue;
         }
 
         a:hover {
-            color: #ffffff; /* Un cambio sutil al pasar el ratón */
+            color: #ffffff;
             background-color: rgb(0, 0, 0);
+        }
+
+        /* Estilo para los clones generados por JS */
+        .list-clone {
+            position: absolute;
+            pointer-events: none; /* No interfieren con el mouse */
+            opacity: 0.3;         /* Un poco de transparencia para efecto estético */
+            z-index: 1;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="list">
         Juan Tribaldos
         <nav>
             <li><a href="worksjt.html">works</a></li>
@@ -60,9 +67,102 @@
         </nav>
     </header>
 
-    <main>
-        </main>
- <script src="./b-spline.js"></script>
- <script src="./b-spline-uniform.js"></script>
+    <script>
+        // --- CLASE BSPLINE (Lógica Matemática) ---
+        var BSpline = function(points, degree, copy) {
+            if (copy) {
+                this.points = [];
+                for (var i = 0; i < points.length; i++) {
+                    this.points.push(points[i]);
+                }
+            } else {
+                this.points = points;
+            }
+            this.degree = degree;
+            this.dimension = points[0].length;
+            if (degree == 2) {
+                this.baseFunc = this.basisDeg2;
+                this.baseFuncRangeInt = 2;
+            } else if (degree == 3) {
+                this.baseFunc = this.basisDeg3;
+                this.baseFuncRangeInt = 2;
+            } else if (degree == 4) {
+                this.baseFunc = this.basisDeg4;
+                this.baseFuncRangeInt = 3;
+            } else if (degree == 5) {
+                this.baseFunc = this.basisDeg5;
+                this.baseFuncRangeInt = 3;
+            }
+        };
+
+        BSpline.prototype.seqAt = function(dim) {
+            var points = this.points;
+            var margin = this.degree + 1;
+            return function(n) {
+                if (n < margin) return points[0][dim];
+                if (points.length + margin <= n) return points[points.length - 1][dim];
+                return points[n - margin][dim];
+            };
+        };
+
+        BSpline.prototype.basisDeg3 = function(x) {
+            if (-1 <= x && x < 0) return 2.0/3.0 + (-1.0 - x/2.0)*x*x;
+            if (1 <= x && x <= 2) return 4.0/3.0 + x*(-2.0 + (1.0 - x/6.0)*x);
+            if (-2 <= x && x < -1) return 4.0/3.0 + x*(2.0 + (1.0 + x/6.0)*x);
+            if (0 <= x && x < 1) return 2.0/3.0 + (-1.0 + x/2.0)*x*x;
+            return 0;
+        };
+
+        BSpline.prototype.getInterpol = function(seq, t) {
+            var f = this.baseFunc;
+            var rangeInt = this.baseFuncRangeInt;
+            var tInt = Math.floor(t);
+            var result = 0;
+            for (var i = tInt - rangeInt; i <= tInt + rangeInt; i++) {
+                result += seq(i) * f(t - i);
+            }
+            return result;
+        };
+
+        BSpline.prototype.calcAt = function(t) {
+            t = t * ((this.degree + 1) * 2 + this.points.length);
+            var res = [];
+            for (var i = 0; i < this.dimension; i++) {
+                res.push(this.getInterpol(this.seqAt(i), t));
+            }
+            return res;
+        };
+
+        // --- LÓGICA DE ANIMACIÓN ---
+        let w = window.innerWidth;
+        let h = window.innerHeight;
+        let list = document.getElementById('list');
+
+        const drawClone = (p) => {
+            let listClone = list.cloneNode(true);
+            listClone.removeAttribute('id');
+            listClone.classList.add('list-clone');
+            // p[0] es Y (top), p[1] es X (left) según tu definición de points
+            listClone.style.top = p[0] + 'px';
+            listClone.style.left = p[1] + 'px';
+            document.body.appendChild(listClone);
+        };
+
+        // Generar 4 o 5 puntos aleatorios [Y, X]
+        let points = Array.from({length: 4 + Math.floor(Math.random() * 2)}, () => [
+            Math.random() * (h - 100), // Alto
+            Math.random() * (w - 200)  // Ancho
+        ]);
+
+        let spline = new BSpline(points, 3);
+        let t = 0;
+
+        let interval = setInterval(() => {
+            var p = spline.calcAt(t);
+            drawClone(p);
+            t += 0.005; // Velocidad del trazo
+            if (t >= 1) clearInterval(interval);
+        }, 20);
+    </script>
 </body>
 </html>
