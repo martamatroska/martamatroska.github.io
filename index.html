@@ -28,7 +28,7 @@
             user-select: none;
         }
 
-        /* estilos */
+        
         .logo-img {
             height: 1em;
             vertical-align: baseline;
@@ -165,57 +165,55 @@
                     btn.textContent = originalText;
                 }
 
-                // Seguimiento GA4: Botón Contact (Ya existía)
+               
                 gtag('event', 'click', {
                     'event_category': 'interacción',
                     'event_label': 'Botón Contact'
                 });
             });
 
-            // --- Seguimiento de Nuevos Eventos GA4 ---
-
-            // 1. click_work_page
+            
+            
             document.getElementById('click_work_page').addEventListener('click', function() {
                 gtag('event', 'click_work_page');
-                // No hay necesidad de e.preventDefault() aquí, queremos que el enlace funcione
+                
             });
 
-            // 2. click_external_canada
+            
             document.getElementById('click_external_canada').addEventListener('click', function() {
                 gtag('event', 'click_external_canada', {
-                    'link_url': this.href // Captura la URL del enlace
+                    'link_url': this.href 
                 });
-                // No hay necesidad de e.preventDefault() aquí, queremos que el enlace funcione
+                
             });
 
-            // 3. tabloid_background_switch
+            
 document.getElementById('tabloid').addEventListener('click', function(e) {
     e.preventDefault();
 
-    // Comprueba si el fondo ya está activo para permitir alternar (opcional)
+    
     if (document.body.classList.contains('tabloid-bg')) {
         document.body.classList.remove('tabloid-bg');
     } else {
-        // Añade la clase que aplica el fondo de pantalla completa
+       
         document.body.classList.add('tabloid-bg');
     }
 
-    // Seguimiento GA4: Cambio de Fondo Tabloide
+    
     gtag('event', 'tabloid_background_switch');
 });
 
-            // 4. egginfo_view (Clic en el primer asterisco para mostrar IP/Info)
+            
             document.getElementById('egg').addEventListener('click', async (e) => {
                 const infoBox = document.getElementById('info');
-                // La lógica de alternar la visibilidad de la caja de información ya existe
+                
 
                 if (infoBox.style.display !== "block") {
-                    // Si el estado es "oculto" o inicial, se mostrará, así que es el momento de enviar el evento.
-                    // Si ya está visible y se va a ocultar, no enviamos el evento.
+                    
                     gtag('event', 'egginfo_view');
                 }
                 
-                // Lógica de mostrar la IP
+                
                 if (infoBox.style.display === "block") {
                     infoBox.style.display = "none";
                     return;
@@ -237,7 +235,7 @@ document.getElementById('tabloid').addEventListener('click', function(e) {
 
         }); // Fin DOMContentLoaded
 
-        // Script estrella (star_click_counter)
+       
         let count = 0;
         const counter = document.getElementById("counter");
         let recordTarget = getRandomTarget();
@@ -262,9 +260,9 @@ document.getElementById('tabloid').addEventListener('click', function(e) {
             counter.textContent = count;
             counter.style.display = "inline";
 
-            // Seguimiento GA4: Contador de Estrellas (star_click_counter)
+            
             gtag('event', 'star_click_counter', {
-                'star_count': count // Envía el número de clics como parámetro
+                'star_count': count 
             });
 
             if (count === recordTarget && currentMessageIndex < messages.length) {
@@ -274,7 +272,7 @@ document.getElementById('tabloid').addEventListener('click', function(e) {
             }
         });
 
-        // Script (Rana) - frog_easter_egg
+        
         let frogClickCount = 0;
         const showBg = document.getElementById('showBg');
         const fotos = [
@@ -291,7 +289,7 @@ document.getElementById('tabloid').addEventListener('click', function(e) {
             "Born: Granada\nRaised: Valencia\nBased: Barcelona\n \nI enjoy geeky stuff, quiet environments, people (in small doses), animals (in all doses),\nbooks, <2h movies, >2h playlists,\nnature, and watching the world like it’s a documentary.\nI studied oceanography, now I tweak pixels as a VFX artist.\nEternally learning.\n \n(data loaded 100%)"
         ];
 
-        // about text
+        
         const textoDiv = document.createElement('div');
         textoDiv.style.position = 'fixed';
         textoDiv.style.top = '80%';
@@ -309,10 +307,9 @@ document.getElementById('tabloid').addEventListener('click', function(e) {
         showBg.addEventListener('click', function(e) {
             e.preventDefault();
 
-            // Seguimiento GA4: Easter Egg de la Rana (frog_easter_egg)
-            // Se envía antes de incrementar la cuenta para enviar el clic actual (0-3)
+             
             gtag('event', 'frog_easter_egg', {
-                'frog_click_num': frogClickCount + 1 // Envía el número de clic actual (1-4)
+                'frog_click_num': frogClickCount + 1 
             });
 
             // Change bg
@@ -333,7 +330,7 @@ document.getElementById('tabloid').addEventListener('click', function(e) {
             frogClickCount = (frogClickCount + 1) % fotos.length;
         });
 
-        // Script (IP/Info) - Función getIP separada para ser utilizada por el manejador de eventos
+        
         async function getIP() {
             try {
                 const res = await fetch('https://api.ipify.org?format=json');
