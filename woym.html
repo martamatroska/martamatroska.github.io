@@ -8,9 +8,7 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   
   <style>
-    /* --------------------------------------
-     * >> CSS EMBEBIDO CON MEJORAS
-     * -------------------------------------- */
+
     #canvasContainer { margin-top: 1rem; }
     canvas { 
       border: 1px solid #000; 
@@ -21,7 +19,6 @@
       touch-action: none; 
     }
 
-    /* Contenedor de controles más genérico */
     .controls-container {
       margin-top: 10px;
       display: flex;
@@ -30,7 +27,6 @@
       flex-wrap: wrap;
     }
     
-    /* Estilos unificados para los controles */
     #downloadBtn, #eraserBtn, #colorPicker {
       font-family: "Times New Roman", Times, serif;
       font-size: 11pt;
@@ -47,7 +43,6 @@
       line-height: 1.5; 
     }
 
-    /* Estilos específicos para las opciones del selector (si el navegador lo permite) */
     #colorPicker option { 
        font-family: "Times New Roman", Times, serif;
        font-size: 11pt;
@@ -83,13 +78,13 @@
       <button id="eraserBtn">Tamaño Borrador</button>
       <input id="eraserSize" type="range" min="4" max="60" value="20" />
       <select id="colorPicker">
-        <option value="#000000">✐ᝰblack</option>
-        <option value="#ff0000">✐ᝰred</option>
-        <option value="#0000ff">✐ᝰblue</option>
-        <option value="#00e31a">✐ᝰgreen</option>
-        <option value="#ffff00">✐ᝰyellow</option>
+        <option value="#0000ff" style="color: #0000ff;">blue</option>
+        <option value="#ff0000" style="color: #ff0000;">red</option>
+        <option value="#000000" style="color: #000000;">black</option>
+        <option value="#00e31a" style="color: #00e31a;">green</option>
+        <option value="#ffff00" style="color: #cccc00;">yellow</option> 
       </select>
-      <button id="downloadBtn">► send! (I want to be a proud collector)</button>
+      <button id="downloadBtn">► send! (it is anonymous)</button>
     </div>
 
     <div id="gallery"></div>
