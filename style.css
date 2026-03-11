@@ -319,4 +319,9 @@ body.bg-active {
     right: 10px;
   }
 
+  #frog-text {
+    top: 12px;
+    max-width: 768px;
+  }
+
 } 
