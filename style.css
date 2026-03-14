@@ -61,6 +61,7 @@ img.himages {
   font-size: 20pt !important; 
   bottom: 10px;
   left: 10px;
+  text-decoration: none;
 }
 
 .watermark {
