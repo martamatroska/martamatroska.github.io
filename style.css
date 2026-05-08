@@ -63,10 +63,11 @@ img.himages {
 #showBg {
   color: #00e31a;
   position: fixed;
-  font-size: 20pt !important; 
+  font-size: 30pt !important; 
   bottom: 10px;
   left: 10px;
   text-decoration: none;
+  text-shadow: #00e31a 0px 0px 5px, #00e31a 0px 0px 10px, #00e31a 0px 0px 1px;
 }
 
 .watermark {
