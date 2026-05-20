@@ -51,15 +51,6 @@
     </style>
 
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9YHR26YNQ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-F9YHR26YNQ');
-    </script>
-
-    
     <script defer src="https://cloud.umami.is/script.js" data-website-id="59b7874a-3838-4e84-b6b4-01bf762efa3f"></script>
 
 </head>
@@ -178,24 +169,16 @@
                     btn.textContent = originalText;
                 }
 
-                gtag('event', 'click', {
-                    'event_category': 'interacción',
-                    'event_label': 'Botón Contact'
-                });
                 utrack('contact_click');
             });
 
            
             document.getElementById('click_work_page').addEventListener('click', function() {
-                gtag('event', 'click_work_page');
                 utrack('work_page_click');
             });
 
            
             document.getElementById('click_external_canada').addEventListener('click', function() {
-                gtag('event', 'click_external_canada', {
-                    'link_url': this.href 
-                });
                 utrack('canada_link_click');
             });
 
@@ -231,7 +214,6 @@
                     document.body.classList.add('tabloid-bg');
                 }
 
-                gtag('event', 'tabloid_background_switch');
                 utrack('tabloid_bg_switch');
             });
 
@@ -240,7 +222,6 @@
                 const infoBox = document.getElementById('info');
 
                 if (infoBox.style.display !== "block") {
-                    gtag('event', 'egginfo_view');
                     utrack('egg_info_view');
                 }
                 
@@ -291,9 +272,6 @@
             counter.textContent = count;
             counter.style.display = "inline";
 
-            gtag('event', 'star_click_counter', {
-                'star_count': count 
-            });
             utrack('star_click', { count: count });
 
             if (count === recordTarget && currentMessageIndex < messages.length) {
@@ -337,9 +315,6 @@
         showBg.addEventListener('click', function(e) {
             e.preventDefault();
 
-            gtag('event', 'frog_easter_egg', {
-                'frog_click_num': frogClickCount + 1
-            });
             utrack('frog_easter_egg', { click_num: frogClickCount + 1 });
 
             document.body.style.backgroundImage = `url('${fotos[frogClickCount]}')`;
