@@ -316,6 +316,10 @@ body.bg-active {
     max-width: 95%;
   }
 
+  a, .filter-link, button {
+    font-size: 10pt;
+  }
+
   #ryatvideo, #fwvideo {
     width: 100%;
   }
@@ -326,11 +330,21 @@ body.bg-active {
     right: 10px;
   }
 
+  body {
+    overflow-y: auto !important;
+  }
+
   #frog-text {
     top: 12px;
     max-width: 768px;
   }
 
+  #clock, .mode {
+    position: fixed;
+  }
 
+  #lavalamp {
+    font-size: 14pt;
+  }
 
-} 
+}

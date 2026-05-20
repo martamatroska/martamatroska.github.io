@@ -300,7 +300,6 @@
 
         const textoDiv = document.createElement('div');
         textoDiv.style.position = 'fixed';
-        textoDiv.style.top = '80%';
         textoDiv.style.left = '50%';
         textoDiv.style.transform = 'translate(-50%, -50%)';
         textoDiv.style.color = 'black';
@@ -310,7 +309,10 @@
         textoDiv.style.wordWrap = 'break-word';
         textoDiv.style.textAlign = 'center';
         textoDiv.style.whiteSpace = 'pre-line';
+        textoDiv.style.zIndex = '10';
         document.body.appendChild(textoDiv);
+
+        const isMobile = () => window.innerWidth <= 768;
 
         showBg.addEventListener('click', function(e) {
             e.preventDefault();
@@ -321,11 +323,19 @@
             document.body.style.backgroundSize = 'cover';
             document.body.style.backgroundPosition = 'center';
 
-            const randomBottom = Math.floor(Math.random() * (window.innerHeight - showBg.offsetHeight));
-            const randomLeft = Math.floor(Math.random() * (window.innerWidth - showBg.offsetWidth));
-            showBg.style.position = "absolute";
-            showBg.style.bottom = `${randomBottom}px`;
-            showBg.style.left = `${randomLeft}px`;
+            if (isMobile()) {
+                showBg.style.position = 'fixed';
+                showBg.style.bottom = '40px';
+                showBg.style.left = '10px';
+                textoDiv.style.top = '35%';
+            } else {
+                const randomBottom = Math.floor(Math.random() * (window.innerHeight - showBg.offsetHeight));
+                const randomLeft = Math.floor(Math.random() * (window.innerWidth - showBg.offsetWidth));
+                showBg.style.position = 'absolute';
+                showBg.style.bottom = `${randomBottom}px`;
+                showBg.style.left = `${randomLeft}px`;
+                textoDiv.style.top = '80%';
+            }
 
             textoDiv.textContent = textos[frogClickCount];
 
