@@ -311,9 +311,9 @@
                 ],
                 deliveryTitle: "Estimated delivery time",
                 deliveries: [
-                    { plan: "Basic", time: "3–5 days", desc: "Direct digitization, no additional processing." },
-                    { plan: "Standard", time: "5–7 days", desc: "Includes noise reduction and stabilization." },
-                    { plan: "Advanced", time: "7–10 days", desc: "4K processing, upscaling, and advanced restoration." }
+                    { plan: "Basic", time: "3–5 days" },
+                    { plan: "Standard", time: "5–7 days" },
+                    { plan: "Advanced", time: "7–10 days" }
                 ],
                 deliveryNote: "* Orders with multiple tapes or heavily degraded material may take longer. Exact estimated delivery confirmed after the free assessment.",
                 extraTitle: "Optional add-on",
@@ -366,9 +366,9 @@
                 ],
                 deliveryTitle: "Tiempo estimado de entrega",
                 deliveries: [
-                    { plan: "Basic", time: "3–5 días", desc: "Digitalización directa sin procesado adicional." },
-                    { plan: "Standard", time: "5–7 días", desc: "Incluye reducción de ruido y estabilización." },
-                    { plan: "Advanced", time: "7–10 días", desc: "Procesado 4K, escalado y restauración avanzada." }
+                    { plan: "Basic", time: "3–5 días" },
+                    { plan: "Standard", time: "5–7 días" },
+                    { plan: "Advanced", time: "7–10 días" }
                 ],
                 deliveryNote: "* Pedidos con varias cintas o material en mal estado pueden requerir más tiempo. Se confirma el plazo exacto tras la valoración previa.",
                 extraTitle: "Extra opcional",
@@ -427,7 +427,6 @@
             t.deliveries.forEach((d, i) => {
                 document.getElementById(`del-plan-${i}`).textContent = d.plan;
                 document.getElementById(`del-time-${i}`).textContent = d.time;
-                document.getElementById(`del-desc-${i}`).textContent = d.desc;
             });
         }
 
@@ -521,17 +520,14 @@
                         <div class="delivery-card">
                             <h4 id="del-plan-0"></h4>
                             <span class="delivery-time" id="del-time-0"></span>
-                            <span class="delivery-desc" id="del-desc-0"></span>
                         </div>
                         <div class="delivery-card">
                             <h4 id="del-plan-1"></h4>
                             <span class="delivery-time" id="del-time-1"></span>
-                            <span class="delivery-desc" id="del-desc-1"></span>
                         </div>
                         <div class="delivery-card">
                             <h4 id="del-plan-2"></h4>
                             <span class="delivery-time" id="del-time-2"></span>
-                            <span class="delivery-desc" id="del-desc-2"></span>
                         </div>
                     </div>
                     <p class="delivery-footnote" id="delivery-footnote"></p>
