@@ -28,6 +28,10 @@
             padding: 0;
         }
 
+        .wavy {
+            text-decoration: underline wavy;
+        }
+
         #clock {
             position: fixed;
             bottom: 10px;
@@ -266,9 +270,9 @@
         const texts = {
             en: {
                 headline: "V H S S O I S E",
-                intro1: "Tapes degrade. Over time, heat, humidity, and the passage of years wear down the image irreversibly — and once it's gone, there's no recovering it. They also take up space, require specific storage conditions, and need hardware that's becoming increasingly hard to find.",
+                intro1: "Tapes degrade. Over time, heat, humidity, and the passage of years wear down the image irreversibly and once it's gone, there's no recovering it. They also take up space, require specific storage conditions, and need hardware that's becoming increasingly hard to find.",
                 intro2: "Digitizing them doesn't mean throwing them away. It means they stop being a problem and become a file: accessible from any device, shareable with whoever you want, and at a quality you've probably never seen from that footage.",
-                about: "I'm Marta, a post-production and artificial intelligence professional specialized in digitizing home and semi-professional video: Betamax, VHS, HDV, MiniDV, and 8mm/Hi8. I deliver in .mp4 or .mov directly to your inbox, in HD, 2K, or 4K UHD depending on the plan.",
+                about: "I'm Marta, a post-production and artificial intelligence professional specialized in digitizing home and semi-professional video: <span class=\"wavy\">Betamax, VHS, HDV, MiniDV, and 8mm/Hi8</span>. I deliver in .mp4 or .mov directly to your inbox, in HD, 2K, or 4K UHD depending on the plan.",
                 tagline: "Not just digitizing. Recovering.",
                 contact: "‧₊˚☏✉@↓",
                 delivery_label: "Ready in your inbox in format >>> .mp4 / .mov",
@@ -323,7 +327,7 @@
                 headline: "V H S S O I S E",
                 intro1: "Las cintas de vídeo se deterioran. Con el tiempo, el calor, la humedad y el paso de los años degradan la imagen de forma irreversible y una vez perdida, no hay manera de recuperarla. Además ocupan espacio, necesitan condiciones específicas de almacenamiento y requieren hardware cada vez más difícil de encontrar para poder verse.",
                 intro2: "Digitalizarlas no significa tirarlas. Significa que dejan de ser un problema y pasan a ser un archivo: accesible desde cualquier dispositivo, compartible con quien quieras, y con una calidad que probablemente nunca habías visto en ese material.",
-                about: "Soy Marta, profesional de la postproducción e inteligencia artificial, especializada en digitalización de vídeo doméstico y semiprofesional: Betamax, VHS, HDV, MiniDV y 8mm/Hi8. Entrego en .mp4 o .mov directamente en tu correo, en HD, 2K o 4K UHD según el plan elegido.",
+                about: "Soy Marta, profesional de la postproducción e inteligencia artificial, especializada en digitalización de vídeo doméstico y semiprofesional: <span class=\"wavy\">Betamax, VHS, HDV, MiniDV y 8mm/Hi8</span>. Entrego en .mp4 o .mov directamente en tu correo, en HD, 2K o 4K UHD según el plan elegido.",
                 tagline: "No es solo digitalizar. Es recuperar.",
                 contact: "‧₊˚☏✉@↓",
                 delivery_label: "Listo en tu correo electrónico en formato >>> .mp4 / .mov",
@@ -395,10 +399,9 @@
             document.getElementById("headline").textContent = t.headline;
             document.getElementById("intro1").textContent = t.intro1;
             document.getElementById("intro2").textContent = t.intro2;
-            document.getElementById("about").textContent = t.about;
+            document.getElementById("about").innerHTML = t.about;
             document.getElementById("tagline").textContent = t.tagline;
             document.getElementById("contact").textContent = t.contact;
-            document.getElementById("delivery_label").textContent = t.delivery_label;
             document.getElementById("formats-title").textContent = t.formatsTitle;
             document.getElementById("delivery-title").textContent = t.deliveryTitle;
             document.getElementById("delivery-footnote").textContent = t.deliveryNote;
