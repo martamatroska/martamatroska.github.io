@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
-    
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
@@ -58,56 +58,182 @@
             height: auto;
         }
 
-        /* ================================== */
-        /* ESTILOS PARA LA TABLA DE TARIFAS (NUEVOS) */
-        /* ================================== */
+        .section-block {
+            margin-top: 2em;
+            margin-bottom: 2em;
+        }
 
-        #plans-grid {
+        .headline {
+            font-size: 16pt;
+            font-weight: bold;
+            line-height: 1.3;
+            margin-bottom: 0.8em;
+        }
+
+        .intro-block {
+            margin-bottom: 1em;
+            line-height: 1.6;
+        }
+
+        hr.divider {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 2em 0;
+        }
+
+        /* TARIFAS */
+        #formats-grid {
             display: grid;
-            /* En móvil, los planes estarán apilados (una columna) */
             grid-template-columns: 1fr;
-            gap: 20px; /* Espacio entre las "tarjetas" */
-            margin-top: 20px;
+            gap: 16px;
+            margin-top: 16px;
         }
 
         @media (min-width: 768px) {
-            #plans-grid {
-                /* En escritorio, los planes estarán en tres columnas */
+            #formats-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        .plan-card {
-            border: 1px solid #ccc; /* Borde sutil para definir la tarjeta */
+        .format-card {
+            border: 1px solid #ccc;
             padding: 15px;
-            text-align: center;
             line-height: 1.6;
-            transition: background-color 0.3s;
         }
 
-        .plan-card:hover {
-            background-color: #f0f0f0; /* Un efecto simple al pasar el ratón */
+        .format-card:hover {
+            background-color: #f0f0f0;
         }
 
-        .plan-card h4 {
-            font-size: 14pt;
+        .format-card h4 {
+            font-size: 13pt;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             font-weight: bold;
         }
 
-        .plan-price {
+        .format-dur {
+            font-size: 10pt;
+            color: #666;
             display: block;
-            font-size: 12pt;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #333; /* Un color un poco más oscuro para el precio */
+            margin-bottom: 8px;
         }
 
-        /* ================================== */
-        /* MEDIA QUERIES EXISTENTES (MODIFICADAS) */
-        /* ================================== */
+        .format-prices {
+            margin-top: 8px;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+        }
 
+        .format-price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10.5pt;
+            padding: 2px 0;
+        }
+
+        .format-price-label {
+            color: #444;
+        }
+
+        .format-price-val {
+            font-weight: bold;
+        }
+
+        .format-note {
+            font-size: 9.5pt;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* TIEMPOS DE ENTREGA */
+        #delivery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        @media (min-width: 768px) {
+            #delivery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .delivery-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .delivery-card:hover {
+            background-color: #f0f0f0;
+        }
+
+        .delivery-card h4 {
+            font-size: 13pt;
+            margin-top: 0;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .delivery-time {
+            font-size: 16pt;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .delivery-desc {
+            font-size: 10pt;
+            color: #555;
+        }
+
+        .delivery-footnote {
+            font-size: 9.5pt;
+            color: #888;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        /* EXTRA */
+        .extra-block {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 16px;
+            line-height: 1.6;
+        }
+
+        .extra-block:hover {
+            background-color: #f0f0f0;
+        }
+
+        .extra-block h4 {
+            font-size: 13pt;
+            margin-top: 0;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .extra-price {
+            font-weight: bold;
+            font-size: 11pt;
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* NOTA LEGAL */
+        .note-box {
+            border-left: 3px dotted #ccc;
+            padding: 10px 14px;
+            margin-top: 16px;
+            font-size: 10pt;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* MOBILE */
         @media (max-width: 600px) {
             .text {
                 font-size: 22pt;
@@ -116,12 +242,20 @@
             .mail-container {
                 font-size: 22pt;
             }
-            /* Adaptamos el tamaño de fuente para los planes en móvil */
-            .plan-card h4 {
+            .headline {
+                font-size: 26pt;
+            }
+            .format-card h4, .delivery-card h4, .extra-block h4 {
                 font-size: 24pt;
             }
-            .plan-include, .plan-price {
-                font-size: 18pt !important; 
+            .format-price-row, .format-dur, .delivery-desc, .extra-price, .note-box {
+                font-size: 18pt !important;
+            }
+            .delivery-time {
+                font-size: 28pt;
+            }
+            .delivery-footnote, .format-note {
+                font-size: 16pt !important;
             }
         }
     </style>
@@ -131,30 +265,114 @@
 
         const texts = {
             en: {
-                tape: "Hi, I’m Marta (a post-production and artificial intelligence professional), and I digitize Betamax, VHS, HDV, miniDV, and 8/Hi8; allowing you to get rid of your tapes (if you want) while preserving your material in a quality you’ve never seen before.",
-                quality: "HD, 2k, UHD (4k)",
-                desc: "Remove noise and fix compression artifacts, footage restoration, stabilization, upscaling without sacrificing quality",
-                contact: "Contact via telegram or e-mail:",
-                delivery: "Ready on your e-mail in format >>> .mp4 / .mov",
-                tableTitle: "Digitization Pricing",
-                plans: [
-                    { name: "Basic", include: "HD (1080p)", price: "12€ (up to 120min) +5€/extra hour" },
-                    { name: "Standard", include: "Full HD / 2K | Noise reduction | Stabilization", price: "20€ (up to 120min) +7€/extra hour" },
-                    { name: "Advanced", include: "4K UHD | Deep restoration | Upscale to maximum quality", price: "35€ (up to 120min) +10€/extra hour" }
-                ]
+                
+                intro1: "Tapes degrade. Over time, heat, humidity, and the passage of years wear down the image irreversibly — and once it's gone, there's no recovering it. They also take up space, require specific storage conditions, and need hardware that's becoming increasingly hard to find.",
+                intro2: "Digitizing them doesn't mean throwing them away. It means they stop being a problem and become a file: accessible from any device, shareable with whoever you want, and at a quality you've probably never seen from that footage.",
+                about: "I'm Marta, a post-production and artificial intelligence professional specialized in digitizing home and semi-professional video: Betamax, VHS, HDV, MiniDV, and 8mm/Hi8. I deliver in .mp4 or .mov directly to your inbox, in HD, 2K, or 4K UHD depending on the plan.",
+                tagline: "Not just digitizing. Recovering.",
+                contact: "Contact via Telegram or e-mail:",
+                delivery_label: "Ready in your inbox in format >>> .mp4 / .mov",
+                formatsTitle: "Pricing by format",
+                formats: [
+                    {
+                        name: "VHS / Betamax",
+                        dur: "Typical duration: 60–180 min",
+                        prices: [
+                            { label: "Basic (HD)", val: "18 €" },
+                            { label: "Standard (2K)", val: "28 €" },
+                            { label: "Advanced (4K)", val: "45 €" }
+                        ],
+                        note: "Long-duration tapes (LP/EP mode, +180 min) may carry a surcharge after assessment."
+                    },
+                    {
+                        name: "HDV / MiniDV",
+                        dur: "Typical duration: 60–80 min",
+                        prices: [
+                            { label: "Basic (HD)", val: "10 €" },
+                            { label: "Standard (2K)", val: "17 €" },
+                            { label: "Advanced (4K)", val: "28 €" }
+                        ],
+                        note: ""
+                    },
+                    {
+                        name: "8mm / Hi8",
+                        dur: "Typical duration: 90–120 min",
+                        prices: [
+                            { label: "Basic (HD)", val: "12 €" },
+                            { label: "Standard (2K)", val: "20 €" },
+                            { label: "Advanced (4K)", val: "35 €" }
+                        ],
+                        note: ""
+                    }
+                ],
+                deliveryTitle: "Estimated delivery time",
+                deliveries: [
+                    { plan: "Basic", time: "3–5 days", desc: "Direct digitization, no additional processing." },
+                    { plan: "Standard", time: "5–7 days", desc: "Includes noise reduction and stabilization." },
+                    { plan: "Advanced", time: "7–10 days", desc: "4K processing, upscaling, and advanced restoration." }
+                ],
+                deliveryNote: "* Orders with multiple tapes or heavily degraded material may take longer. Exact estimated delivery confirmed after the free assessment.",
+                extraTitle: "Optional add-on",
+                extraName: "Image restoration",
+                extraDesc: "Color correction, compression artifacts, and image degradation. Available on any plan and format. Subject to prior assessment of the material.",
+                extraPrice: "From 10 € · final price after assessment",
+                noteTitle: "Free prior assessment.",
+                noteBody: "Before confirming any restoration service, I analyze the condition of your material at no cost. Results for stabilization, noise reduction, and restoration depend on the original quality of the tape and cannot be guaranteed in advance."
             },
             es: {
-                tape: "Hola, soy Marta (profesional de la postproducción e inteligencia artificial) y digitalizo Betamax, VHS, HDV, miniDV y 8/Hi8; permitiéndote deshacerte de tus cintas (si lo deseas) mientras conservas tu material con una calidad que nunca habías visto.",
-                quality: "HD, 2k, UHD (4k)",
-                desc: "Elimino ruido y artefactos de compresión, restauro material, estabilizo, y escalo sin sacrificar calidad",
-                contact: "Contáctame por telegram o correo electrónico:",
-                delivery: "Listo en tu correo electrónico en formato >>> .mp4 / .mov",
-                tableTitle: "Tarifas de digitalización",
-                plans: [
-                    { name: "Basic", include: "HD (1080p)", price: "12€ (hasta 120min) +5€/hora extra" },
-                    { name: "Standard", include: "Full HD / 2K | Reducción de ruido | Estabilización", price: "20€ (hasta 120min) +7€/hora extra" },
-                    { name: "Advanced", include: "4K UHD | Restauración avanzada | Escalado máxima calidad", price: "35€ (hasta 120min) +10€/hora extra" }
-                ]
+                
+                intro1: "Las cintas de vídeo se deterioran. Con el tiempo, el calor, la humedad y el paso de los años degradan la imagen de forma irreversible y una vez perdida, no hay manera de recuperarla. Además ocupan espacio, necesitan condiciones específicas de almacenamiento y requieren hardware cada vez más difícil de encontrar para poder verse.",
+                intro2: "Digitalizarlas no significa tirarlas. Significa que dejan de ser un problema y pasan a ser un archivo: accesible desde cualquier dispositivo, compartible con quien quieras, y con una calidad que probablemente nunca habías visto en ese material.",
+                about: "Soy Marta, profesional de la postproducción e inteligencia artificial, especializada en digitalización de vídeo doméstico y semiprofesional: Betamax, VHS, HDV, MiniDV y 8mm/Hi8. Entrego en .mp4 o .mov directamente en tu correo, en HD, 2K o 4K UHD según el plan elegido.",
+                tagline: "No es solo digitalizar. Es recuperar.",
+                contact: "Contáctame por Telegram o correo electrónico:",
+                delivery_label: "Listo en tu correo electrónico en formato >>> .mp4 / .mov",
+                formatsTitle: "Tarifas por formato",
+                formats: [
+                    {
+                        name: "VHS / Betamax",
+                        dur: "Duración típica: 60–180 min",
+                        prices: [
+                            { label: "Basic (HD)", val: "18 €" },
+                            { label: "Standard (2K)", val: "28 €" },
+                            { label: "Advanced (4K)", val: "45 €" }
+                        ],
+                        note: "Cintas de larga duración (modo LP/EP, +180 min) pueden tener suplemento según valoración."
+                    },
+                    {
+                        name: "HDV / MiniDV",
+                        dur: "Duración típica: 60–80 min",
+                        prices: [
+                            { label: "Basic (HD)", val: "10 €" },
+                            { label: "Standard (2K)", val: "17 €" },
+                            { label: "Advanced (4K)", val: "28 €" }
+                        ],
+                        note: ""
+                    },
+                    {
+                        name: "8mm / Hi8",
+                        dur: "Duración típica: 90–120 min",
+                        prices: [
+                            { label: "Basic (HD)", val: "12 €" },
+                            { label: "Standard (2K)", val: "20 €" },
+                            { label: "Advanced (4K)", val: "35 €" }
+                        ],
+                        note: ""
+                    }
+                ],
+                deliveryTitle: "Tiempo estimado de entrega",
+                deliveries: [
+                    { plan: "Basic", time: "3–5 días", desc: "Digitalización directa sin procesado adicional." },
+                    { plan: "Standard", time: "5–7 días", desc: "Incluye reducción de ruido y estabilización." },
+                    { plan: "Advanced", time: "7–10 días", desc: "Procesado 4K, escalado y restauración avanzada." }
+                ],
+                deliveryNote: "* Pedidos con varias cintas o material en mal estado pueden requerir más tiempo. Se confirma el plazo exacto tras la valoración previa.",
+                extraTitle: "Extra opcional",
+                extraName: "Restauración de imagen",
+                extraDesc: "Corrección de color, artefactos de compresión y degradación. Aplicable sobre cualquier plan y formato. Sujeto a valoración previa del material.",
+                extraPrice: "Desde 10 € · precio final según valoración",
+                noteTitle: "Valoración previa gratuita.",
+                noteBody: "Antes de confirmar cualquier servicio de restauración, analizo el estado de tu material sin coste. Los resultados de estabilización, reducción de ruido y restauración dependen de la calidad original de la cinta y no pueden garantizarse de antemano."
             }
         };
 
@@ -172,20 +390,41 @@
 
         function setLang(lang) {
             currentLang = lang;
-            document.getElementById("tape").textContent = texts[currentLang].tape;
-            document.getElementById("quality").textContent = texts[currentLang].quality;
-            document.getElementById("desc").textContent = texts[currentLang].desc;
-            document.getElementById("contact").textContent = texts[currentLang].contact;
-            document.getElementById("delivery").textContent = texts[currentLang].delivery;
-            document.getElementById("lang-btn").textContent = currentLang === "en" ? "ESPAÑOL" : "ENGLISH";
+            const t = texts[currentLang];
 
-            document.getElementById("table-title").textContent = texts[currentLang].tableTitle;
             
-            // Lógica de traducción adaptada a la nueva estructura de tarjetas
-            texts[currentLang].plans.forEach((plan, i) => {
-                document.getElementById(`plan-name-${i}`).textContent = plan.name;
-                document.getElementById(`plan-include-${i}`).textContent = plan.include;
-                document.getElementById(`plan-price-${i}`).textContent = plan.price;
+            document.getElementById("intro1").textContent = t.intro1;
+            document.getElementById("intro2").textContent = t.intro2;
+            document.getElementById("about").textContent = t.about;
+            document.getElementById("tagline").textContent = t.tagline;
+            document.getElementById("contact").textContent = t.contact;
+            document.getElementById("delivery_label").textContent = t.delivery_label;
+            document.getElementById("formats-title").textContent = t.formatsTitle;
+            document.getElementById("delivery-title").textContent = t.deliveryTitle;
+            document.getElementById("delivery-footnote").textContent = t.deliveryNote;
+            document.getElementById("extra-name").textContent = t.extraName;
+            document.getElementById("extra-desc").textContent = t.extraDesc;
+            document.getElementById("extra-price").textContent = t.extraPrice;
+            document.getElementById("note-title").textContent = t.noteTitle;
+            document.getElementById("note-body").textContent = t.noteBody;
+            document.getElementById("lang-btn").textContent = currentLang === "en" ? "ESP" : "ENG";
+
+            t.formats.forEach((fmt, i) => {
+                document.getElementById(`fmt-name-${i}`).textContent = fmt.name;
+                document.getElementById(`fmt-dur-${i}`).textContent = fmt.dur;
+                fmt.prices.forEach((p, j) => {
+                    document.getElementById(`fmt-plabel-${i}-${j}`).textContent = p.label;
+                    document.getElementById(`fmt-pval-${i}-${j}`).textContent = p.val;
+                });
+                const noteEl = document.getElementById(`fmt-note-${i}`);
+                noteEl.textContent = fmt.note;
+                noteEl.style.display = fmt.note ? "block" : "none";
+            });
+
+            t.deliveries.forEach((d, i) => {
+                document.getElementById(`del-plan-${i}`).textContent = d.plan;
+                document.getElementById(`del-time-${i}`).textContent = d.time;
+                document.getElementById(`del-desc-${i}`).textContent = d.desc;
             });
         }
 
@@ -195,8 +434,6 @@
             startTime();
             const userLang = navigator.language || navigator.userLanguage;
             if (userLang.startsWith("es")) setLang("es"); else setLang("en");
-            
-            // Añadimos el evento al botón después de que se cargue la página
             document.getElementById("lang-btn").onclick = toggleLang;
         }
     </script>
@@ -207,89 +444,150 @@
         <div class="container">
             <div class="text">
                 <br>
-                <button id="lang-btn">ENGLISH</button>
-                <br><br>
-                <span id="tape"></span>
-                <br>
-                <span id="quality"></span>
-                <br>
-                <span id="desc"></span>
-                <br>
-                <span id="contact"></span>
+                <button id="lang-btn">ENG</button>
                 <br><br>
 
-                <div class="mail-container">
-                    <span class="mail">casfemarta@gmail.com</span>
-                    <img src="assets/vhssoise.png" class="vhs-img">
+                <div class="section-block">
+                    <div class="headline" id="headline"></div>
+                    <div class="intro-block" id="intro1"></div>
+                    <div class="intro-block" id="intro2"></div>
                 </div>
 
-                <br>
-                <span id="delivery"></span>
-                <br>
+                <hr class="divider">
 
-                <div class="text">
-                    <h3 id="table-title">Tarifas de digitalización</h3>
-                    <div id="plans-grid">
-                        
-                        <div class="plan-card">
-                            <h4 id="plan-name-0">Basic</h4>
-                            <span id="plan-include-0" class="plan-include">HD (1080p)</span>
-                            <span id="plan-price-0" class="plan-price">12€ (hasta 120min) +5€/hora extra</span>
+                <div class="section-block">
+                    <span id="about"></span>
+                    <br><br>
+                    <strong><span id="tagline"></span></strong>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section-block">
+                    <span id="contact"></span>
+                    <br><br>
+                    <div class="mail-container">
+                        <span class="mail">casfemarta@gmail.com</span>
+                        <img src="assets/vhssoise.png" class="vhs-img">
+                    </div>
+                    <br>
+                    <span id="delivery_label"></span>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section-block">
+                    <h3 id="formats-title"></h3>
+                    <div id="formats-grid">
+                        <div class="format-card">
+                            <h4 id="fmt-name-0"></h4>
+                            <span class="format-dur" id="fmt-dur-0"></span>
+                            <div class="format-prices">
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-0-0"></span><span class="format-price-val" id="fmt-pval-0-0"></span></div>
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-0-1"></span><span class="format-price-val" id="fmt-pval-0-1"></span></div>
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-0-2"></span><span class="format-price-val" id="fmt-pval-0-2"></span></div>
+                            </div>
+                            <span class="format-note" id="fmt-note-0"></span>
                         </div>
-
-                        <div class="plan-card">
-                            <h4 id="plan-name-1">Standard</h4>
-                            <span id="plan-include-1" class="plan-include">Full HD / 2K | Reducción de ruido | Estabilización</span>
-                            <span id="plan-price-1" class="plan-price">20€ (hasta 120min) +7€/hora extra</span>
+                        <div class="format-card">
+                            <h4 id="fmt-name-1"></h4>
+                            <span class="format-dur" id="fmt-dur-1"></span>
+                            <div class="format-prices">
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-1-0"></span><span class="format-price-val" id="fmt-pval-1-0"></span></div>
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-1-1"></span><span class="format-price-val" id="fmt-pval-1-1"></span></div>
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-1-2"></span><span class="format-price-val" id="fmt-pval-1-2"></span></div>
+                            </div>
+                            <span class="format-note" id="fmt-note-1" style="display:none"></span>
                         </div>
-
-                        <div class="plan-card">
-                            <h4 id="plan-name-2">Advanced</h4>
-                            <span id="plan-include-2" class="plan-include">4K UHD | Restauración avanzada | Escalado máxima calidad</span>
-                            <span id="plan-price-2" class="plan-price">35€ (hasta 120min) +10€/hora extra</span>
+                        <div class="format-card">
+                            <h4 id="fmt-name-2"></h4>
+                            <span class="format-dur" id="fmt-dur-2"></span>
+                            <div class="format-prices">
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-2-0"></span><span class="format-price-val" id="fmt-pval-2-0"></span></div>
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-2-1"></span><span class="format-price-val" id="fmt-pval-2-1"></span></div>
+                                <div class="format-price-row"><span class="format-price-label" id="fmt-plabel-2-2"></span><span class="format-price-val" id="fmt-pval-2-2"></span></div>
+                            </div>
+                            <span class="format-note" id="fmt-note-2" style="display:none"></span>
                         </div>
-
                     </div>
                 </div>
-                <div id="clock"></div>
 
-                <img src="assets/VHS Tape.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 0; left: 0; z-index: 999;">
-                <img src="assets/Sony_TRV_99.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 50px; left: 50px; z-index: 999;">
-                <img src="assets/iMac DV Lime.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 100px; left: 100px; z-index: 999;">
+                <div class="section-block">
+                    <h3 id="delivery-title"></h3>
+                    <div id="delivery-grid">
+                        <div class="delivery-card">
+                            <h4 id="del-plan-0"></h4>
+                            <span class="delivery-time" id="del-time-0"></span>
+                            <span class="delivery-desc" id="del-desc-0"></span>
+                        </div>
+                        <div class="delivery-card">
+                            <h4 id="del-plan-1"></h4>
+                            <span class="delivery-time" id="del-time-1"></span>
+                            <span class="delivery-desc" id="del-desc-1"></span>
+                        </div>
+                        <div class="delivery-card">
+                            <h4 id="del-plan-2"></h4>
+                            <span class="delivery-time" id="del-time-2"></span>
+                            <span class="delivery-desc" id="del-desc-2"></span>
+                        </div>
+                    </div>
+                    <p class="delivery-footnote" id="delivery-footnote"></p>
+                </div>
 
-                <script>
-                    let icons = document.querySelectorAll(".floating-ico");
-                    let positions = [];
-                    let velocities = [];
+                <div class="section-block">
+                    <h3 id="extra-title"></h3>
+                    <div class="extra-block">
+                        <h4 id="extra-name"></h4>
+                        <span id="extra-desc"></span>
+                        <span class="extra-price" id="extra-price"></span>
+                    </div>
+                    <div class="note-box">
+                        <strong id="note-title"></strong> <span id="note-body"></span>
+                    </div>
+                </div>
 
-                    icons.forEach((ico, i) => {
-                        positions.push({ x: parseInt(ico.style.left), y: parseInt(ico.style.top) });
-                        velocities.push({ dx: 0.5 + i * 0.1, dy: 0.4 + i * 0.1 });
-                    });
+                <br><br>
 
-                    function moveIcons() {
-                        icons.forEach((ico, i) => {
-                            positions[i].x += velocities[i].dx;
-                            positions[i].y += velocities[i].dy;
-
-                            if (positions[i].x + ico.offsetWidth > window.innerWidth || positions[i].x < 0) {
-                                velocities[i].dx = -velocities[i].dx;
-                            }
-                            if (positions[i].y + ico.offsetHeight > window.innerHeight || positions[i].y < 0) {
-                                velocities[i].dy = -velocities[i].dy;
-                            }
-
-                            ico.style.left = positions[i].x + "px";
-                            ico.style.top = positions[i].y + "px";
-                        });
-
-                        requestAnimationFrame(moveIcons);
-                    }
-
-                    moveIcons();
-                </script>
             </div>
         </div>
     </div>
+
+    <div id="clock"></div>
+
+    <img src="assets/VHS Tape.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 0; left: 0; z-index: 999;">
+    <img src="assets/Sony_TRV_99.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 50px; left: 50px; z-index: 999;">
+    <img src="assets/iMac DV Lime.ico" class="floating-ico" style="position: fixed; width: 32px; height: 32px; top: 100px; left: 100px; z-index: 999;">
+
+    <script>
+        let icons = document.querySelectorAll(".floating-ico");
+        let positions = [];
+        let velocities = [];
+
+        icons.forEach((ico, i) => {
+            positions.push({ x: parseInt(ico.style.left), y: parseInt(ico.style.top) });
+            velocities.push({ dx: 0.5 + i * 0.1, dy: 0.4 + i * 0.1 });
+        });
+
+        function moveIcons() {
+            icons.forEach((ico, i) => {
+                positions[i].x += velocities[i].dx;
+                positions[i].y += velocities[i].dy;
+
+                if (positions[i].x + ico.offsetWidth > window.innerWidth || positions[i].x < 0) {
+                    velocities[i].dx = -velocities[i].dx;
+                }
+                if (positions[i].y + ico.offsetHeight > window.innerHeight || positions[i].y < 0) {
+                    velocities[i].dy = -velocities[i].dy;
+                }
+
+                ico.style.left = positions[i].x + "px";
+                ico.style.top = positions[i].y + "px";
+            });
+
+            requestAnimationFrame(moveIcons);
+        }
+
+        moveIcons();
+    </script>
 </body>
 </html>
