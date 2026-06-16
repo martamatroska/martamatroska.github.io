@@ -58,8 +58,7 @@ function drawLine(from, to, size, erase) {
 canvas.addEventListener('pointerdown', e => {
   isPointerDown = true;
   lastPos = getPos(e);
-  const penSize = 2;
-  const size = eraserMode ? Number(eraserSizeInput.value) : penSize;
+  const size = Number(eraserSizeInput.value);
   drawLine(lastPos, lastPos, size, eraserMode);
   canvas.setPointerCapture(e.pointerId);
 });
@@ -67,8 +66,7 @@ canvas.addEventListener('pointerdown', e => {
 canvas.addEventListener('pointermove', e => {
   if (!isPointerDown) return;
   const pos = getPos(e);
-  const penSize = 2;
-  const size = eraserMode ? Number(eraserSizeInput.value) : penSize;
+  const size = Number(eraserSizeInput.value);
   drawLine(lastPos, pos, size, eraserMode);
   lastPos = pos;
 });
