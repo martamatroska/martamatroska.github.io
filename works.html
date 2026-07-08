@@ -215,6 +215,8 @@
 
     </style>
 
+<script defer src="https://cloud.umami.is/script.js" data-website-id="59b7874a-3838-4e84-b6b4-01bf762efa3f"></script>
+
 </head>
 
 <body onload="startTime()">
@@ -247,6 +249,24 @@
 
                 <img id="lava" src="assets/lavalamp.gif" class="lava-lamp" alt="Lámpara de lava animada">
 
+            </div>
+
+            <HR>
+            <div class="video-block music">
+                <div class="text">Lucho RK - Aire <i>(Music Video)</i><br> 2 min 44 seconds, 3840x2160</div>
+                <div class="text">Directed by Alex Gargot<br></div>
+                <div class="videos-wrapper">
+                    <div class="video-container">
+                        <video class="lazy-video" loop muted playsinline preload="none" height="440" data-src="https://attachments.are.na/47701978/999960c16840000e0c14d0533a6a9911.mp4?1783524751"></video>
+                        <span class="play-message">tap to play ⚛︎☄</span>
+                    </div>
+                    <div class="video-container">
+                        <video class="lazy-video" loop muted playsinline preload="none" height="440" data-src="https://attachments.are.na/47702321/0fbdd4ebc68448e63b1d269611c99421.mp4?1783525349"></video>
+                        <span class="play-message">again</span>
+                    
+                    </div>
+                    <div class="text"><a href="https://www.youtube.com/watch?v=oW1AhnZM-t0" target="_blank">[watch]</a><br> </div>
+                </div>
             </div>
 
             <HR>
@@ -580,4 +600,15 @@
     <script src="clock.js"></script>
     <script src="works.js"></script>
 
+<script>
+    document.querySelectorAll('.filter-link').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (window.umami) {
+                umami.track('filter-click', { type: link.dataset.type });
+            }
+        });
+    });
+</script>
+
+</body>
 </html>

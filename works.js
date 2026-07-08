@@ -11,6 +11,11 @@ document.getElementById('lavalamp').addEventListener('click', function(e) {
         document.body.classList.add("dark");
         lava.style.display = "block";
     }
+
+   
+    if (window.umami) {
+        umami.track('dark-mode-toggle', { modo: isDark ? 'light' : 'dark' });
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function() {
