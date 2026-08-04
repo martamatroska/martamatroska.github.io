@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         utrack('tabloid_bg_switch');
     });
 
-    document.getElementById('egg').addEventListener('click', async (e) => {
+    
+        document.getElementById('egg').addEventListener('click', async (e) => {
         const infoBox = document.getElementById('info');
 
         if (infoBox.style.display !== "block") {
@@ -180,7 +181,7 @@ showBg.addEventListener('click', function(e) {
 
 async function getIP() {
     try {
-        const res = await fetch('https://api.ipify.org?format=json');
+        const res = await fetch('');
         const data = await res.json();
         return data.ip;
     } catch {
