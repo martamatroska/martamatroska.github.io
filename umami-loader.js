@@ -4,7 +4,7 @@
   var SCRIPT_SRC = 'https://cloud.umami.is/script.js';
 
   // '88.26.230.179', 'otra.ip'
-  var IPS_EXCLUIDAS = ['88.26.230.179'];
+  var IPS_EXCLUIDAS = ['88.26.230.179', '89.128.234.200'];
 
   function cargarUmami() {
     var s = document.createElement('script');
