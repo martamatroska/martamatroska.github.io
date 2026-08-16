@@ -161,9 +161,13 @@ showBg.addEventListener('click', function(e) {
     document.body.style.backgroundPosition = 'center';
 
     if (isMobile()) {
+        const frogW = showBg.offsetWidth || 40;
+        const frogH = showBg.offsetHeight || 40;
+        const randomBottom = Math.floor(Math.random() * (window.innerHeight - frogH - 20));
+        const randomLeft = Math.floor(Math.random() * (window.innerWidth - frogW - 10));
         showBg.style.position = 'fixed';
-        showBg.style.bottom = '40px';
-        showBg.style.left = '10px';
+        showBg.style.bottom = `${randomBottom}px`;
+        showBg.style.left = `${randomLeft}px`;
         textoDiv.style.top = '35%';
     } else {
         const randomBottom = Math.floor(Math.random() * (window.innerHeight - showBg.offsetHeight));
